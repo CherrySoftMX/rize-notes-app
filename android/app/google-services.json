@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "502533150726",
+    "project_id": "rize-app-b5a49",
+    "storage_bucket": "rize-app-b5a49.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:502533150726:android:d72850bc848fe8b5958b87",
+        "android_client_info": {
+          "package_name": "com.rizeapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "502533150726-nvrgdt2ee19ln3ja7dp64mebbe8j734a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAV5qS_PAvxhWJJMI7nFkkRJqgV8VcFcw8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "502533150726-nvrgdt2ee19ln3ja7dp64mebbe8j734a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
