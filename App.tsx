@@ -7,6 +7,8 @@
  */
 
 import React from 'react';
+import { API_URL } from '@env';
+
 import {
   Text,
   SafeAreaView
@@ -19,7 +21,7 @@ import {
 const App = () => {
   return (
     <SafeAreaView style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
-      <Text>Hello Voctor 🎉</Text>
+      <Text>Hello Voctor, {API_URL}</Text>
     </SafeAreaView>
   );
 };
