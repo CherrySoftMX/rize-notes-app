@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, View, Text, StyleSheet, Pressable } from 'react-native';
 import MenuLabel from '../atoms/MenuLabel/MenuLabel';
-import { TextInput, VStack, Flex, Switch, HStack, Avatar, Spacer } from '@react-native-material/core';
+import { TextInput, VStack, Flex, Switch, HStack, Avatar, Spacer, Button } from '@react-native-material/core';
 import SelectDropdown from 'react-native-select-dropdown';
 
 interface NoteFormProps {
@@ -27,6 +27,7 @@ const NoteForm = ({showModal, closeModal}: NoteFormProps) => {
               <TextInput
                 variant='standard'
                 inputStyle={styles.inputWithBorder}
+                label='Enter a title'
               />
             </View>
             <View>
@@ -36,6 +37,7 @@ const NoteForm = ({showModal, closeModal}: NoteFormProps) => {
                 multiline={true}
                 numberOfLines={4}
                 inputStyle={styles.inputWithBorder}
+                label='Enter the content of the note'
               />
             </View>
             <View>
@@ -83,11 +85,22 @@ const NoteForm = ({showModal, closeModal}: NoteFormProps) => {
                 </Flex>
               </HStack>
             </View>
-            <View>
-              <Pressable onPress={() => closeModal(!showModal)}>
-                <Text>Cerrar</Text>
-              </Pressable>
-            </View>
+            <Flex
+              inline
+              center
+            >
+              <HStack spacing={20}>
+                <Button
+                  title='Cancel'
+                  variant='outlined'
+                  onPress={() => closeModal(!showModal)}
+                />
+                <Button
+                  title='Create'
+                  onPress={() => closeModal(!showModal)}
+                />
+              </HStack>
+            </Flex>
           </VStack>
         </View>
       </View>
