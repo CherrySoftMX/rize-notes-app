@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal, View, Text, StyleSheet, Pressable } from 'react-native';
 import MenuLabel from '../atoms/MenuLabel/MenuLabel';
+import { TextInput, VStack, Flex, Switch, HStack } from '@react-native-material/core';
 
 interface NoteFormProps {
   showModal: boolean;
@@ -8,6 +9,8 @@ interface NoteFormProps {
 }
 
 const NoteForm = ({showModal, closeModal}: NoteFormProps) => {
+  const [isLink, setIsLink] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
   return (
     <Modal
       visible={showModal}
@@ -16,13 +19,46 @@ const NoteForm = ({showModal, closeModal}: NoteFormProps) => {
     >
       <View style={styles.background}>
         <View style={styles.container}>
-          <MenuLabel>Note title</MenuLabel>
-          <MenuLabel>Note content</MenuLabel>
-          <MenuLabel>Choose a folder</MenuLabel>
-          <MenuLabel>Note details</MenuLabel>
-          <Pressable onPress={() => closeModal(!showModal)}>
-            <Text>Cerrar</Text>
-          </Pressable>
+          <VStack spacing={25}>
+            <View>
+              <MenuLabel>Note title</MenuLabel>
+              <TextInput variant='standard'/>
+            </View>
+            <View>
+              <MenuLabel>Note content</MenuLabel>
+              <TextInput variant='standard' multiline={true} numberOfLines={4}/>
+            </View>
+            <View>
+              <MenuLabel>Choose a folder</MenuLabel>
+              <TextInput variant='standard'/>
+            </View>
+            <View>
+              <MenuLabel>Note details</MenuLabel>
+              <Flex inline style={styles.noteDetails}>
+                <HStack spacing={20}>
+                  <Flex inline center>
+                    <Switch
+                      value={isLink}
+                      onValueChange={() => setIsLink(!isLink)}
+                    />
+                    <Text>Is link</Text>
+                  </Flex>
+                  <Flex inline center>
+                    <Switch
+                      value={isFavorite}
+                      onValueChange={() => setIsFavorite(!isFavorite)}
+                    />
+                    <Text>Add to favorites</Text>
+                  </Flex>
+                </HStack>
+              </Flex>
+            </View>
+            <View>
+              <Pressable onPress={() => closeModal(!showModal)}>
+                <Text>Cerrar</Text>
+              </Pressable>
+            </View>
+          </VStack>
         </View>
       </View>
     </Modal>
@@ -46,6 +82,9 @@ const styles = StyleSheet.create({
   },
   label: {
     textAlign: 'center',
+  },
+  noteDetails: {
+    marginTop: 10,
   },
 });
 
