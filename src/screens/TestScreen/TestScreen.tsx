@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, SafeAreaView, Pressable, Text, StyleSheet } from 'react-native';
-import NoteForm from '../../components/NoteForm/NoteForm';
+import NoteForm from '../../components/organisms/NoteForm/NoteForm';
 
 const TestScreen = () => {
   const [showModal, setShowModal] = useState(false);

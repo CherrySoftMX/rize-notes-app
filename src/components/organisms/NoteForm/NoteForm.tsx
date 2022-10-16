@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Modal, View, Text, StyleSheet, Pressable } from 'react-native';
-import MenuLabel from '../atoms/MenuLabel/MenuLabel';
+import MenuLabel from '../../atoms/MenuLabel/MenuLabel';
 import { TextInput, VStack, Flex, Switch, HStack, Avatar, Spacer, Button } from '@react-native-material/core';
 import SelectDropdown from 'react-native-select-dropdown';
+import { styles } from './NoteForm.style';
 
 interface NoteFormProps {
   showModal: boolean;
@@ -27,7 +28,6 @@ const NoteForm = ({showModal, closeModal}: NoteFormProps) => {
               <TextInput
                 variant='standard'
                 inputStyle={styles.inputWithBorder}
-                label='Enter a title'
               />
             </View>
             <View>
@@ -37,7 +37,6 @@ const NoteForm = ({showModal, closeModal}: NoteFormProps) => {
                 multiline={true}
                 numberOfLines={4}
                 inputStyle={styles.inputWithBorder}
-                label='Enter the content of the note'
               />
             </View>
             <View>
@@ -107,39 +106,5 @@ const NoteForm = ({showModal, closeModal}: NoteFormProps) => {
     </Modal>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#FEFEFE',
-    width: '80%',
-    height: 'auto',
-    borderRadius: 10,
-    marginTop: 25,
-    paddingHorizontal: 20,
-    paddingVertical: 25,
-  },
-  background: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
-  },
-  label: {
-    textAlign: 'center',
-  },
-  noteDetails: {
-    marginTop: 10,
-  },
-  dropdownText: {
-    fontSize: 16,
-    textAlign: 'left',
-  },
-  inputWithBorder: {
-    backgroundColor: '#FEFEFE',
-    borderBottomColor: '#0A8877',
-    borderBottomWidth: 1,
-    flex: 1,
-  },
-});
 
 export default NoteForm;
