@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Modal, View, Text, TextInput } from 'react-native';
+import { Modal, View, Text, TextInput, Image } from 'react-native';
 import MenuLabel from '../../atoms/MenuLabel/MenuLabel';
 import { VStack, Flex, Switch, HStack, Avatar, Spacer, Button } from '@react-native-material/core';
 import SelectDropdown from 'react-native-select-dropdown';
 import { styles } from './NoteForm.style';
+import FolderIcon from '../../atoms/FolderIcon/FolderIcon';
 
 interface NoteFormProps {
   showModal: boolean;
@@ -43,7 +44,7 @@ const NoteForm = ({showModal, closeModal}: NoteFormProps) => {
               <MenuLabel>Choose a folder</MenuLabel>
               <HStack spacing={15} style={styles.noteDetails}>
                 <Flex center>
-                  <Avatar label='Test User' size={40}/>
+                  <FolderIcon/>
                 </Flex>
                 <SelectDropdown
                   data={folders}
@@ -55,12 +56,8 @@ const NoteForm = ({showModal, closeModal}: NoteFormProps) => {
                   onSelect={(selectedItem, index) => {
                     console.log(selectedItem, index)
                   }}
-                  buttonTextAfterSelection={(selectedItem, index) => {
-                    return selectedItem
-                  }}
-                  rowTextForSelection={(item, index) => {
-                    return item
-                  }}
+                  buttonTextAfterSelection={(selectedItem) => selectedItem}
+                  rowTextForSelection={(item) => item}
                 />
               </HStack>
             </View>
@@ -72,7 +69,11 @@ const NoteForm = ({showModal, closeModal}: NoteFormProps) => {
                     value={isLink}
                     onValueChange={() => setIsLink(!isLink)}
                   />
-                  <Text>Is link</Text>
+                  <Text
+                    onPress={() => setIsLink(!isLink)}
+                  >
+                    Is link
+                  </Text>
                 </Flex>
                 <Spacer />
                 <Flex inline center>
@@ -80,7 +81,11 @@ const NoteForm = ({showModal, closeModal}: NoteFormProps) => {
                     value={isFavorite}
                     onValueChange={() => setIsFavorite(!isFavorite)}
                   />
-                  <Text>Add to favorites</Text>
+                  <Text
+                    onPress={() => setIsFavorite(!isFavorite)}
+                  >
+                    Add to favorites
+                  </Text>
                 </Flex>
               </HStack>
             </View>
@@ -92,10 +97,12 @@ const NoteForm = ({showModal, closeModal}: NoteFormProps) => {
                 <Button
                   title='Cancel'
                   variant='outlined'
+                  uppercase={false}
                   onPress={() => closeModal(!showModal)}
                 />
                 <Button
                   title='Create'
+                  uppercase={false}
                   onPress={() => closeModal(!showModal)}
                 />
               </HStack>
