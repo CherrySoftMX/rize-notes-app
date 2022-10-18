@@ -15,7 +15,8 @@
     "react": "18.1.0",
     "react-native": "0.70.1",
     "react-native-dotenv": "^3.3.1",
-    "react-native-select-dropdown": "^2.0.4"
+    "react-native-select-dropdown": "^2.0.4",
+    "react-native-vector-icons": "^9.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

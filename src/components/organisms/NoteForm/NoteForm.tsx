@@ -5,6 +5,7 @@ import { VStack, Flex, Switch, HStack, Avatar, Spacer, Button } from '@react-nat
 import SelectDropdown from 'react-native-select-dropdown';
 import { styles } from './NoteForm.style';
 import FolderIcon from '../../atoms/FolderIcon/FolderIcon';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 interface NoteFormProps {
   showModal: boolean;
@@ -56,6 +57,9 @@ const NoteForm = ({showModal, closeModal}: NoteFormProps) => {
                   onSelect={(selectedItem, index) => {
                     console.log(selectedItem, index)
                   }}
+                  renderDropdownIcon={isOpened => {
+                    return <Icon name={isOpened ? 'chevron-up' : 'chevron-down'} color='#0A8877' size={20} />;
+                  }}
                   buttonTextAfterSelection={(selectedItem) => selectedItem}
                   rowTextForSelection={(item) => item}
                 />
@@ -98,11 +102,14 @@ const NoteForm = ({showModal, closeModal}: NoteFormProps) => {
                   title='Cancel'
                   variant='outlined'
                   uppercase={false}
+                  color='#212427'
                   onPress={() => closeModal(!showModal)}
                 />
                 <Button
                   title='Create'
                   uppercase={false}
+                  color='#A68DCE'
+                  tintColor='#FEFEFE'
                   onPress={() => closeModal(!showModal)}
                 />
               </HStack>
