@@ -30,6 +30,15 @@ export const styles = StyleSheet.create({
     backgroundColor: '#FEFEFE',
     borderBottomColor: '#0A8877',
     borderBottomWidth: 1,
+    textAlignVertical: 'top',
+    paddingBottom: 6,
+    paddingTop: 8,
+    marginTop: 2,
+  },
+  dropdownContainer: {
+    backgroundColor: '#FEFEFE',
+    borderBottomColor: '#0A8877',
+    borderBottomWidth: 1,
     flex: 1,
   },
 });

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Modal, View, Text, StyleSheet, Pressable } from 'react-native';
+import { Modal, View, Text, TextInput } from 'react-native';
 import MenuLabel from '../../atoms/MenuLabel/MenuLabel';
-import { TextInput, VStack, Flex, Switch, HStack, Avatar, Spacer, Button } from '@react-native-material/core';
+import { VStack, Flex, Switch, HStack, Avatar, Spacer, Button } from '@react-native-material/core';
 import SelectDropdown from 'react-native-select-dropdown';
 import { styles } from './NoteForm.style';
 
@@ -26,17 +26,17 @@ const NoteForm = ({showModal, closeModal}: NoteFormProps) => {
             <View>
               <MenuLabel>Note title</MenuLabel>
               <TextInput
-                variant='standard'
-                inputStyle={styles.inputWithBorder}
+                style={styles.inputWithBorder}
+                placeholder='Type something'
               />
             </View>
             <View>
               <MenuLabel>Note content</MenuLabel>
               <TextInput
-                variant='standard'
                 multiline={true}
                 numberOfLines={4}
-                inputStyle={styles.inputWithBorder}
+                style={styles.inputWithBorder}
+                placeholder='Type something'
               />
             </View>
             <View>
@@ -49,7 +49,7 @@ const NoteForm = ({showModal, closeModal}: NoteFormProps) => {
                   data={folders}
                   defaultValueByIndex={0}
                   buttonTextStyle={styles.dropdownText}
-                  buttonStyle={styles.inputWithBorder}
+                  buttonStyle={styles.dropdownContainer}
                   rowTextStyle={styles.dropdownText}
                   search={true}
                   onSelect={(selectedItem, index) => {
