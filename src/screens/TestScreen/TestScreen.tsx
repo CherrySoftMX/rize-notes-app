@@ -1,22 +1,17 @@
 import React, { useState } from 'react';
-import { View, SafeAreaView, Pressable, Text, StyleSheet } from 'react-native';
-import NoteForm from '../../components/organisms/NoteForm/NoteForm';
+import { Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { NoteForm } from '@organisms/NoteForm';
 
-const TestScreen = () => {
+export const TestScreen = () => {
   const [showModal, setShowModal] = useState(false);
-  return(
+  return (
     <SafeAreaView>
       <View style={styles.container}>
-        <Pressable
-          onPress={() => setShowModal(true)}
-        >
-          <Text>Abrir modal</Text>
+        <Pressable onPress={() => setShowModal(true)}>
+          <Text>Open modal</Text>
         </Pressable>
       </View>
-      <NoteForm
-        showModal={showModal}
-        closeModal={setShowModal}
-      />
+      <NoteForm showModal={showModal} closeModal={setShowModal} />
     </SafeAreaView>
   );
 };
@@ -26,5 +21,3 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5F5F5',
   },
 });
-
-export default TestScreen;
