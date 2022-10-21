@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { NoteForm } from '@organisms/NoteForm';
 
-export const TestScreen = () => {
+export const HomeScreen = () => {
   const [showModal, setShowModal] = useState(false);
   return (
     <SafeAreaView>

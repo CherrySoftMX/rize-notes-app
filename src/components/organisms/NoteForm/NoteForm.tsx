@@ -1,18 +1,26 @@
 import React, { useState } from 'react';
-import { Modal, View, Text, TextInput, Image } from 'react-native';
-import MenuLabel from '../../atoms/MenuLabel/MenuLabel';
-import { VStack, Flex, Switch, HStack, Avatar, Spacer, Button } from '@react-native-material/core';
+import { Modal, Text, TextInput, View } from 'react-native';
+import {
+  Button,
+  Flex,
+  HStack,
+  Spacer,
+  Switch,
+  VStack,
+} from '@react-native-material/core';
 import SelectDropdown from 'react-native-select-dropdown';
 import { styles } from './NoteForm.style';
-import FolderIcon from '../../atoms/FolderIcon/FolderIcon';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { MenuLabel } from '@atoms/MenuLabel';
+import { FolderIcon } from '@atoms/FolderIcon';
+import { colors } from '../../../design/tokens';
 
 interface NoteFormProps {
   showModal: boolean;
   closeModal: (arg: boolean) => void;
 }
 
-const NoteForm = ({showModal, closeModal}: NoteFormProps) => {
+export const NoteForm = ({ showModal, closeModal }: NoteFormProps) => {
   const [isLink, setIsLink] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const folders = ['Folder 1', 'Folder 2', 'Folder 3'];
@@ -20,8 +28,7 @@ const NoteForm = ({showModal, closeModal}: NoteFormProps) => {
     <Modal
       visible={showModal}
       onRequestClose={() => closeModal(!showModal)}
-      transparent={true}
-    >
+      transparent={true}>
       <View style={styles.background}>
         <View style={styles.container}>
           <VStack spacing={25}>
@@ -29,7 +36,7 @@ const NoteForm = ({showModal, closeModal}: NoteFormProps) => {
               <MenuLabel>Note title</MenuLabel>
               <TextInput
                 style={styles.inputWithBorder}
-                placeholder='Type something'
+                placeholder="Type something"
               />
             </View>
             <View>
@@ -38,14 +45,14 @@ const NoteForm = ({showModal, closeModal}: NoteFormProps) => {
                 multiline={true}
                 numberOfLines={4}
                 style={styles.inputWithBorder}
-                placeholder='Type something'
+                placeholder="Type something"
               />
             </View>
             <View>
               <MenuLabel>Choose a folder</MenuLabel>
               <HStack spacing={15} style={styles.noteDetails}>
                 <Flex center>
-                  <FolderIcon/>
+                  <FolderIcon />
                 </Flex>
                 <SelectDropdown
                   data={folders}
@@ -55,13 +62,19 @@ const NoteForm = ({showModal, closeModal}: NoteFormProps) => {
                   rowTextStyle={styles.dropdownText}
                   search={true}
                   onSelect={(selectedItem, index) => {
-                    console.log(selectedItem, index)
+                    console.log(selectedItem, index);
                   }}
                   renderDropdownIcon={isOpened => {
-                    return <Icon name={isOpened ? 'chevron-up' : 'chevron-down'} color='#0A8877' size={20} />;
+                    return (
+                      <Icon
+                        name={isOpened ? 'chevron-up' : 'chevron-down'}
+                        color={colors.darkGreen}
+                        size={20}
+                      />
+                    );
                   }}
-                  buttonTextAfterSelection={(selectedItem) => selectedItem}
-                  rowTextForSelection={(item) => item}
+                  buttonTextAfterSelection={selectedItem => selectedItem}
+                  rowTextForSelection={item => item}
                 />
               </HStack>
             </View>
@@ -73,11 +86,7 @@ const NoteForm = ({showModal, closeModal}: NoteFormProps) => {
                     value={isLink}
                     onValueChange={() => setIsLink(!isLink)}
                   />
-                  <Text
-                    onPress={() => setIsLink(!isLink)}
-                  >
-                    Is link
-                  </Text>
+                  <Text onPress={() => setIsLink(!isLink)}>Is link</Text>
                 </Flex>
                 <Spacer />
                 <Flex inline center>
@@ -85,31 +94,26 @@ const NoteForm = ({showModal, closeModal}: NoteFormProps) => {
                     value={isFavorite}
                     onValueChange={() => setIsFavorite(!isFavorite)}
                   />
-                  <Text
-                    onPress={() => setIsFavorite(!isFavorite)}
-                  >
+                  <Text onPress={() => setIsFavorite(!isFavorite)}>
                     Add to favorites
                   </Text>
                 </Flex>
               </HStack>
             </View>
-            <Flex
-              inline
-              center
-            >
+            <Flex inline center>
               <HStack spacing={20}>
                 <Button
-                  title='Cancel'
-                  variant='outlined'
+                  title="Cancel"
+                  variant="outlined"
                   uppercase={false}
-                  color='#212427'
+                  color="#212427"
                   onPress={() => closeModal(!showModal)}
                 />
                 <Button
-                  title='Create'
+                  title="Create"
                   uppercase={false}
-                  color='#A68DCE'
-                  tintColor='#FEFEFE'
+                  color={colors.primary}
+                  tintColor="#FEFEFE"
                   onPress={() => closeModal(!showModal)}
                 />
               </HStack>
@@ -120,5 +124,3 @@ const NoteForm = ({showModal, closeModal}: NoteFormProps) => {
     </Modal>
   );
 };
-
-export default NoteForm;
