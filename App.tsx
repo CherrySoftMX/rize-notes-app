@@ -13,17 +13,14 @@ import {
   Text,
   SafeAreaView
 } from 'react-native';
+import TestScreen from './src/screens/TestScreen/TestScreen';
 
 
 /* $FlowFixMe[missing-local-annot] The type annotation(s) required by Flow's
  * LTI update could not be added via codemod */
 
 const App = () => {
-  return (
-    <SafeAreaView style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
-      <Text>Hello Voctor, {API_URL}</Text>
-    </SafeAreaView>
-  );
+  return <TestScreen></TestScreen>;
 };
 
 export default App;
