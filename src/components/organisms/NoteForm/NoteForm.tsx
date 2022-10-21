@@ -13,6 +13,7 @@ import { styles } from './NoteForm.style';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { MenuLabel } from '@atoms/MenuLabel';
 import { FolderIcon } from '@atoms/FolderIcon';
+import { colors } from '../../../design/tokens';
 
 interface NoteFormProps {
   showModal: boolean;
@@ -67,7 +68,7 @@ export const NoteForm = ({ showModal, closeModal }: NoteFormProps) => {
                     return (
                       <Icon
                         name={isOpened ? 'chevron-up' : 'chevron-down'}
-                        color="#0A8877"
+                        color={colors.darkGreen}
                         size={20}
                       />
                     );
@@ -111,7 +112,7 @@ export const NoteForm = ({ showModal, closeModal }: NoteFormProps) => {
                 <Button
                   title="Create"
                   uppercase={false}
-                  color="#A68DCE"
+                  color={colors.primary}
                   tintColor="#FEFEFE"
                   onPress={() => closeModal(!showModal)}
                 />
