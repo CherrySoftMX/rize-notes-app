@@ -1,0 +1,32 @@
+{
+  "notes": [
+    {
+      "id": "1",
+      "title": "My note title 1",
+      "content": "youtube.com/xyzxyzxyzxyzxzyxyzxyzxyzxyzxyz",
+      "favorite": false,
+      "type": "link"
+    },
+    {
+      "id": "2",
+      "title": "My note title 2",
+      "content": "This is my text note for type text with number",
+      "favorite": true,
+      "type": "text-fields"
+    },
+    {
+      "id": "3",
+      "title": "My note title 3",
+      "content": "youtube.com/xyzxyzxyzxyzxzyxyzxyzxyzxyzxyz",
+      "favorite": false,
+      "type": "link"
+    },
+    {
+      "id": "4",
+      "title": "My note title 4",
+      "content": "This is other text example for note container",
+      "favorite": true,
+      "type": "text-fields"
+    }
+  ]
+}
