@@ -12,6 +12,6 @@ export const MenuLabel = ({ children }: MenuLabelProps) => {
 const styles = StyleSheet.create({
   label: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: '500',
   },
 });
