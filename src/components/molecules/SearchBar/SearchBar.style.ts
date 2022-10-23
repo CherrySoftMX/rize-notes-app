@@ -3,6 +3,9 @@ import { colors } from '../../../design/tokens';
 import { border } from '../../../design/tokens';
 
 export const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+  },
   textInput: {
     flex: 1,
   },
