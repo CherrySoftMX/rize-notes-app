@@ -1,6 +1,11 @@
+import { FolderList } from '@organisms/FolderList/FolderList';
+import { HStack } from '@react-native-material/core';
 import React from 'react';
-import { Text } from 'react-native';
 
 export const StatisticsScreen = () => {
-  return <Text>Statistics screen works!</Text>;
+  return (
+    <HStack m={4}>
+      <FolderList />
+    </HStack>
+  );
 };
