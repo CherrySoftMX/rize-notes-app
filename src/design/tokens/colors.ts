@@ -8,6 +8,8 @@ const colors = {
   mediumGrey: '#7E7D84',
   shadowGrey: '#0000001a',
   yellowishMedium: '#FEB95A',
+  lightLilac: '#F2C8ED',
+  orangyRed: '#EE786B',
 };
 
 export { colors };
