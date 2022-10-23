@@ -1,6 +1,6 @@
+import { NoteList } from '@organisms/NoteList/NoteList';
 import React from 'react';
-import { Text } from 'react-native';
 
 export const FavoritesScreen = () => {
-  return <Text>Favorites screen works!</Text>;
+  return <NoteList />;
 };
