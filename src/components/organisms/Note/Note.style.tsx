@@ -14,4 +14,7 @@ export const styles = StyleSheet.create({
     shadowRadius: 3,
     elevation: 4,
   },
+  icon: {
+    alignSelf: 'flex-start',
+  },
 });
