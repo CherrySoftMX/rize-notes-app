@@ -4,6 +4,11 @@ const colors = {
   darkGreen: '#0A8877',
   pureWhite: '#ffffff',
   eerieBlack: '#232323',
+  black: '#000000',
+  greyNickel: '#C4C4C4',
+  mediumGrey: '#7E7D84',
+  shadowGrey: '#0000001a',
+  yellowishMedium: '#FEB95A',
 };
 
 export { colors };
