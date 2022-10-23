@@ -13,6 +13,7 @@ import {
   HStack,
   Spacer,
   Switch,
+  VStack,
 } from '@react-native-material/core';
 
 interface FolderFormProps {
@@ -32,57 +33,59 @@ export const FolderForm = ({ showModal, closeModal }: FolderFormProps) => {
       transparent={true}>
       <View style={styles.background}>
         <View style={styles.container}>
-          <View style={folderStyles.mt4}>
-            <MenuLabel>Folder name</MenuLabel>
-            <TextInput
-              style={styles.inputWithBorder}
-              placeholder="Type something"
-            />
-          </View>
-          <View style={folderStyles.mt4}>
-            <MenuLabel>Folder color</MenuLabel>
-            <ColorPicker hexColors={hexColors} />
-          </View>
-          <View style={folderStyles.mt4}>
-            <MenuLabel>Folder size</MenuLabel>
-            <HStack spacing={20} style={styles.noteDetails}>
-              <Flex inline center>
-                <Switch
-                  value={isEnable}
-                  onValueChange={() => setIsEnable(!isEnable)}
-                />
-                <Text onPress={() => setIsEnable(!isEnable)}>Enable</Text>
-              </Flex>
-              <Spacer />
-              {isEnable && (
-                <Flex inline justify="center">
-                  <Text style={folderStyles.alignText}>Limit: </Text>
-                  <TextInput
-                    style={styles.inputWithBorder}
-                    placeholder="number"
+          <VStack spacing={25}>
+            <View style={folderStyles.mt4}>
+              <MenuLabel>Folder name</MenuLabel>
+              <TextInput
+                style={styles.inputWithBorder}
+                placeholder="Type something"
+              />
+            </View>
+            <View style={folderStyles.mt4}>
+              <MenuLabel>Folder color</MenuLabel>
+              <ColorPicker hexColors={hexColors} />
+            </View>
+            <View style={folderStyles.mt4}>
+              <MenuLabel>Folder size</MenuLabel>
+              <HStack spacing={20} style={styles.noteDetails}>
+                <Flex inline center>
+                  <Switch
+                    value={isEnable}
+                    onValueChange={() => setIsEnable(!isEnable)}
                   />
+                  <Text onPress={() => setIsEnable(!isEnable)}>Enable</Text>
                 </Flex>
-              )}
-            </HStack>
-          </View>
-          <Flex inline center mt={15}>
-            <HStack spacing={20}>
-              <Button
-                title="Cancel"
-                variant="outlined"
-                uppercase={false}
-                color={colors.black}
-                onPress={() => closeModal(!showModal)}
-              />
-              <Button
-                title="Accept"
-                uppercase={false}
-                color={colors.primary}
-                tintColor={colors.pureWhite}
-                onPress={() => closeModal(!showModal)}
-              />
-            </HStack>
-          </Flex>
+                <Spacer />
+                {isEnable && (
+                  <Flex inline justify="center">
+                    <Text style={folderStyles.alignText}>Limit: </Text>
+                    <TextInput
+                      style={styles.inputWithBorder}
+                      placeholder="number"
+                    />
+                  </Flex>
+                )}
+              </HStack>
+            </View>
+            <Flex inline center mt={15}>
+              <HStack spacing={20}>
+                <Button
+                  title="Cancel"
+                  variant="outlined"
+                  uppercase={false}
+                  color={colors.black}
+                  onPress={() => closeModal(!showModal)}
+                />
+                <Button
+                  title="Accept"
+                  uppercase={false}
+                  color={colors.primary}
+                  tintColor={colors.pureWhite}
+                  onPress={() => closeModal(!showModal)}
+                />
+              </HStack>
+            </Flex>
+          </VStack>
         </View>
       </View>
     </Modal>
