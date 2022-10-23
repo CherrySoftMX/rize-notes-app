@@ -1,0 +1,40 @@
+{
+  "notes": [
+    {
+      "id": "1",
+      "title": "Animes",
+      "numberOfNotes": 34,
+      "folderColor": "#1FC0A9"
+    },
+    {
+      "id": "2",
+      "title": "Videos",
+      "numberOfNotes": 34,
+      "folderColor": "#FEB95A"
+    },
+    {
+      "id": "3",
+      "title": "Facebook",
+      "numberOfNotes": 13,
+      "folderColor": "#EE786B"
+    },
+    {
+      "id": "4",
+      "title": "Dibujos",
+      "numberOfNotes": 17,
+      "folderColor": "#F2C8ED"
+    },
+    {
+      "id": "5",
+      "title": "Noticias",
+      "numberOfNotes": 23,
+      "folderColor": "#FEB95A"
+    },
+    {
+      "id": "6",
+      "title": "Intereses",
+      "numberOfNotes": 8,
+      "folderColor": "#EE786B"
+    }
+  ]
+}
