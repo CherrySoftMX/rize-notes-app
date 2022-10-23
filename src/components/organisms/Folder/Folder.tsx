@@ -4,6 +4,9 @@ import { colors } from '../../../design/tokens/colors';
 import React from 'react';
 import { styles } from './Folder.style';
 import { ProgressBar } from '@atoms/ProgressBar/ProgressBar';
+import { IconButtonPopupMenu } from '@molecules/IconButtonContextMenu';
+import { MenuOption } from 'react-native-popup-menu';
+import { Alert } from 'react-native';
 
 interface FolderProps {
   title: string;
@@ -21,9 +24,13 @@ export const Folder = ({ title, numberOfNotes, folderColor }: FolderProps) => {
           <Text style={styles.subtitle}>{numberOfNotes}</Text>
         </Box>
       </Box>
-      <Box style={styles.icon}>
-        <CustomIcon name="more-vert" size={30} color={colors.greyNickel} />
-      </Box>
+      <IconButtonPopupMenu
+        iconName="menu"
+        iconColor={colors.greyNickel}
+        style={styles.icon}>
+        <MenuOption onSelect={() => Alert.alert('Edit')} text="Edit" />
+        <MenuOption onSelect={() => Alert.alert('Delete')} text="Delete" />
+      </IconButtonPopupMenu>
       <Box>
         <ProgressBar completed={30} />
       </Box>
