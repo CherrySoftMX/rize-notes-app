@@ -15,8 +15,8 @@ export const styles = StyleSheet.create({
     fontWeight: '400',
   },
   item: {
-    padding: 12,
-    margin: 12,
+    padding: 10,
+    margin: 2,
     width: 250,
   },
 });

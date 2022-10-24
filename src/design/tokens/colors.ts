@@ -10,6 +10,7 @@ const colors = {
   mediumGrey: '#7E7D84',
   shadowGrey: '#0000001a',
   yellowishMedium: '#FEB95A',
+  darkGunmetal: '#212427',
 };
 
 export { colors };

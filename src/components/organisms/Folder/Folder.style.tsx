@@ -5,9 +5,9 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
   card: {
     alignItems: 'center',
-    width: 160,
+    width: '50%',
     height: 170,
-    margin: 15,
+    margin: 10,
     backgroundColor: colors.pureWhite,
     borderRadius: 10,
     shadowColor: colors.black,
@@ -29,8 +29,7 @@ export const styles = StyleSheet.create({
   },
   icon: {
     alignSelf: 'flex-start',
-    marginTop: 25,
-    marginHorizontal: 15,
+    marginHorizontal: 18,
     marginRight: 5,
   },
 });
