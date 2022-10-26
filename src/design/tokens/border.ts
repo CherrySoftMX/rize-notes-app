@@ -1,5 +1,5 @@
 export const border = {
-  radius: 5,
+  radius: 4,
 };
 
 export {};
