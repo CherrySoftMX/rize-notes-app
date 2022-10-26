@@ -6,7 +6,7 @@ import { HomeScreen } from '@screens/HomeScreen';
 import { FavoritesScreen } from '@screens/FavoritesScreen';
 import { StatisticsScreen } from '@screens/StatisticsScreen';
 import { colors, fontSize } from '../../../design/tokens';
-import useScreenContext from '../../../library/hooks/useScreenContext';
+import { useScreenContext } from '@hooks/useScreentContext';
 
 const Tab = createMaterialBottomTabNavigator();
 

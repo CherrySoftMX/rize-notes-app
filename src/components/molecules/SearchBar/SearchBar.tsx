@@ -11,7 +11,7 @@ export const SearchBar = () => {
   return (
     <Surface elevation={4} category="medium" style={{ margin: 10 }}>
       <Flex direction="row" style={styles.container}>
-        <FilterButton />
+        <SearchByNoteTypeButton />
         <TextInput placeholder="Search" style={styles.textInput} />
         <IoniconButton
           style={styles.trailingSearchButton}
@@ -22,14 +22,14 @@ export const SearchBar = () => {
   );
 };
 
-const FilterButton = () => {
+const SearchByNoteTypeButton = () => {
   return (
     <IconButtonPopupMenu
       style={styles.leadingFilterButton}
       iconName="filter-sharp"
       iconColor={colors.pureWhite}>
       <MenuOption disabled={true}>
-        <Text style={{ color: colors.eerieBlack }}>Filter by:</Text>
+        <Text style={{ color: colors.eerieBlack }}>Search by:</Text>
       </MenuOption>
       <MenuOption onSelect={() => Alert.alert('Link')} text="Link" />
       <MenuOption onSelect={() => Alert.alert('URL')} text="URL" />

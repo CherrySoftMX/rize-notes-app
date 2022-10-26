@@ -1,8 +1,8 @@
 import React from 'react';
 import { FloatingAction } from 'react-native-floating-action';
 import { colors } from '../../../design/tokens';
-import useScreenContext from '../../../library/hooks/useScreenContext';
 import { screens } from '../../../library/constants';
+import { useScreenContext } from '@hooks/useScreentContext';
 
 const actions = [
   {

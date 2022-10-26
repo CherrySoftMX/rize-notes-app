@@ -1,9 +1,7 @@
 import { useContext } from 'react';
-import ScreenContext from '../context/ScreenContext';
+import ScreenContext from '../../context/ScreenContext';
 
-const useScreenContext = () => {
+export const useScreenContext = () => {
   const { name, setScreenName } = useContext(ScreenContext);
   return { name, setScreenName };
 };
-
-export default useScreenContext;
