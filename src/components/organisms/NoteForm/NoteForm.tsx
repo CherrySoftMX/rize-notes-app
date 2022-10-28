@@ -14,6 +14,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { MenuLabel } from '@atoms/MenuLabel';
 import { FolderIcon } from '@atoms/FolderIcon';
 import { colors } from '../../../design/tokens';
+import { Formik } from 'formik';
 
 interface NoteFormProps {
   showModal: boolean;
@@ -21,106 +22,143 @@ interface NoteFormProps {
 }
 
 export const NoteForm = ({ showModal, closeModal }: NoteFormProps) => {
-  const [isLink, setIsLink] = useState(false);
-  const [isFavorite, setIsFavorite] = useState(false);
-  const folders = ['Folder 1', 'Folder 2', 'Folder 3'];
+  const folders = [
+    {
+      id: '1',
+      name: 'Folder 1',
+    },
+    {
+      id: '2',
+      name: 'Folder 2',
+    },
+    {
+      id: '3',
+      name: 'Folder 3',
+    },
+  ];
   return (
     <Modal
       visible={showModal}
       onRequestClose={() => closeModal(!showModal)}
       transparent={true}>
-      <View style={styles.background}>
-        <View style={styles.container}>
-          <VStack spacing={25}>
-            <View>
-              <MenuLabel>Note title</MenuLabel>
-              <TextInput
-                style={styles.inputWithBorder}
-                placeholder="Type something"
-              />
-            </View>
-            <View>
-              <MenuLabel>Note content</MenuLabel>
-              <TextInput
-                multiline={true}
-                numberOfLines={4}
-                style={styles.inputWithBorder}
-                placeholder="Type something"
-              />
-            </View>
-            <View>
-              <MenuLabel>Choose a folder</MenuLabel>
-              <HStack spacing={15} style={styles.noteDetails}>
-                <Flex center>
-                  <FolderIcon />
-                </Flex>
-                <SelectDropdown
-                  data={folders}
-                  defaultValueByIndex={0}
-                  buttonTextStyle={styles.dropdownText}
-                  buttonStyle={styles.dropdownContainer}
-                  rowTextStyle={styles.dropdownText}
-                  search={true}
-                  onSelect={(selectedItem, index) => {
-                    console.log(selectedItem, index);
-                  }}
-                  renderDropdownIcon={isOpened => {
-                    return (
-                      <Icon
-                        name={isOpened ? 'chevron-up' : 'chevron-down'}
-                        color={colors.darkGreen}
-                        size={20}
+      <Formik
+        initialValues={{
+          name: '',
+          content: '',
+          folder: folders[0].id,
+          isLink: false,
+          isFavorite: false,
+        }}
+        onSubmit={values => console.log(values)}>
+        {({ handleChange, handleSubmit, values, setFieldValue }) => (
+          <View style={styles.background}>
+            <View style={styles.container}>
+              <VStack spacing={25}>
+                <View>
+                  <MenuLabel>Note title</MenuLabel>
+                  <TextInput
+                    style={styles.inputWithBorder}
+                    placeholder="Type something"
+                    onChangeText={handleChange('name')}
+                    value={values.name}
+                  />
+                </View>
+                <View>
+                  <MenuLabel>Note content</MenuLabel>
+                  <TextInput
+                    multiline={true}
+                    numberOfLines={4}
+                    style={styles.inputWithBorder}
+                    placeholder="Type something"
+                    onChangeText={handleChange('content')}
+                    value={values.content}
+                  />
+                </View>
+                <View>
+                  <MenuLabel>Choose a folder</MenuLabel>
+                  <HStack spacing={15} style={styles.noteDetails}>
+                    <Flex center>
+                      <FolderIcon />
+                    </Flex>
+                    <SelectDropdown
+                      data={folders}
+                      defaultValueByIndex={0}
+                      buttonTextStyle={styles.dropdownText}
+                      buttonStyle={styles.dropdownContainer}
+                      rowTextStyle={styles.dropdownText}
+                      search={true}
+                      onSelect={selectedItem => {
+                        setFieldValue('folder', selectedItem.id);
+                      }}
+                      renderDropdownIcon={isOpened => {
+                        return (
+                          <Icon
+                            name={isOpened ? 'chevron-up' : 'chevron-down'}
+                            color={colors.darkGreen}
+                            size={20}
+                          />
+                        );
+                      }}
+                      buttonTextAfterSelection={selectedItem =>
+                        selectedItem.name
+                      }
+                      rowTextForSelection={item => item.name}
+                    />
+                  </HStack>
+                </View>
+                <View>
+                  <MenuLabel>Note details</MenuLabel>
+                  <HStack spacing={20} style={styles.noteDetails}>
+                    <Flex inline center>
+                      <Switch
+                        value={values.isLink}
+                        onChange={() => setFieldValue('isLink', !values.isLink)}
                       />
-                    );
-                  }}
-                  buttonTextAfterSelection={selectedItem => selectedItem}
-                  rowTextForSelection={item => item}
-                />
-              </HStack>
-            </View>
-            <View>
-              <MenuLabel>Note details</MenuLabel>
-              <HStack spacing={20} style={styles.noteDetails}>
+                      <Text
+                        onPress={() => setFieldValue('isLink', !values.isLink)}>
+                        Is link
+                      </Text>
+                    </Flex>
+                    <Spacer />
+                    <Flex inline center>
+                      <Switch
+                        value={values.isFavorite}
+                        onChange={() =>
+                          setFieldValue('isFavorite', !values.isFavorite)
+                        }
+                      />
+                      <Text
+                        onPress={() =>
+                          setFieldValue('isFavorite', !values.isFavorite)
+                        }>
+                        Add to favorites
+                      </Text>
+                    </Flex>
+                  </HStack>
+                </View>
                 <Flex inline center>
-                  <Switch
-                    value={isLink}
-                    onValueChange={() => setIsLink(!isLink)}
-                  />
-                  <Text onPress={() => setIsLink(!isLink)}>Is link</Text>
+                  <HStack spacing={20}>
+                    <Button
+                      title="Cancel"
+                      variant="outlined"
+                      uppercase={false}
+                      color="#212427"
+                      onPress={() => closeModal(!showModal)}
+                    />
+                    <Button
+                      title="Create"
+                      uppercase={false}
+                      color={colors.primary}
+                      tintColor="#FEFEFE"
+                      onPress={handleSubmit}
+                    />
+                  </HStack>
                 </Flex>
-                <Spacer />
-                <Flex inline center>
-                  <Switch
-                    value={isFavorite}
-                    onValueChange={() => setIsFavorite(!isFavorite)}
-                  />
-                  <Text onPress={() => setIsFavorite(!isFavorite)}>
-                    Add to favorites
-                  </Text>
-                </Flex>
-              </HStack>
+              </VStack>
             </View>
-            <Flex inline center>
-              <HStack spacing={20}>
-                <Button
-                  title="Cancel"
-                  variant="outlined"
-                  uppercase={false}
-                  color="#212427"
-                  onPress={() => closeModal(!showModal)}
-                />
-                <Button
-                  title="Create"
-                  uppercase={false}
-                  color={colors.primary}
-                  tintColor="#FEFEFE"
-                  onPress={() => closeModal(!showModal)}
-                />
-              </HStack>
-            </Flex>
-          </VStack>
-        </View>
-      </View>
+          </View>
+        )}
+      </Formik>
     </Modal>
   );
 };
