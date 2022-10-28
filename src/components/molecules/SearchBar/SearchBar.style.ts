@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors } from '../../../design/tokens';
-import { border } from '../../../design/tokens';
+import { border, colors } from '../../../design/tokens';
 
 export const styles = StyleSheet.create({
   container: {
@@ -13,15 +12,15 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: colors.primary,
     borderRadius: 1,
-    borderBottomLeftRadius: border.radius,
-    borderTopLeftRadius: border.radius,
+    borderBottomLeftRadius: border.radius.sm,
+    borderTopLeftRadius: border.radius.sm,
     height: 48,
     justifyContent: 'center',
     width: 48,
   },
   trailingSearchButton: {
     borderRadius: 1,
-    borderTopRightRadius: border.radius,
-    borderBottomRightRadius: border.radius,
+    borderTopRightRadius: border.radius.sm,
+    borderBottomRightRadius: border.radius.sm,
   },
 });
