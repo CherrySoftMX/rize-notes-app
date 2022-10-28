@@ -10,6 +10,8 @@ const colors = {
   shadowGrey: '#0000001a',
   yellowishMedium: '#FEB95A',
   darkGunmetal: '#212427',
+  lightLilac: '#F2C8ED',
+  orangyRed: '#EE786B',
 };
 
 export { colors };
