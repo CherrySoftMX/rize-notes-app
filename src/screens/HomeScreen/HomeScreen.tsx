@@ -1,23 +1,29 @@
 import React, { useState } from 'react';
-import { Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { SearchBar } from '@molecules/SearchBar';
+import { ScreenTitle } from '@atoms/ScreenTitle';
+import { AntiquityFilterOptionsList } from '@molecules/AntiquityFilterOptionsList';
+import { SafeAreaView, View } from 'react-native';
+import { useTheme } from '@react-navigation/native';
+import { FolderList } from '@organisms/FolderList/FolderList';
 import { NoteForm } from '@organisms/NoteForm';
 
 export const HomeScreen = () => {
   const [showModal, setShowModal] = useState(false);
+  const { colors } = useTheme();
+
   return (
     <SafeAreaView>
-      <View style={styles.container}>
-        <Pressable onPress={() => setShowModal(true)}>
-          <Text>Open modal</Text>
-        </Pressable>
-      </View>
+      <FolderList
+        stickyHeaderIndices={[0]}
+        ListHeaderComponent={
+          <View style={{ backgroundColor: colors.background }}>
+            <ScreenTitle label="My notes" />
+            <SearchBar />
+            <AntiquityFilterOptionsList />
+          </View>
+        }
+      />
       <NoteForm showModal={showModal} closeModal={setShowModal} />
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#F5F5F5',
-  },
-});
