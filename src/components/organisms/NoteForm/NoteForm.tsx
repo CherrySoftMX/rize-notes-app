@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Modal, Text, TextInput, View } from 'react-native';
 import {
   Button,
@@ -15,6 +15,10 @@ import { MenuLabel } from '@atoms/MenuLabel';
 import { FolderIcon } from '@atoms/FolderIcon';
 import { colors } from '../../../design/tokens';
 import { Formik } from 'formik';
+import {
+  createNewNote,
+  ProvisionalNoteInterface,
+} from '../../../library/services/NotesService';
 
 interface NoteFormProps {
   showModal: boolean;
@@ -22,7 +26,7 @@ interface NoteFormProps {
 }
 
 export const NoteForm = ({ showModal, closeModal }: NoteFormProps) => {
-  const folders = [
+  const provisionalFolders = [
     {
       id: '1',
       name: 'Folder 1',
@@ -36,6 +40,13 @@ export const NoteForm = ({ showModal, closeModal }: NoteFormProps) => {
       name: 'Folder 3',
     },
   ];
+  const createNote = async (noteData: ProvisionalNoteInterface) => {
+    console.log('Creando nota...');
+    console.log(noteData);
+    createNewNote(noteData);
+    console.log('Se creo la nota');
+    closeModal(!showModal);
+  };
   return (
     <Modal
       visible={showModal}
@@ -45,11 +56,11 @@ export const NoteForm = ({ showModal, closeModal }: NoteFormProps) => {
         initialValues={{
           name: '',
           content: '',
-          folder: folders[0].id,
+          folder: provisionalFolders[0].id,
           isLink: false,
           isFavorite: false,
         }}
-        onSubmit={values => console.log(values)}>
+        onSubmit={values => createNote(values)}>
         {({ handleChange, handleSubmit, values, setFieldValue }) => (
           <View style={styles.background}>
             <View style={styles.container}>
@@ -81,7 +92,7 @@ export const NoteForm = ({ showModal, closeModal }: NoteFormProps) => {
                       <FolderIcon />
                     </Flex>
                     <SelectDropdown
-                      data={folders}
+                      data={provisionalFolders}
                       defaultValueByIndex={0}
                       buttonTextStyle={styles.dropdownText}
                       buttonStyle={styles.dropdownContainer}
