@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { ColorPicker } from '@organisms/ColorPicker/ColorPicker';
 import { MenuLabel } from '@atoms/MenuLabel';
 import { Modal, Text, TextInput, View } from 'react-native';
 import { colors } from '../../../design/tokens/colors';
 import { styles } from '@organisms/NoteForm/NoteForm.style';
+import { useArrayNavigator } from '@hooks/useArrayNavigator';
+import { Foldercolor } from '@atoms/FolderColor';
 import {
   Button,
   Flex,
@@ -18,7 +19,15 @@ interface FolderFormProps {
   closeModal: (arg: boolean) => void;
 }
 
+const colorOptions = [
+  colors.yellowishMedium,
+  colors.lightGreen,
+  colors.orangyRed,
+  colors.lightLilac,
+];
+
 export const FolderForm = ({ showModal, closeModal }: FolderFormProps) => {
+  const { currentIndex, setCurrentIndex } = useArrayNavigator(colorOptions);
   const [isLink, setIsLink] = useState(false);
 
   return (
@@ -40,7 +49,14 @@ export const FolderForm = ({ showModal, closeModal }: FolderFormProps) => {
               <MenuLabel>Folder color</MenuLabel>
               <HStack spacing={15} style={styles.noteDetails}>
                 <HStack m={6} spacing={6}>
-                  <ColorPicker />
+                  {colorOptions.map((option, index) => (
+                    <Foldercolor
+                      key={index}
+                      hexColor={option}
+                      isSelected={currentIndex === index}
+                      onPress={() => setCurrentIndex(index)}
+                    />
+                  ))}
                 </HStack>
               </HStack>
             </View>
@@ -67,14 +83,14 @@ export const FolderForm = ({ showModal, closeModal }: FolderFormProps) => {
                   title="Cancel"
                   variant="outlined"
                   uppercase={false}
-                  color="#212427"
+                  color={colors.darkGunmetal}
                   onPress={() => closeModal(!showModal)}
                 />
                 <Button
                   title="Accept"
                   uppercase={false}
                   color={colors.primary}
-                  tintColor="#FEFEFE"
+                  tintColor={colors.paleGrey}
                   onPress={() => closeModal(!showModal)}
                 />
               </HStack>

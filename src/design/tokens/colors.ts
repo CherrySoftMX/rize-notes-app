@@ -12,6 +12,7 @@ const colors = {
   darkGunmetal: '#212427',
   lightLilac: '#F2C8ED',
   orangyRed: '#EE786B',
+  paleGrey: '#FEFEFE',
 };
 
 export { colors };
