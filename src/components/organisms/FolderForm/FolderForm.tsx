@@ -13,6 +13,7 @@ import {
   Switch,
   VStack,
 } from '@react-native-material/core';
+import { useToggle } from '@hooks/useToggle';
 
 interface FolderFormProps {
   showModal: boolean;
@@ -28,7 +29,7 @@ const colorOptions = [
 
 export const FolderForm = ({ showModal, closeModal }: FolderFormProps) => {
   const { currentIndex, setCurrentIndex } = useArrayNavigator(colorOptions);
-  const [isLink, setIsLink] = useState(false);
+  const [isEnabled, toggleIsEnabled] = useToggle(false);
 
   return (
     <Modal
@@ -62,11 +63,8 @@ export const FolderForm = ({ showModal, closeModal }: FolderFormProps) => {
               <MenuLabel>Folder size</MenuLabel>
               <HStack spacing={20} style={styles.noteDetails}>
                 <Flex inline center>
-                  <Switch
-                    value={isLink}
-                    onValueChange={() => setIsLink(!isLink)}
-                  />
-                  <Text onPress={() => setIsLink(!isLink)}>Enable</Text>
+                  <Switch value={isEnabled} onValueChange={toggleIsEnabled} />
+                  <Text onPress={toggleIsEnabled}>Enable</Text>
                 </Flex>
                 <Spacer />
                 <Flex inline center>
