@@ -1,10 +1,12 @@
 import { StyleSheet } from 'react-native';
+import { colors } from '../../../design/tokens/colors';
 
 export const styles = StyleSheet.create({
-  bw5: {
-    borderWidth: 2,
+  bw1: {
+    borderWidth: 1,
+    borderColor: colors.darkGunmetal,
   },
-  bw: {
+  withoutBw: {
     borderWidth: 0,
   },
 });
