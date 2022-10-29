@@ -47,17 +47,15 @@ export const FolderForm = ({ showModal, closeModal }: FolderFormProps) => {
             </View>
             <View>
               <MenuLabel>Folder color</MenuLabel>
-              <HStack spacing={15} style={styles.noteDetails}>
-                <HStack m={6} spacing={6}>
-                  {colorOptions.map((option, index) => (
-                    <Foldercolor
-                      key={index}
-                      hexColor={option}
-                      isSelected={currentIndex === index}
-                      onPress={() => setCurrentIndex(index)}
-                    />
-                  ))}
-                </HStack>
+              <HStack spacing={6} style={styles.noteDetails}>
+                {colorOptions.map((option, index) => (
+                  <Foldercolor
+                    key={index}
+                    hexColor={option}
+                    isSelected={currentIndex === index}
+                    onPress={() => setCurrentIndex(index)}
+                  />
+                ))}
               </HStack>
             </View>
             <View>
