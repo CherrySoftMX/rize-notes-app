@@ -6,14 +6,22 @@ import { HomeScreen } from '@screens/HomeScreen';
 import { FavoritesScreen } from '@screens/FavoritesScreen';
 import { StatisticsScreen } from '@screens/StatisticsScreen';
 import { colors, fontSize } from '../../../design/tokens';
+import { useScreenContext } from '@hooks/useScreentContext';
 
 const Tab = createMaterialBottomTabNavigator();
 
 export const BottomTabNavigation = () => {
+  const { setScreenName } = useScreenContext();
+
   return (
     <Tab.Navigator
       initialRouteName="Home"
       activeColor={colors.lightGreen}
+      screenListeners={({ route }) => ({
+        state: () => {
+          setScreenName(route.name);
+        },
+      })}
       barStyle={{ backgroundColor: colors.pureWhite }}>
       <Tab.Screen
         name="Home"

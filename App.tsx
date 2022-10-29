@@ -3,6 +3,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { BottomTabNavigation } from '@molecules/BottomTopNavigation';
 import { SearchBar } from '@molecules/SearchBar';
 import { MenuProvider } from 'react-native-popup-menu';
+import { MultiActionFloatButton } from '@molecules/MultiActionFloatButton';
+import { ScreenProvider } from './src/library/context/ScreenContext';
 import auth from '@react-native-firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import firestore from '@react-native-firebase/firestore';
@@ -68,13 +70,16 @@ const App = () => {
   return (
     <MenuProvider>
       <NavigationContainer>
-        {user && (
-          <>
-            <SearchBar />
-            <BottomTabNavigation />
-          </>
-        )}
-        {!user && <Text>Cargando...</Text>}
+        <ScreenProvider>
+          {user && (
+            <>
+              <SearchBar />
+              <BottomTabNavigation />
+              <MultiActionFloatButton />
+            </>
+          )}
+          {!user && <Text>Cargando...</Text>}
+        </ScreenProvider>
       </NavigationContainer>
     </MenuProvider>
   );
