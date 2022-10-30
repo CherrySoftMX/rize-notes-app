@@ -15,10 +15,9 @@ import { MenuLabel } from '@atoms/MenuLabel';
 import { FolderIcon } from '@atoms/FolderIcon';
 import { colors } from '../../../design/tokens';
 import { Formik } from 'formik';
-import {
-  createNewNote,
-  ProvisionalNoteInterface,
-} from '../../../library/services/NotesService';
+import { createNewNote } from '../../../library/services/NotesService';
+import { NoteInterface } from '../../../library/interfaces/NoteInterface';
+import { FolderInterface } from '../../../library/interfaces/FolderInterface';
 
 /**
  * An interface containing the props to show and close the form.
@@ -26,6 +25,7 @@ import {
 interface NoteFormProps {
   showModal: boolean;
   closeModal: (arg: boolean) => void;
+  folders: Array<FolderInterface>;
 }
 
 /**
@@ -33,25 +33,12 @@ interface NoteFormProps {
  *
  * @param param0 - {@link NoteFormProps}
  */
-export const NoteForm = ({ showModal, closeModal }: NoteFormProps) => {
-  const provisionalFolders = [
-    {
-      id: '1',
-      name: 'Folder 1',
-    },
-    {
-      id: '2',
-      name: 'Folder 2',
-    },
-    {
-      id: '3',
-      name: 'Folder 3',
-    },
-  ];
-  const createNote = async (noteData: ProvisionalNoteInterface) => {
+export const NoteForm = ({ showModal, closeModal, folders }: NoteFormProps) => {
+  const createNote = async (noteData: NoteInterface) => {
     createNewNote(noteData);
     closeModal(!showModal);
   };
+
   return (
     <Modal
       visible={showModal}
@@ -61,7 +48,7 @@ export const NoteForm = ({ showModal, closeModal }: NoteFormProps) => {
         initialValues={{
           name: '',
           content: '',
-          folder: provisionalFolders[0].id,
+          folder: folders[0]?.id || '',
           isLink: false,
           isFavorite: false,
         }}
@@ -97,7 +84,7 @@ export const NoteForm = ({ showModal, closeModal }: NoteFormProps) => {
                       <FolderIcon />
                     </Flex>
                     <SelectDropdown
-                      data={provisionalFolders}
+                      data={folders}
                       defaultValueByIndex={0}
                       buttonTextStyle={styles.dropdownText}
                       buttonStyle={styles.dropdownContainer}
@@ -116,9 +103,9 @@ export const NoteForm = ({ showModal, closeModal }: NoteFormProps) => {
                         );
                       }}
                       buttonTextAfterSelection={selectedItem =>
-                        selectedItem.name
+                        selectedItem?.name
                       }
-                      rowTextForSelection={item => item.name}
+                      rowTextForSelection={item => item?.name}
                     />
                   </HStack>
                 </View>
