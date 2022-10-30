@@ -27,6 +27,20 @@
       "content": "This is other text example for note container",
       "favorite": true,
       "type": "text-fields"
+    },
+    {
+      "id": "5",
+      "title": "My note title 5",
+      "content": "youtube.com/xyzxyzxyzxyzxzyxyzxyzxyzxyzxyz",
+      "favorite": false,
+      "type": "link"
+    },
+    {
+      "id": "6",
+      "title": "My note title 6",
+      "content": "This is other text example for note container",
+      "favorite": true,
+      "type": "text-fields"
     }
   ]
 }
