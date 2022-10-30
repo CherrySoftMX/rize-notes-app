@@ -14,6 +14,9 @@ import { MenuLabel } from '@atoms/MenuLabel';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { styles } from './LoginScreen.styles';
 
+/**
+ * The login screen
+ */
 export const LoginScreen = () => {
   const [showPassword, setShowPassword] = useState(false);
   return (

@@ -1,8 +1,7 @@
-import React, { useState  } from 'react';
+import React, { useState } from 'react';
 import { Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { NoteForm } from '@organisms/NoteForm';
 import { FolderForm } from '@organisms/FolderForm/FolderForm';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getNotes } from '../../library/services/NotesService';
 import { useAuth } from '@hooks/useAuth';
 
