@@ -1,12 +1,15 @@
 import { useState } from 'react';
-import { AuthService } from '../../services/AuthService';
+import { auth } from '../../services/AuthService';
 
+/**
+ * Custom hook to allow easier use of AuthService methods.
+ *
+ * @returns The current user ID and a method to init the app.
+ */
 export const useAuth = () => {
-  const [user, setUser] = useState(
-    AuthService.getInstance().getCurrentUserId(),
-  );
+  const [user, setUser] = useState(auth.getCurrentUserId());
   const startAuth = async (firebaseUser: any) => {
-    const userId = await AuthService.getInstance().initiateApp(firebaseUser);
+    const userId = await auth.initiateApp(firebaseUser);
     setUser(userId);
   };
   return { user, startAuth };
