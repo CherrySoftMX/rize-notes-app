@@ -1,7 +1,13 @@
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid';
+import { auth } from './AuthService';
 
+/**
+ * An interface containing the properties of a Note.
+ *
+ * @beta
+ */
 export interface ProvisionalNoteInterface {
   user?: string;
   name: string;
@@ -13,9 +19,15 @@ export interface ProvisionalNoteInterface {
   categories?: Array<String>;
 }
 
+/**
+ * Inserts a new note in the database.
+ *
+ * @param noteData - A note.
+ *
+ * @beta
+ */
 export const createNewNote = async (noteData: ProvisionalNoteInterface) => {
-  const response: any = await AsyncStorage.getItem('userId');
-  const userId = await JSON.parse(response);
+  const userId = auth.getCurrentUserId();
 
   firestore()
     .collection('notes')
@@ -26,13 +38,18 @@ export const createNewNote = async (noteData: ProvisionalNoteInterface) => {
       user: userId,
       categories: [''],
     })
-    .then(() => console.log('Subida terminada'))
     .catch((err: any) => {
       console.log(err);
-      console.log('Error al subir la nota');
     });
 };
 
+/**
+ * Gets all the notes in database of the current app user.
+ *
+ * @returns An array of {@Link ProvisionalNoteInterface}
+ *
+ * @beta
+ */
 export const getNotes = async () => {
   const response: any = await AsyncStorage.getItem('userId');
   const userId = await JSON.parse(response);
@@ -41,8 +58,7 @@ export const getNotes = async () => {
     .collection('notes')
     .where('user', '==', userId)
     .get();
-  console.log('Obtenido:');
-  console.log(notes._docs);
+
   if (notes._docs) {
     return notes._docs.map((doc: any) => doc._data);
   } else {

@@ -14,6 +14,9 @@ import { MenuLabel } from '@atoms/MenuLabel';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { colors } from '../../design/tokens/colors';
 
+/**
+ * The register screen
+ */
 export const RegisterScreen = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
