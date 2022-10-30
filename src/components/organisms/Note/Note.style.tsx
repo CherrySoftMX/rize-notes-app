@@ -4,7 +4,7 @@ import { colors } from '../../../design/tokens/colors';
 export const styles = StyleSheet.create({
   card: {
     alignItems: 'center',
-    height: 95,
+    minHeight: 95,
     margin: 10,
     backgroundColor: colors.pureWhite,
     borderRadius: 10,
