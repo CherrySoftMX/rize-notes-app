@@ -20,11 +20,19 @@ import {
   ProvisionalNoteInterface,
 } from '../../../library/services/NotesService';
 
+/**
+ * An interface containing the props to show and close the form.
+ */
 interface NoteFormProps {
   showModal: boolean;
   closeModal: (arg: boolean) => void;
 }
 
+/**
+ * A form to create new notes.
+ *
+ * @param param0 - {@link NoteFormProps}
+ */
 export const NoteForm = ({ showModal, closeModal }: NoteFormProps) => {
   const provisionalFolders = [
     {
@@ -41,10 +49,7 @@ export const NoteForm = ({ showModal, closeModal }: NoteFormProps) => {
     },
   ];
   const createNote = async (noteData: ProvisionalNoteInterface) => {
-    console.log('Creando nota...');
-    console.log(noteData);
     createNewNote(noteData);
-    console.log('Se creo la nota');
     closeModal(!showModal);
   };
   return (
