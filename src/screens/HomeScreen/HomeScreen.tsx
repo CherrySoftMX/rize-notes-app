@@ -7,21 +7,18 @@ import { useTheme } from '@react-navigation/native';
 import { FolderList } from '@organisms/FolderList/FolderList';
 import { NoteForm } from '@organisms/NoteForm';
 import { FolderForm } from '@organisms/FolderForm/FolderForm';
-import { useAuth } from '@hooks/useAuth';
 import { getFolders } from '../../library/services/FoldersService';
 import { FolderInterface } from '.././../library/interfaces/FolderInterface';
 import { MultiActionFloatButton } from '@molecules/MultiActionFloatButton';
 
 export const HomeScreen = () => {
-  const [showModal, setShowModal] = useState(false);
+  const [showNotesModal, setShowNotesModal] = useState(false);
   const [showFolderModal, setShowFolderModal] = useState(false);
   const [folders, setFolders] = useState([] as Array<FolderInterface>);
-  const { user } = useAuth();
 
   const openNotesForm = async () => {
-    const receivedFolders: Array<FolderInterface> = await getFolders();
-    setFolders(receivedFolders);
-    setShowModal(true);
+    setShowNotesModal(true);
+    getFolders().then(receivedFolders => setFolders(receivedFolders));
   };
 
   const { colors } = useTheme();
@@ -38,10 +35,13 @@ export const HomeScreen = () => {
           </View>
         }
       />
-      <MultiActionFloatButton />
+      <MultiActionFloatButton
+        onNotePress={() => openNotesForm()}
+        onFolderPress={() => setShowFolderModal(!showFolderModal)}
+      />
       <NoteForm
-        showModal={showModal}
-        closeModal={setShowModal}
+        showModal={showNotesModal}
+        closeModal={setShowNotesModal}
         folders={folders}
       />
       <FolderForm showModal={showFolderModal} closeModal={setShowFolderModal} />

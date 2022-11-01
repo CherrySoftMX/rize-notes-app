@@ -22,7 +22,6 @@ const App = () => {
         <ScreenProvider>
           {user && (
             <>
-              <SearchBar />
               <BottomTabNavigation />
             </>
           )}
