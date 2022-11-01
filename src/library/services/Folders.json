@@ -1,40 +1,67 @@
 {
-  "notes": [
+  "folders": [
     {
       "id": "1",
       "title": "Animes",
       "numberOfNotes": 34,
-      "folderColor": "#1FC0A9"
+      "folderColor": "#1FC0A9",
+      "isProgressBar": false
     },
     {
       "id": "2",
       "title": "Videos",
       "numberOfNotes": 34,
-      "folderColor": "#FEB95A"
+      "folderColor": "#FEB95A",
+      "isProgressBar": true
     },
     {
       "id": "3",
       "title": "Facebook",
       "numberOfNotes": 13,
-      "folderColor": "#EE786B"
+      "folderColor": "#EE786B",
+      "isProgressBar": true
     },
     {
       "id": "4",
       "title": "Dibujos",
       "numberOfNotes": 17,
-      "folderColor": "#F2C8ED"
+      "folderColor": "#F2C8ED",
+      "isProgressBar": false
     },
     {
       "id": "5",
       "title": "Noticias",
       "numberOfNotes": 23,
-      "folderColor": "#FEB95A"
+      "folderColor": "#FEB95A",
+      "isProgressBar": true
     },
     {
       "id": "6",
       "title": "Intereses",
       "numberOfNotes": 8,
-      "folderColor": "#EE786B"
+      "folderColor": "#EE786B",
+      "isProgressBar": false
+    },
+    {
+      "id": "7",
+      "title": "Twitter",
+      "numberOfNotes": 50,
+      "folderColor": "#1FC0A9",
+      "isProgressBar": true
+    },
+    {
+      "id": "8",
+      "title": "Peliculas",
+      "numberOfNotes": 19,
+      "folderColor": "#F2C8ED",
+      "isProgressBar": false
+    },
+    {
+      "id": "9",
+      "title": "Youtube",
+      "numberOfNotes": 34,
+      "folderColor": "#FEB95A",
+      "isProgressBar": true
     }
   ]
 }

@@ -8,7 +8,7 @@ export const FolderList = ({ ...rest }: Partial<FlatListProps<any>>) => {
   return (
     <FlatList
       {...rest}
-      data={FOLDER.notes}
+      data={FOLDER.folders}
       numColumns={2}
       renderItem={({ item }) => <Folder {...item} />}
       keyExtractor={item => item.id}

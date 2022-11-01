@@ -1,13 +1,11 @@
-import { colors } from '../../../design/tokens/colors';
-import { fontSize } from '../../../design/tokens/fontSize';
 import { StyleSheet } from 'react-native';
+import { colors, fontSize } from '../../../design/tokens';
 
 export const styles = StyleSheet.create({
-  card: {
-    alignItems: 'center',
-    width: '50%',
-    height: 170,
+  container: {
     margin: 10,
+    minWidth: 160,
+    maxHeight: 170,
     backgroundColor: colors.pureWhite,
     borderRadius: 10,
     shadowColor: colors.black,
@@ -26,10 +24,5 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.sm,
     color: colors.mediumGrey,
     fontWeight: '400',
-  },
-  icon: {
-    alignSelf: 'flex-start',
-    marginHorizontal: 18,
-    marginRight: 5,
   },
 });
