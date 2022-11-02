@@ -1,0 +1,29 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/RubikMonoOne-Regular.ttf",
+      "sha1": "8a596f3863c67604d9bff33bcc5d0c65300a17e7"
+    },
+    {
+      "path": "assets/fonts/Trueno-75PE.otf",
+      "sha1": "26f64c3186abf344488099d98b3db875c4b56dba"
+    },
+    {
+      "path": "assets/fonts/Trueno-wml2.otf",
+      "sha1": "946bc9fa7f9a4cfc72834b3f483d18bb2a30cbbb"
+    },
+    {
+      "path": "assets/fonts/TruenoBold-XYE2.otf",
+      "sha1": "755c22b7b2276ae1ac6c0ce4ceb07896b1695191"
+    },
+    {
+      "path": "assets/fonts/TruenoLight-E2pg.otf",
+      "sha1": "167ee2064ae740e91b3dc06bdf1b19109da4c82a"
+    },
+    {
+      "path": "assets/fonts/TruenoSemibold-Z9yl.otf",
+      "sha1": "162c6696bbafdba218fbc41da8427bfe5c01a0b3"
+    }
+  ]
+}

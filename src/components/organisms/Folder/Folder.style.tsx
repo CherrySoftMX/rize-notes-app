@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors, fontSize } from '../../../design/tokens';
+import { colors, fontType } from '../../../design/tokens';
 
 export const styles = StyleSheet.create({
   container: {
@@ -11,16 +11,18 @@ export const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 3,
     elevation: 4,
+    paddingHorizontal: 18,
+    paddingTop: 18,
+    paddingBottom: 12,
   },
   title: {
-    fontSize: fontSize.md,
-    fontWeight: 'bold',
-    fontStyle: 'normal',
+    fontSize: 15,
     color: colors.black,
+    fontFamily: fontType.bold,
   },
   subtitle: {
-    fontSize: fontSize.sm,
+    fontSize: 12,
     color: colors.mediumGrey,
-    fontWeight: '400',
+    fontFamily: fontType.regular,
   },
 });

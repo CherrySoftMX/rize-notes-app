@@ -14,6 +14,12 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-RizeApp-RizeAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-RizeApp-RizeAppTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		51528CD0DE8D4D9AB7B7559C /* Trueno-75PE.otf in Resources */ = {isa = PBXBuildFile; fileRef = 281E2253104B416097EF9DF7 /* Trueno-75PE.otf */; };
+		34C8385DB0454B5E9A8D5572 /* Trueno-wml2.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6F4275C22D3D47FFB0962835 /* Trueno-wml2.otf */; };
+		0BB3CE9F57544684A5FAD3C5 /* TruenoBold-XYE2.otf in Resources */ = {isa = PBXBuildFile; fileRef = 901D35A51E854A169803A753 /* TruenoBold-XYE2.otf */; };
+		93E16718B21C4E24A0D7FAA8 /* TruenoLight-E2pg.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9388A9132FF940F5B8645604 /* TruenoLight-E2pg.otf */; };
+		981ABF453A224301B942EBDC /* TruenoSemibold-Z9yl.otf in Resources */ = {isa = PBXBuildFile; fileRef = 09ACCB938EEB413FAF351376 /* TruenoSemibold-Z9yl.otf */; };
+		1248E8A285D9492F83CC6787 /* RubikMonoOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE4FE48A07334D73B44019BB /* RubikMonoOne-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +50,12 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = RizeApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-RizeApp-RizeAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RizeApp-RizeAppTests.release.xcconfig"; path = "Target Support Files/Pods-RizeApp-RizeAppTests/Pods-RizeApp-RizeAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		281E2253104B416097EF9DF7 /* Trueno-75PE.otf */ = {isa = PBXFileReference; name = "Trueno-75PE.otf"; path = "../assets/fonts/Trueno-75PE.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6F4275C22D3D47FFB0962835 /* Trueno-wml2.otf */ = {isa = PBXFileReference; name = "Trueno-wml2.otf"; path = "../assets/fonts/Trueno-wml2.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		901D35A51E854A169803A753 /* TruenoBold-XYE2.otf */ = {isa = PBXFileReference; name = "TruenoBold-XYE2.otf"; path = "../assets/fonts/TruenoBold-XYE2.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		9388A9132FF940F5B8645604 /* TruenoLight-E2pg.otf */ = {isa = PBXFileReference; name = "TruenoLight-E2pg.otf"; path = "../assets/fonts/TruenoLight-E2pg.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		09ACCB938EEB413FAF351376 /* TruenoSemibold-Z9yl.otf */ = {isa = PBXFileReference; name = "TruenoSemibold-Z9yl.otf"; path = "../assets/fonts/TruenoSemibold-Z9yl.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		CE4FE48A07334D73B44019BB /* RubikMonoOne-Regular.ttf */ = {isa = PBXFileReference; name = "RubikMonoOne-Regular.ttf"; path = "../assets/fonts/RubikMonoOne-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +134,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				3D5BF6ABA17D406D8F1153D7 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -147,6 +160,20 @@
 			);
 			path = Pods;
 			sourceTree = "<group>";
+		};
+		3D5BF6ABA17D406D8F1153D7 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				281E2253104B416097EF9DF7 /* Trueno-75PE.otf */,
+				6F4275C22D3D47FFB0962835 /* Trueno-wml2.otf */,
+				901D35A51E854A169803A753 /* TruenoBold-XYE2.otf */,
+				9388A9132FF940F5B8645604 /* TruenoLight-E2pg.otf */,
+				09ACCB938EEB413FAF351376 /* TruenoSemibold-Z9yl.otf */,
+				CE4FE48A07334D73B44019BB /* RubikMonoOne-Regular.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -244,6 +271,12 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				51528CD0DE8D4D9AB7B7559C /* Trueno-75PE.otf in Resources */,
+				34C8385DB0454B5E9A8D5572 /* Trueno-wml2.otf in Resources */,
+				0BB3CE9F57544684A5FAD3C5 /* TruenoBold-XYE2.otf in Resources */,
+				93E16718B21C4E24A0D7FAA8 /* TruenoLight-E2pg.otf in Resources */,
+				981ABF453A224301B942EBDC /* TruenoSemibold-Z9yl.otf in Resources */,
+				1248E8A285D9492F83CC6787 /* RubikMonoOne-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -21,10 +21,7 @@ export const ProgressBar = ({ completed, size = 1 }: ProgressBarProps) => {
         />
       </Box>
       <Box m={2}>
-        <Text
-          style={{
-            fontSize: 13,
-          }}>{`${completed}/${size}`}</Text>
+        <Text style={styles.text}>{`${completed}/${size}`}</Text>
       </Box>
     </VStack>
   );

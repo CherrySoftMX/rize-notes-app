@@ -9,7 +9,7 @@ export const AntiquityFilterOptionsList = () => {
   const { currentIndex, setCurrentIndex } = useArrayNavigator(filterOptions);
 
   return (
-    <View style={{marginHorizontal: 10}}>
+    <View style={{marginHorizontal: 10, marginBottom: 10}}>
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
         {filterOptions.map((option, index) => (
           <AntiquityFilterOptionChip

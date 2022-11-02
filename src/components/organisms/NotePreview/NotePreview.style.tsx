@@ -1,18 +1,18 @@
 import { StyleSheet } from 'react-native';
 import { colors } from '../../../design/tokens/colors';
-import { fontSize } from '../../../design/tokens/fontSize';
+import { fontSize, fontType } from '../../../design/tokens';
 
 export const styles = StyleSheet.create({
   title: {
-    fontSize: fontSize.lg,
-    fontWeight: 'bold',
-    fontStyle: 'normal',
+    fontSize: 18,
     color: colors.black,
+    fontFamily: fontType.bold,
   },
   textEllipsis: {
+    marginTop: 2,
     fontSize: fontSize.md,
     color: colors.mediumGrey,
-    fontWeight: '400',
+    fontFamily: fontType.regular,
   },
   item: {
     padding: 10,
