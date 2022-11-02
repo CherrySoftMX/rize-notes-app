@@ -5,4 +5,7 @@ export const styles = StyleSheet.create({
     flexGrow: 1,
     paddingHorizontal: 20,
   },
+  list: {
+    height: '100%',
+  },
 });

@@ -14,6 +14,7 @@ export const FolderList = ({ ...rest }: any) => {
       renderItem={({ item }) => <Folder {...item} />}
       keyExtractor={item => item.id}
       contentContainerStyle={styles.container}
+      style={styles.list}
     />
   );
 };
