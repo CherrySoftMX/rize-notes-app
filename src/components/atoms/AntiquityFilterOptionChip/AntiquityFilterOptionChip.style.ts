@@ -3,8 +3,8 @@ import { border, colors } from '../../../design/tokens';
 
 export const styles = StyleSheet.create({
   contentContainer: {
-    marginHorizontal: 8,
     paddingVertical: 3,
+    marginRight: 8,
   },
   defaultLabel: {
     borderRadius: border.radius.xl,

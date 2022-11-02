@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     margin: 5,
   },
   fs: {
-    margin: 2,
-    padding: 2,
+    margin: 0,
+    padding: 0,
   },
 });
