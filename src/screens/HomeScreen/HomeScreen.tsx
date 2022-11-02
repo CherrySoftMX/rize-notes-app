@@ -13,6 +13,7 @@ import {
 } from '../../library/services/FoldersService';
 import { FolderInterface } from '.././../library/interfaces/FolderInterface';
 import { MultiActionFloatButton } from '@molecules/MultiActionFloatButton';
+import { VStack } from '@react-native-material/core';
 
 export const HomeScreen = () => {
   const [showNotesModal, setShowNotesModal] = useState(false);
@@ -43,10 +44,18 @@ export const HomeScreen = () => {
     <SafeAreaView>
       <FolderList
         ListHeaderComponent={
-          <View style={{ backgroundColor: colors.background, paddingTop: 15 }}>
-            <ScreenTitle label="My notes" />
-            <SearchBar />
-            <AntiquityFilterOptionsList />
+          <View style={{ backgroundColor: colors.background, paddingTop: 16 }}>
+            <VStack spacing={15}>
+              <View>
+                <ScreenTitle label="My notes" />
+              </View>
+              <View>
+                <SearchBar />
+              </View>
+              <View>
+                <AntiquityFilterOptionsList />
+              </View>
+            </VStack>
           </View>
         }
         folders={folders}

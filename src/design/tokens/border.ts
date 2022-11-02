@@ -4,6 +4,7 @@ export const border = {
     md: 8,
     lg: 12,
     xl: 16,
+    xxl: 20,
   },
 };
 

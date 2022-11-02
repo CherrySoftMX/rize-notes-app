@@ -3,7 +3,7 @@ import { colors, fontSize } from '../../../design/tokens';
 
 export const styles = StyleSheet.create({
   container: {
-    margin: 12,
+    margin: 10,
     backgroundColor: colors.pureWhite,
     borderRadius: 10,
     shadowColor: colors.black,

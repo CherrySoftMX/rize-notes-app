@@ -7,7 +7,5 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.xl,
     fontWeight: '800',
     alignSelf: 'center',
-    marginVertical: 3,
-    marginBottom: 5,
   },
 });
