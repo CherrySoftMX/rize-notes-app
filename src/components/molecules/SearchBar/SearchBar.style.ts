@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { border, colors } from '../../../design/tokens';
+import { border, colors, fontSize, fontType } from '../../../design/tokens';
 
 export const styles = StyleSheet.create({
   container: {
@@ -10,6 +10,8 @@ export const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingVertical: 5,
     height: 40,
+    fontFamily: fontType.regular,
+    fontSize: fontSize.md,
   },
   leadingFilterButton: {
     alignItems: 'center',

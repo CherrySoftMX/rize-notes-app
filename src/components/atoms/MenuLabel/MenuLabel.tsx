@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text } from 'react-native';
+import { fontSize, fontType } from '../../../design/tokens';
 
 interface MenuLabelProps {
   children: string;
@@ -11,7 +12,7 @@ export const MenuLabel = ({ children }: MenuLabelProps) => {
 
 const styles = StyleSheet.create({
   label: {
-    fontSize: 16,
-    fontWeight: '500',
+    fontSize: fontSize.md,
+    fontFamily: fontType.bold,
   },
 });

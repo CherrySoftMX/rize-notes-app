@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { border, colors } from '../../../design/tokens';
+import { fontType, fontSize } from '../../../design/tokens';
 
 export const styles = StyleSheet.create({
   contentContainer: {
@@ -15,7 +16,8 @@ export const styles = StyleSheet.create({
   },
   defaultText: {
     color: colors.darkGunmetal,
-    fontWeight: '600',
+    fontSize: fontSize.sm,
+    fontFamily: fontType.bold,
   },
   selectedLabel: {
     color: colors.pureWhite,

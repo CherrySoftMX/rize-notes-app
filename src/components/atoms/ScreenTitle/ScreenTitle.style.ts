@@ -1,11 +1,12 @@
 import { StyleSheet } from 'react-native';
 import { colors, fontSize } from '../../../design/tokens';
+import { fontType } from '../../../design/tokens/fontType';
 
 export const styles = StyleSheet.create({
   label: {
     color: colors.darkGunmetal,
     fontSize: fontSize.xl,
-    fontWeight: '800',
     alignSelf: 'center',
+    fontFamily: fontType.bold,
   },
 });
