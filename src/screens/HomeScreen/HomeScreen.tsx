@@ -7,7 +7,7 @@ import { useTheme } from '@react-navigation/native';
 import { FolderList } from '@organisms/FolderList/FolderList';
 import { NoteForm } from '@organisms/NoteForm';
 import { FolderForm } from '@organisms/FolderForm/FolderForm';
-import { getFolders } from '../../library/services/FoldersService';
+import { getFolders, createNewFolder } from '../../library/services/FoldersService';
 import { FolderInterface } from '.././../library/interfaces/FolderInterface';
 import { MultiActionFloatButton } from '@molecules/MultiActionFloatButton';
 
@@ -19,6 +19,11 @@ export const HomeScreen = () => {
   const openNotesForm = async () => {
     setShowNotesModal(true);
     getFolders().then(receivedFolders => setFolders(receivedFolders));
+  };
+
+  const createFolder = (folder: FolderInterface) => {
+    const newFolder: FolderInterface = createNewFolder(folder);
+    folders.unshift(newFolder);
   };
 
   const { colors } = useTheme();
@@ -52,7 +57,11 @@ export const HomeScreen = () => {
         closeModal={setShowNotesModal}
         folders={folders}
       />
-      <FolderForm showModal={showFolderModal} closeModal={setShowFolderModal} />
+      <FolderForm
+        showModal={showFolderModal}
+        closeModal={setShowFolderModal}
+        onSubmit={createFolder}
+      />
     </SafeAreaView>
   );
 };

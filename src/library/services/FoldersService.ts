@@ -10,23 +10,28 @@ import { getNoteById } from './NotesService';
  *
  * @param folderData - A folder.
  *
+ * @returns The new folder
  * @beta
  */
-export const createNewFolder = async (folderData: FolderInterface) => {
+export const createNewFolder = (folderData: FolderInterface) => {
   const userId = auth.getCurrentUserId();
   const folderId = uuid.v4();
+
+  const newFolder: FolderInterface = {
+    ...folderData,
+    limit: folderData.isLimited ? folderData.limit : '0',
+    id: `${folderId}`,
+    user: userId,
+    notes: [],
+  };
 
   firestore()
     .collection('folders')
     .doc(folderId)
-    .set({
-      ...folderData,
-      limit: folderData.isLimited ? folderData.limit : '0',
-      id: folderId,
-      user: userId,
-      notes: [],
-    })
+    .set(newFolder)
     .catch((err: any) => console.log(err));
+
+  return newFolder;
 };
 
 /**
