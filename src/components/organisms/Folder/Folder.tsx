@@ -2,23 +2,24 @@ import React from 'react';
 import { Alert, Text } from 'react-native';
 import { Box, Flex, HStack, Spacer, VStack } from '@react-native-material/core';
 import { CustomIcon } from '@atoms/CustomIcon/CustomIcon';
-import { FolderProps } from './props';
 import { IconButtonPopupMenu } from '@molecules/IconButtonContextMenu';
 import { MenuOption } from 'react-native-popup-menu';
 import { ProgressBar } from '@atoms/ProgressBar/ProgressBar';
 import { colors } from '../../../design/tokens/colors';
 import { styles } from './Folder.style';
+import { FolderInterface } from '../../../library/interfaces/FolderInterface';
 
 export const Folder = ({
-  title,
-  numberOfNotes,
-  folderColor,
-  isProgressBar,
-}: FolderProps) => {
+  name,
+  color,
+  isLimited,
+  limit = '1',
+  notes,
+}: FolderInterface) => {
   return (
     <Flex fill style={styles.container} p={6}>
       <HStack>
-        <CustomIcon name="folder" size={50} color={folderColor} />
+        <CustomIcon name="folder" size={70} color={color} />
         <Spacer />
         <IconButtonPopupMenu iconName="menu" iconColor={colors.greyNickel}>
           <MenuOption onSelect={() => Alert.alert('Edit')} text="Edit" />
@@ -27,11 +28,15 @@ export const Folder = ({
       </HStack>
       <VStack m={8} spacing={8}>
         <Box>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.subtitle}>{numberOfNotes}</Text>
+          <Text style={styles.title}>{name}</Text>
+          <Text style={styles.subtitle}>{notes?.length}</Text>
         </Box>
         <Spacer />
-        <Box>{isProgressBar && <ProgressBar completed={numberOfNotes} />}</Box>
+        {isLimited && (
+          <Box>
+            <ProgressBar completed={notes?.length || 0} size={Number(limit)} />
+          </Box>
+        )}
       </VStack>
     </Flex>
   );

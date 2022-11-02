@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { BottomTabNavigation } from '@molecules/BottomTopNavigation';
-import { SearchBar } from '@molecules/SearchBar';
 import { MenuProvider } from 'react-native-popup-menu';
-import { MultiActionFloatButton } from '@molecules/MultiActionFloatButton';
 import { ScreenProvider } from './src/library/context/ScreenContext';
 import auth from '@react-native-firebase/auth';
 import { Text } from 'react-native';
@@ -22,9 +20,7 @@ const App = () => {
         <ScreenProvider>
           {user && (
             <>
-              <SearchBar />
               <BottomTabNavigation />
-              <MultiActionFloatButton />
             </>
           )}
           {!user && <Text>Cargando...</Text>}

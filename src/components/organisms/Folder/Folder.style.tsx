@@ -4,8 +4,6 @@ import { colors, fontSize } from '../../../design/tokens';
 export const styles = StyleSheet.create({
   container: {
     margin: 10,
-    minWidth: 160,
-    maxHeight: 170,
     backgroundColor: colors.pureWhite,
     borderRadius: 10,
     shadowColor: colors.black,

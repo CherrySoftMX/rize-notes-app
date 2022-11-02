@@ -21,7 +21,7 @@ const actions = [
   },
 ];
 
-export const MultiActionFloatButton = () => {
+export const MultiActionFloatButton = ({ onNotePress, onFolderPress }: any) => {
   const { name } = useScreenContext();
 
   if (name !== screens.home) {
@@ -36,9 +36,10 @@ export const MultiActionFloatButton = () => {
       buttonSize={65}
       iconHeight={20}
       iconWidth={20}
-      distanceToEdge={{ horizontal: 20, vertical: 70 }}
+      distanceToEdge={{ horizontal: 20, vertical: 20 }}
       onPressItem={actionName => {
-        console.log(`selected button: ${actionName}`);
+        if (actionName === 'bt_note') onNotePress();
+        else onFolderPress();
       }}
     />
   );
