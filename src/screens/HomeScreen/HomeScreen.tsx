@@ -14,11 +14,17 @@ import {
 import { FolderInterface } from '.././../library/interfaces/FolderInterface';
 import { MultiActionFloatButton } from '@molecules/MultiActionFloatButton';
 import { VStack } from '@react-native-material/core';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '@screens/RootStackParams';
+import { useNavigation } from '@react-navigation/native';
+
+type homeScreenParams = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
 export const HomeScreen = () => {
   const [showNotesModal, setShowNotesModal] = useState(false);
   const [showFolderModal, setShowFolderModal] = useState(false);
   const [folders, setFolders] = useState([] as Array<FolderInterface>);
+  const navigation = useNavigation<homeScreenParams>();
 
   const openNotesForm = async () => {
     setShowNotesModal(true);
@@ -28,6 +34,11 @@ export const HomeScreen = () => {
   const createFolder = (folder: FolderInterface) => {
     const newFolder: FolderInterface = createNewFolder(folder);
     folders.unshift(newFolder);
+  };
+
+  const navigateToFolder = (folderId: string) => {
+    console.log('Navegando a: ', folderId);
+    navigation.navigate('Folder', { folderId });
   };
 
   const { colors } = useTheme();
@@ -59,6 +70,7 @@ export const HomeScreen = () => {
           </View>
         }
         folders={folders}
+        handleClick={navigateToFolder}
       />
       <MultiActionFloatButton
         onNotePress={() => openNotesForm()}
