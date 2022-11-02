@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SearchBar } from '@molecules/SearchBar';
 import { ScreenTitle } from '@atoms/ScreenTitle';
 import { AntiquityFilterOptionsList } from '@molecules/AntiquityFilterOptionsList';
-import { SafeAreaView, View } from 'react-native';
+import { SafeAreaView, View, Text } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { FolderList } from '@organisms/FolderList/FolderList';
 import { NoteForm } from '@organisms/NoteForm';
@@ -23,17 +23,25 @@ export const HomeScreen = () => {
 
   const { colors } = useTheme();
 
+  useEffect(() => {
+    const loadFolders = async () => {
+      const loadedFolders = await getFolders();
+      setFolders(loadedFolders);
+    };
+    loadFolders();
+  }, []);
+
   return (
     <SafeAreaView>
       <FolderList
-        stickyHeaderIndices={[0]}
         ListHeaderComponent={
-          <View style={{ backgroundColor: colors.background }}>
+          <View style={{ backgroundColor: colors.background, paddingTop: 10 }}>
             <ScreenTitle label="My notes" />
             <SearchBar />
             <AntiquityFilterOptionsList />
           </View>
         }
+        folders={folders}
       />
       <MultiActionFloatButton
         onNotePress={() => openNotesForm()}
