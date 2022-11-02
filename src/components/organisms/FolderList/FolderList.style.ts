@@ -6,6 +6,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   list: {
+    flex: 0,
     height: '100%',
   },
 });
