@@ -14,12 +14,12 @@ import {
   VStack,
 } from '@react-native-material/core';
 import { Formik } from 'formik';
-import { createNewFolder } from '../../../library/services/FoldersService';
 import { FolderInterface } from '../../../library/interfaces/FolderInterface';
 
 interface FolderFormProps {
   showModal: boolean;
   closeModal: (arg: boolean) => void;
+  onSubmit: (arg: FolderInterface) => void;
 }
 
 const colorOptions = [
@@ -29,10 +29,14 @@ const colorOptions = [
   colors.lightLilac,
 ];
 
-export const FolderForm = ({ showModal, closeModal }: FolderFormProps) => {
+export const FolderForm = ({
+  showModal,
+  closeModal,
+  onSubmit,
+}: FolderFormProps) => {
   const { currentIndex, setCurrentIndex } = useArrayNavigator(colorOptions);
   const createFolder = async (folderData: FolderInterface) => {
-    createNewFolder(folderData);
+    onSubmit(folderData);
     closeModal(!showModal);
   };
   return (
@@ -45,7 +49,7 @@ export const FolderForm = ({ showModal, closeModal }: FolderFormProps) => {
           <Formik
             initialValues={{
               name: '',
-              color: colorOptions[0],
+              color: colorOptions[currentIndex],
               isLimited: false,
               limit: '',
             }}
@@ -71,7 +75,7 @@ export const FolderForm = ({ showModal, closeModal }: FolderFormProps) => {
                         isSelected={currentIndex === index}
                         onPress={() => {
                           setCurrentIndex(index);
-                          setFieldValue('color', colorOptions[currentIndex]);
+                          setFieldValue('color', colorOptions[index]);
                         }}
                       />
                     ))}
