@@ -7,8 +7,11 @@ import { FavoritesScreen } from '@screens/FavoritesScreen';
 import { StatisticsScreen } from '@screens/StatisticsScreen';
 import { colors, fontSize } from '../../../design/tokens';
 import { useScreenContext } from '@hooks/useScreentContext';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { FolderScreen } from '@screens/FolderScreen';
 
 const Tab = createMaterialBottomTabNavigator();
+const HomeStack = createNativeStackNavigator();
 
 export const BottomTabNavigation = () => {
   const { setScreenName } = useScreenContext();
@@ -25,7 +28,7 @@ export const BottomTabNavigation = () => {
       barStyle={{ backgroundColor: colors.pureWhite }}>
       <Tab.Screen
         name="Home"
-        component={HomeScreen}
+        component={HomeStackScreens}
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({ color }) => (
@@ -64,5 +67,17 @@ export const BottomTabNavigation = () => {
         }}
       />
     </Tab.Navigator>
+  );
+};
+
+const HomeStackScreens = () => {
+  return (
+    <HomeStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <HomeStack.Screen name="HomeScreen" component={HomeScreen} />
+      <HomeStack.Screen name="Folder" component={FolderScreen} />
+    </HomeStack.Navigator>
   );
 };
