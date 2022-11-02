@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { SearchBar } from '@molecules/SearchBar';
 import { ScreenTitle } from '@atoms/ScreenTitle';
 import { AntiquityFilterOptionsList } from '@molecules/AntiquityFilterOptionsList';
-import { SafeAreaView, View, Text } from 'react-native';
+import { SafeAreaView, View } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { FolderList } from '@organisms/FolderList/FolderList';
 import { NoteForm } from '@organisms/NoteForm';
 import { FolderForm } from '@organisms/FolderForm/FolderForm';
-import { getFolders, createNewFolder } from '../../library/services/FoldersService';
+import {
+  getFolders,
+  createNewFolder,
+} from '../../library/services/FoldersService';
 import { FolderInterface } from '.././../library/interfaces/FolderInterface';
 import { MultiActionFloatButton } from '@molecules/MultiActionFloatButton';
 
@@ -40,7 +43,7 @@ export const HomeScreen = () => {
     <SafeAreaView>
       <FolderList
         ListHeaderComponent={
-          <View style={{ backgroundColor: colors.background, paddingTop: 10 }}>
+          <View style={{ backgroundColor: colors.background, paddingTop: 15 }}>
             <ScreenTitle label="My notes" />
             <SearchBar />
             <AntiquityFilterOptionsList />

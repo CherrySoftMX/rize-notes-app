@@ -8,5 +8,6 @@ export const styles = StyleSheet.create({
     fontWeight: '800',
     alignSelf: 'center',
     marginVertical: 3,
+    marginBottom: 5,
   },
 });
