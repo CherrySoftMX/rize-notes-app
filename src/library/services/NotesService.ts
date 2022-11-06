@@ -14,16 +14,18 @@ export const createNewNote = async (noteData: NoteInterface) => {
   const userId = auth.getCurrentUserId();
   const noteId = uuid.v4();
 
+  const createdNote: NoteInterface = {
+    ...noteData,
+    id: `${noteId}`,
+    image: '',
+    user: userId,
+    categories: [],
+  };
+
   firestore()
     .collection('notes')
     .doc(noteId)
-    .set({
-      ...noteData,
-      id: noteId,
-      image: '',
-      user: userId,
-      categories: [''],
-    })
+    .set(createdNote)
     .catch((err: any) => console.log(err));
 
   firestore()
@@ -33,6 +35,8 @@ export const createNewNote = async (noteData: NoteInterface) => {
       notes: firestore.FieldValue.arrayUnion(noteId),
     })
     .catch((err: any) => console.log(err));
+
+  return createdNote;
 };
 
 /**
