@@ -2271,10 +2271,10 @@
   dependencies:
     "@types/istanbul-lib-report" "*"
 
-"@types/jest@^29.2.0":
-  "integrity" "sha512-KO7bPV21d65PKwv3LLsD8Jn3E05pjNjRZvkm+YTacWhVmykAb07wW6IkZUmQAltwQafNcDUEUrMO2h3jeBSisg=="
-  "resolved" "https://registry.npmjs.org/@types/jest/-/jest-29.2.0.tgz"
-  "version" "29.2.0"
+"@types/jest@^29.2.2":
+  "integrity" "sha512-og1wAmdxKoS71K2ZwSVqWPX6OVn3ihZ6ZT2qvZvZQm90lJVDyXIjYcu4Khx2CNIeaFv12rOU/YObOsI3VOkzog=="
+  "resolved" "https://registry.npmjs.org/@types/jest/-/jest-29.2.2.tgz"
+  "version" "29.2.2"
   dependencies:
     "expect" "^29.0.0"
     "pretty-format" "^29.0.0"
