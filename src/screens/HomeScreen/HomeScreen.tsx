@@ -37,7 +37,6 @@ export const HomeScreen = () => {
   };
 
   const navigateToFolder = (folderId: string) => {
-    console.log('Navegando a: ', folderId);
     navigation.navigate('Folder', { folderId });
   };
 
