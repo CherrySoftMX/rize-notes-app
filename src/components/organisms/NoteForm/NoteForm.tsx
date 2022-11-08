@@ -26,6 +26,7 @@ interface NoteFormProps {
   showModal: boolean;
   closeModal: (arg: boolean) => void;
   folders: Array<FolderInterface>;
+  handleCreateNote: (note: NoteInterface) => void;
 }
 
 /**
@@ -33,9 +34,15 @@ interface NoteFormProps {
  *
  * @param param0 - {@link NoteFormProps}
  */
-export const NoteForm = ({ showModal, closeModal, folders }: NoteFormProps) => {
+export const NoteForm = ({
+  showModal,
+  closeModal,
+  folders,
+  handleCreateNote,
+}: NoteFormProps) => {
   const createNote = async (noteData: NoteInterface) => {
     createNewNote(noteData);
+    handleCreateNote(noteData);
     closeModal(!showModal);
   };
 

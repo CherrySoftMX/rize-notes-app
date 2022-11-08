@@ -89,3 +89,27 @@ export const getAFolderNotes = async (folder: FolderInterface) => {
   );
   return notes;
 };
+
+/**
+ * Gets a folder by id
+ *
+ * @param id - The id of the folder to retrieve
+ * @param getNotes - Option to get all the notes of the folder
+ * @returns A {@Link FolderInterface} object.
+ */
+export const getFolderById = async (id: string, getNotes = false) => {
+  const folderQuery = await firestore()
+    .collection('folders')
+    .where('id', '==', id)
+    .get();
+  if (!folderQuery._docs) {
+    return {};
+  }
+  const folder = folderQuery._docs[0]._data;
+  if (getNotes) {
+    const notes = await getAFolderNotes(folder);
+    const completeFolder = { ...folder, notes };
+    return completeFolder;
+  }
+  return folder;
+};

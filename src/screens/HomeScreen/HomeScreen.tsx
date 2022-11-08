@@ -17,6 +17,7 @@ import { VStack } from '@react-native-material/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@screens/RootStackParams';
 import { useNavigation } from '@react-navigation/native';
+import { NoteInterface } from 'library/interfaces/NoteInterface';
 
 type homeScreenParams = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
@@ -36,8 +37,13 @@ export const HomeScreen = () => {
     folders.unshift(newFolder);
   };
 
+  const createNote = (note: NoteInterface) => {
+    const filteredFolders = folders.filter(folder => folder.id === note.folder);
+    const folder = filteredFolders[0];
+    folder.notes?.push(note.id ? note.id : 'newNote');
+  };
+
   const navigateToFolder = (folderId: string) => {
-    console.log('Navegando a: ', folderId);
     navigation.navigate('Folder', { folderId });
   };
 
@@ -80,6 +86,7 @@ export const HomeScreen = () => {
         showModal={showNotesModal}
         closeModal={setShowNotesModal}
         folders={folders}
+        handleCreateNote={createNote}
       />
       <FolderForm
         showModal={showFolderModal}
