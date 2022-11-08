@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { colors } from '../../design/tokens';
 import { FolderDetails } from '@organisms/FolderDetails';
 import { NoteList } from '@organisms/NoteList/NoteList';
 import { VStack } from '@react-native-material/core';
