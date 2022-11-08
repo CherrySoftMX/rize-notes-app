@@ -123,4 +123,4 @@ class AuthService {
 
 const auth = AuthService.getInstance();
 
-export { auth };
+export { auth, AuthService };

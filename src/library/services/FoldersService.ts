@@ -79,7 +79,7 @@ export const getFoldersWithNotes = async () => {
  * @param folder - A {@Link FolderInterface} object.
  * @returns An array of {@Link NoteInterface}
  */
-const getAFolderNotes = async (folder: FolderInterface) => {
+export const getAFolderNotes = async (folder: FolderInterface) => {
   if (!folder.notes) return [];
   const notes = await Promise.all(
     folder.notes.map(async noteId => {
