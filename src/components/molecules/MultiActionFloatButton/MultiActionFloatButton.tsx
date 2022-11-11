@@ -2,7 +2,7 @@ import React from 'react';
 import { FloatingAction } from 'react-native-floating-action';
 import { colors } from '../../../design/tokens';
 import { screens } from '../../../library/constants';
-import { useScreenContext } from '@hooks/useScreentContext';
+import { useRoute } from '@react-navigation/native';
 
 const actions = [
   {
@@ -22,7 +22,7 @@ const actions = [
 ];
 
 export const MultiActionFloatButton = ({ onNotePress, onFolderPress }: any) => {
-  const { name } = useScreenContext();
+  const { name } = useRoute();
 
   if (name !== screens.home) {
     return null;
@@ -38,8 +38,11 @@ export const MultiActionFloatButton = ({ onNotePress, onFolderPress }: any) => {
       iconWidth={20}
       distanceToEdge={{ horizontal: 20, vertical: 20 }}
       onPressItem={actionName => {
-        if (actionName === 'bt_note') onNotePress();
-        else onFolderPress();
+        if (actionName === 'bt_note') {
+          onNotePress();
+        } else {
+          onFolderPress();
+        }
       }}
     />
   );
