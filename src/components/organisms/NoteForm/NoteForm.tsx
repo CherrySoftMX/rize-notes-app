@@ -15,18 +15,17 @@ import { MenuLabel } from '@atoms/MenuLabel';
 import { FolderIcon } from '@atoms/FolderIcon';
 import { colors } from '../../../design/tokens';
 import { Formik } from 'formik';
-import { createNewNote } from '../../../library/services/NotesService';
-import { NoteInterface } from '../../../library/interfaces/NoteInterface';
-import { FolderInterface } from '../../../library/interfaces/FolderInterface';
+import { CreateNoteRequest } from '../../../library/interfaces/Note';
+import { Folder } from '../../../library/interfaces/Folder';
 
 /**
  * An interface containing the props to show and close the form.
  */
 interface NoteFormProps {
+  folders: Folder[];
   showModal: boolean;
   closeModal: (arg: boolean) => void;
-  folders: Array<FolderInterface>;
-  handleCreateNote: (note: NoteInterface) => void;
+  handleCreateNote: (noteRequest: CreateNoteRequest) => void;
 }
 
 /**
@@ -35,14 +34,13 @@ interface NoteFormProps {
  * @param param0 - {@link NoteFormProps}
  */
 export const NoteForm = ({
+  folders,
   showModal,
   closeModal,
-  folders,
   handleCreateNote,
 }: NoteFormProps) => {
-  const createNote = async (noteData: NoteInterface) => {
-    createNewNote(noteData);
-    handleCreateNote(noteData);
+  const onCreateNote = async (noteRequest: CreateNoteRequest) => {
+    handleCreateNote(noteRequest);
     closeModal(!showModal);
   };
 
@@ -55,11 +53,11 @@ export const NoteForm = ({
         initialValues={{
           name: '',
           content: '',
-          folder: folders[0]?.id || '',
+          folderId: folders[0]?.id || '',
           isLink: false,
           isFavorite: false,
         }}
-        onSubmit={values => createNote(values)}>
+        onSubmit={values => onCreateNote(values)}>
         {({ handleChange, handleSubmit, values, setFieldValue }) => (
           <View style={styles.background}>
             <View style={styles.container}>

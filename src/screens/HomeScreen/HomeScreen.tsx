@@ -11,7 +11,7 @@ import {
   getFolders,
   createNewFolder,
 } from '../../library/services/FoldersService';
-import { FolderInterface } from '.././../library/interfaces/FolderInterface';
+import { CreateFolderRequest, Folder } from '../../library/interfaces/Folder';
 import { MultiActionFloatButton } from '@molecules/MultiActionFloatButton';
 import { VStack } from '@react-native-material/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -51,13 +51,11 @@ export const HomeScreen = () => {
     folders.unshift(createFolder(folderRequest));
   };
 
-  useEffect(() => {
-    const loadFolders = async () => {
-      const loadedFolders = await getFolders();
-      setFolders(loadedFolders);
-    };
-    loadFolders();
-  }, []);
+  const onCreateNote = (noteRequest: CreateNoteRequest) => {
+    const newNote = createNote(noteRequest);
+    const noteFolder = folders.filter(f => f.id === noteRequest.folderId)[0];
+    noteFolder.noteIds.push(newNote.id);
+  };
 
   return (
     <SafeAreaView>
