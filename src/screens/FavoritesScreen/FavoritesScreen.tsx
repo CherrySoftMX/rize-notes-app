@@ -1,6 +1,8 @@
-import { NoteList } from '@organisms/NoteList/NoteList';
 import React from 'react';
+import { ComingSoonPlaceholder } from '@atoms/ComingSoonPlaceholder';
 
 export const FavoritesScreen = () => {
-  return <NoteList />;
+  return (
+    <ComingSoonPlaceholder content="Soon you'll be able to locate your favorite notes on a easy way!" />
+  );
 };
