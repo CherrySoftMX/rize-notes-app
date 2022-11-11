@@ -47,7 +47,9 @@ export const HomeScreen = () => {
     navigation.navigate('Folder', { folderId });
   };
 
-  const { colors } = useTheme();
+  const onCreateFolder = (folderRequest: CreateFolderRequest) => {
+    folders.unshift(createFolder(folderRequest));
+  };
 
   useEffect(() => {
     const loadFolders = async () => {

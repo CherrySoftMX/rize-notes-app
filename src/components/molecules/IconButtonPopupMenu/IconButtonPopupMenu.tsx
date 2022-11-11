@@ -5,21 +5,19 @@ import { Menu, MenuOptions, MenuTrigger } from 'react-native-popup-menu';
 import Icon from 'react-native-vector-icons/Ionicons';
 import IconEntypo from 'react-native-vector-icons/Entypo';
 
-interface IconButtonContextMenu {
+interface IconButtonContextMenuProps extends PressableProps {
   iconName: string;
   iconColor: string;
   iconSize?: number;
   width?: number;
   height?: number;
-  children: React.ReactNode;
   vAlign?: string;
   hAlign?: string;
   iconLibrary?: string;
+  children: React.ReactNode;
 }
 
-export const IconButtonPopupMenu: FC<
-  IconButtonContextMenu & PressableProps
-> = ({
+export const IconButtonPopupMenu: FC<IconButtonContextMenuProps> = ({
   iconName,
   iconColor,
   iconSize = fontSize.lg,
@@ -37,8 +35,6 @@ export const IconButtonPopupMenu: FC<
         <MenuTrigger>
           <View
             style={{
-              justifyContent: vAlign,
-              alignItems: hAlign,
               width: width,
               height: height,
             }}>

@@ -1,10 +1,10 @@
 import React from 'react';
 import { MenuLabel } from '@atoms/MenuLabel';
 import { Modal, Text, TextInput, View } from 'react-native';
-import { colors } from '../../../design/tokens/colors';
+import { colors } from '../../../design/tokens';
 import { styles } from '@organisms/NoteForm/NoteForm.style';
 import { useArrayNavigator } from '@hooks/useArrayNavigator';
-import { Foldercolor } from '@atoms/FolderColor';
+import { FolderColor } from '@atoms/FolderColor';
 import {
   Button,
   Flex,
@@ -14,12 +14,13 @@ import {
   VStack,
 } from '@react-native-material/core';
 import { Formik } from 'formik';
-import { FolderInterface } from '../../../library/interfaces/FolderInterface';
+import { CreateFolderRequest } from '../../../library/interfaces/Folder';
+import { When } from 'react-if';
 
 interface FolderFormProps {
   showModal: boolean;
   closeModal: (arg: boolean) => void;
-  onSubmit: (arg: FolderInterface) => void;
+  onSubmit: (arg: CreateFolderRequest) => void;
 }
 
 const colorOptions = [
@@ -35,8 +36,8 @@ export const FolderForm = ({
   onSubmit,
 }: FolderFormProps) => {
   const { currentIndex, setCurrentIndex } = useArrayNavigator(colorOptions);
-  const createFolder = async (folderData: FolderInterface) => {
-    onSubmit(folderData);
+  const createFolder = async (folderRequest: CreateFolderRequest) => {
+    onSubmit(folderRequest);
     closeModal(!showModal);
   };
   return (
@@ -53,7 +54,12 @@ export const FolderForm = ({
               isLimited: false,
               limit: '',
             }}
-            onSubmit={values => createFolder(values)}>
+            onSubmit={values =>
+              createFolder({
+                ...values,
+                limit: Number(values.limit) || undefined,
+              })
+            }>
             {({ handleChange, handleSubmit, values, setFieldValue }) => (
               <VStack spacing={25}>
                 <View>
@@ -69,7 +75,7 @@ export const FolderForm = ({
                   <MenuLabel>Folder color</MenuLabel>
                   <HStack spacing={6} style={styles.noteDetails}>
                     {colorOptions.map((option, index) => (
-                      <Foldercolor
+                      <FolderColor
                         key={index}
                         hexColor={option}
                         isSelected={currentIndex === index}
@@ -100,14 +106,16 @@ export const FolderForm = ({
                     </Flex>
                     <Spacer />
                     <Flex inline center>
-                      <Text>Limit:</Text>
-                      <TextInput
-                        style={styles.inputWithBorder}
-                        placeholder=""
-                        keyboardType="numeric"
-                        value={values.limit}
-                        onChangeText={handleChange('limit')}
-                      />
+                      <When condition={values.isLimited}>
+                        <Text>Limit:</Text>
+                        <TextInput
+                          style={styles.inputWithBorder}
+                          placeholder="10"
+                          keyboardType="numeric"
+                          value={values.limit}
+                          onChangeText={handleChange('limit')}
+                        />
+                      </When>
                     </Flex>
                   </HStack>
                 </View>

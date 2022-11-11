@@ -1,28 +1,33 @@
 import firestore from '@react-native-firebase/firestore';
 import { auth } from './AuthService';
 import uuid from 'react-native-uuid';
-import { FolderInterface } from '../interfaces/FolderInterface';
-import { NoteInterface } from '../interfaces/NoteInterface';
+import {
+  CreateFolderRequest,
+  Folder,
+  FolderWithNotes,
+} from '../interfaces/Folder';
 import { getNoteById } from './NotesService';
+import { Note } from '../interfaces/Note';
 
 /**
  * Inserts a new folder in the database.
  *
- * @param folderData - A folder.
+ * @param folderRequest - A folder.
  *
  * @returns The new folder
+ *
  * @beta
  */
-export const createNewFolder = (folderData: FolderInterface) => {
+export const createFolder = (folderRequest: CreateFolderRequest): Folder => {
   const userId = auth.getCurrentUserId();
-  const folderId = uuid.v4();
+  const folderId = uuid.v4() as string;
 
-  const newFolder: FolderInterface = {
-    ...folderData,
-    limit: folderData.isLimited ? folderData.limit : '0',
+  const newFolder: Folder = {
+    ...folderRequest,
     id: `${folderId}`,
-    user: userId,
-    notes: [],
+    userId,
+    limit: folderRequest.isLimited ? folderRequest.limit : 0,
+    noteIds: [],
   };
 
   firestore()
@@ -41,16 +46,16 @@ export const createNewFolder = (folderData: FolderInterface) => {
  *
  * @beta
  */
-export const getFolders = async () => {
+export const getFolders = async (): Promise<Folder[]> => {
   const userId = auth.getCurrentUserId();
 
   const folders = await firestore()
     .collection('folders')
-    .where('user', '==', userId)
+    .where('userId', '==', userId)
     .get();
 
-  if (folders._docs) {
-    return folders._docs.map((doc: any) => doc._data as FolderInterface);
+  if (folders.docs) {
+    return folders.docs.map((doc: any) => doc._data as Folder);
   } else {
     return [];
   }
@@ -61,16 +66,14 @@ export const getFolders = async () => {
  *
  * @returns An array of {@Link FolderInterface} with complete notes data.
  */
-export const getFoldersWithNotes = async () => {
-  const folders: Array<FolderInterface> = await getFolders();
-  const allFoldersWithNotes = await Promise.all(
-    folders.map(async (folder: FolderInterface) => {
-      const notes = await getAFolderNotes(folder);
-      const completeFolder = { ...folder, notes };
-      return completeFolder;
+export const getFoldersWithNotes = async (): Promise<FolderWithNotes[]> => {
+  const folders = await getFolders();
+  return await Promise.all(
+    folders.map(async folder => {
+      const notes = await getNotesOfFolder(folder);
+      return { ...folder, notes };
     }),
   );
-  return allFoldersWithNotes;
 };
 
 /**
@@ -79,37 +82,37 @@ export const getFoldersWithNotes = async () => {
  * @param folder - A {@Link FolderInterface} object.
  * @returns An array of {@Link NoteInterface}
  */
-export const getAFolderNotes = async (folder: FolderInterface) => {
-  if (!folder.notes) return [];
-  const notes = await Promise.all(
-    folder.notes.map(async noteId => {
-      const note: NoteInterface = await getNoteById(noteId);
-      return note;
+export const getNotesOfFolder = async (folder: Folder): Promise<Note[]> => {
+  if (!folder.noteIds) {
+    return [];
+  }
+  return await Promise.all(
+    folder.noteIds.map(async noteId => {
+      const note = await getNoteById(noteId);
+      return note!!;
     }),
   );
-  return notes;
 };
 
 /**
  * Gets a folder by id
  *
- * @param id - The id of the folder to retrieve
- * @param getNotes - Option to get all the notes of the folder
+ * @param folderId - The id of the folder to retrieve
  * @returns A {@Link FolderInterface} object.
  */
-export const getFolderById = async (id: string, getNotes = false) => {
+export const getFolderAndNotesById = async (
+  folderId: string,
+): Promise<FolderWithNotes | null> => {
   const folderQuery = await firestore()
     .collection('folders')
-    .where('id', '==', id)
+    .where('id', '==', folderId)
     .get();
-  if (!folderQuery._docs) {
-    return {};
+
+  if (!folderQuery.docs) {
+    return null;
   }
-  const folder = folderQuery._docs[0]._data;
-  if (getNotes) {
-    const notes = await getAFolderNotes(folder);
-    const completeFolder = { ...folder, notes };
-    return completeFolder;
-  }
-  return folder;
+
+  const folder = (folderQuery.docs[0] as any)._data as Folder;
+  const notes = await getNotesOfFolder(folder);
+  return { ...folder, notes };
 };

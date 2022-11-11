@@ -4,37 +4,35 @@ import { NoteList } from '@organisms/NoteList/NoteList';
 import { VStack } from '@react-native-material/core';
 import { styles } from './FolderScreen.style';
 import { Text } from 'react-native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
+import { RouteProp, useRoute } from '@react-navigation/native';
 import { RootStackParamList } from '@screens/RootStackParams';
-import { FolderInterface } from '../../library/interfaces/FolderInterface';
-import { getFolderById } from '../../library/services/FoldersService';
-import { NoteInterface } from 'library/interfaces/NoteInterface';
+import { FolderWithNotes } from '../../library/interfaces/Folder';
+import { getFolderAndNotesById } from '../../library/services/FoldersService';
 
-type FolderScreenProp = NativeStackNavigationProp<RootStackParamList, 'Folder'>;
 type FolderRouteProp = RouteProp<RootStackParamList, 'Folder'>;
 
 export const FolderScreen = () => {
-  const navigation = useNavigation<FolderScreenProp>();
   const route = useRoute<FolderRouteProp>();
-  const [folder, setFolder] = useState({} as FolderInterface);
+  const [folderWithNotes, setFolderWithNotes] = useState<FolderWithNotes>();
 
   useEffect(() => {
-    const fetchFolder = async () => {
-      const receivedFolder = await getFolderById(route.params.folderId, true);
-      setFolder(receivedFolder);
-    };
-    fetchFolder();
+    getFolderAndNotesById(route.params.folderId).then(result => {
+      if (result) {
+        setFolderWithNotes(result);
+      }
+    });
   }, [route.params.folderId]);
 
   return (
     <VStack fill>
-      <FolderDetails {...folder} />
+      {folderWithNotes && (
+        <FolderDetails
+          {...folderWithNotes}
+          noteCount={folderWithNotes.notes.length}
+        />
+      )}
       <Text style={styles.sectionTitle}>Notes</Text>
-      <NoteList
-        notes={folder.notes as unknown as Array<NoteInterface>}
-        handleClick={() => {}}
-      />
+      <NoteList notes={folderWithNotes?.notes || []} handleClick={() => {}} />
     </VStack>
   );
 };
