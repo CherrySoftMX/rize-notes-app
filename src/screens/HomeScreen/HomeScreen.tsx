@@ -1,46 +1,40 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SearchBar } from '@molecules/SearchBar';
 import { ScreenTitle } from '@atoms/ScreenTitle';
 import { AntiquityFilterOptionsList } from '@molecules/AntiquityFilterOptionsList';
 import { SafeAreaView, View } from 'react-native';
-import { useTheme } from '@react-navigation/native';
+import { useNavigation, useTheme } from '@react-navigation/native';
 import { FolderList } from '@organisms/FolderList/FolderList';
 import { NoteForm } from '@organisms/NoteForm';
 import { FolderForm } from '@organisms/FolderForm/FolderForm';
 import {
+  createFolder,
   getFolders,
-  createNewFolder,
 } from '../../library/services/FoldersService';
 import { CreateFolderRequest, Folder } from '../../library/interfaces/Folder';
 import { MultiActionFloatButton } from '@molecules/MultiActionFloatButton';
 import { VStack } from '@react-native-material/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@screens/RootStackParams';
-import { useNavigation } from '@react-navigation/native';
-import { NoteInterface } from 'library/interfaces/NoteInterface';
+import { CreateNoteRequest } from 'library/interfaces/Note';
+import { createNote } from '../../library/services/NotesService';
 
-type homeScreenParams = NativeStackNavigationProp<RootStackParamList, 'Home'>;
+type HomeScreenParams = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
 export const HomeScreen = () => {
+  const { colors } = useTheme();
+  const navigation = useNavigation<HomeScreenParams>();
   const [showNotesModal, setShowNotesModal] = useState(false);
   const [showFolderModal, setShowFolderModal] = useState(false);
-  const [folders, setFolders] = useState([] as Array<FolderInterface>);
-  const navigation = useNavigation<homeScreenParams>();
+  const [folders, setFolders] = useState<Folder[]>([]);
+
+  useEffect(() => {
+    getFolders().then(result => setFolders(result));
+  }, []);
 
   const openNotesForm = async () => {
     setShowNotesModal(true);
-    getFolders().then(receivedFolders => setFolders(receivedFolders));
-  };
-
-  const createFolder = (folder: FolderInterface) => {
-    const newFolder: FolderInterface = createNewFolder(folder);
-    folders.unshift(newFolder);
-  };
-
-  const createNote = (note: NoteInterface) => {
-    const filteredFolders = folders.filter(folder => folder.id === note.folder);
-    const folder = filteredFolders[0];
-    folder.notes?.push(note.id ? note.id : 'newNote');
+    getFolders().then(result => setFolders(result));
   };
 
   const navigateToFolder = (folderId: string) => {
@@ -83,15 +77,15 @@ export const HomeScreen = () => {
         onFolderPress={() => setShowFolderModal(!showFolderModal)}
       />
       <NoteForm
+        folders={folders}
         showModal={showNotesModal}
         closeModal={setShowNotesModal}
-        folders={folders}
-        handleCreateNote={createNote}
+        handleCreateNote={onCreateNote}
       />
       <FolderForm
         showModal={showFolderModal}
         closeModal={setShowFolderModal}
-        onSubmit={createFolder}
+        onSubmit={onCreateFolder}
       />
     </SafeAreaView>
   );

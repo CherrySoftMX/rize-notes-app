@@ -8,7 +8,7 @@ interface FolderColorProps extends TouchableOpacityProps {
   isSelected: boolean;
 }
 
-export const Foldercolor = ({
+export const FolderColor = ({
   hexColor,
   isSelected,
   ...rest

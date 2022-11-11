@@ -6,24 +6,26 @@ import { ScreenProvider } from './src/library/context/ScreenContext';
 import auth from '@react-native-firebase/auth';
 import { Text } from 'react-native';
 import { useAuth } from '@hooks/useAuth';
+import { Else, If, Then } from 'react-if';
 
 const App = () => {
   const { user, startAuth } = useAuth();
   useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(startAuth);
-    return subscriber;
+    return auth().onAuthStateChanged(startAuth);
   }, [startAuth]);
 
   return (
     <MenuProvider>
       <NavigationContainer>
         <ScreenProvider>
-          {user && (
-            <>
+          <If condition={user}>
+            <Then>
               <BottomTabNavigation />
-            </>
-          )}
-          {!user && <Text>Cargando...</Text>}
+            </Then>
+            <Else>
+              <Text>Loading...</Text>
+            </Else>
+          </If>
         </ScreenProvider>
       </NavigationContainer>
     </MenuProvider>

@@ -5,6 +5,7 @@ import MasonryList from '@react-native-seoul/masonry-list';
 import { Folder } from '../../../library/interfaces/Folder';
 
 interface FolderListProps {
+  ListHeaderComponent?: React.ReactNode | null;
   handleClick: (e: any) => void;
   folders: Folder[];
 }

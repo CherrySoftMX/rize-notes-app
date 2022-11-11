@@ -1,6 +1,6 @@
 import React from 'react';
 import { Svg, Path } from 'react-native-svg';
-import { colors } from '../../../design/tokens/colors';
+import { colors } from '../../../design/tokens';
 import { View } from 'react-native';
 
 interface FolderIconProps {
@@ -9,7 +9,7 @@ interface FolderIconProps {
   color?: string;
 }
 
-const secondaryFolderColors = {
+const secondaryFolderColors: { [key: string]: string } = {
   '#FEB95A': '#A97124',
   '#1FC0A9': '#0A8877',
   '#EE786B': '#C44B3F',
