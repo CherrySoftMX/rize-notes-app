@@ -1,18 +1,18 @@
 import React from 'react';
 import { FlatList } from 'react-native';
-import { Note } from '@organisms/Note/';
-import { NoteInterface } from '../../../library/interfaces/NoteInterface';
+import { NoteCard } from '@organisms/NoteCard/';
+import { Note } from '../../../library/interfaces/Note';
 
 interface NoteListProps {
   handleClick: (id: string) => void;
-  notes: Array<NoteInterface>;
+  notes: Note[];
 }
 
 export const NoteList = ({ handleClick, notes }: NoteListProps) => {
   return (
     <FlatList
       data={notes}
-      renderItem={({ item }) => <Note {...item} />}
+      renderItem={({ item }) => <NoteCard {...item} />}
       keyExtractor={item => item.id}
     />
   );
