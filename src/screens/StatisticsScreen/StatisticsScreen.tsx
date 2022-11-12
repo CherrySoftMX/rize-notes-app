@@ -1,11 +1,8 @@
-import { FolderList } from '@organisms/FolderList/FolderList';
-import { HStack } from '@react-native-material/core';
 import React from 'react';
+import { ComingSoonPlaceholder } from '@atoms/ComingSoonPlaceholder';
 
 export const StatisticsScreen = () => {
   return (
-    <HStack m={4}>
-      <FolderList />
-    </HStack>
+    <ComingSoonPlaceholder content="Soon you will be able to see statistics about your notes and folders!" />
   );
 };
