@@ -18,6 +18,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@screens/RootStackParams';
 import { useNavigation } from '@react-navigation/native';
 import { NoteInterface } from 'library/interfaces/NoteInterface';
+import SplashScreen from 'react-native-splash-screen';
 
 type homeScreenParams = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
@@ -53,6 +54,7 @@ export const HomeScreen = () => {
     const loadFolders = async () => {
       const loadedFolders = await getFolders();
       setFolders(loadedFolders);
+      SplashScreen.hide();
     };
     loadFolders();
   }, []);
