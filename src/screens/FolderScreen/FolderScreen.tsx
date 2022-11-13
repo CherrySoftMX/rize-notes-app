@@ -8,6 +8,7 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import { RootStackParamList } from '@screens/RootStackParams';
 import { FolderWithNotes } from '../../library/interfaces/Folder';
 import { getFolderAndNotesById } from '../../library/services/FoldersService';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 type FolderRouteProp = RouteProp<RootStackParamList, 'Folder'>;
 
@@ -24,15 +25,17 @@ export const FolderScreen = () => {
   }, [route.params.folderId]);
 
   return (
-    <VStack fill>
-      {folderWithNotes && (
-        <FolderDetails
-          {...folderWithNotes}
-          noteCount={folderWithNotes.notes.length}
-        />
-      )}
-      <Text style={styles.sectionTitle}>Notes</Text>
-      <NoteList notes={folderWithNotes?.notes || []} handleClick={() => {}} />
-    </VStack>
+    <SafeAreaView>
+      <VStack>
+        {folderWithNotes && (
+          <FolderDetails
+            {...folderWithNotes}
+            noteCount={folderWithNotes.notes.length}
+          />
+        )}
+        <Text style={styles.sectionTitle}>Notes</Text>
+        <NoteList notes={folderWithNotes?.notes || []} handleClick={() => {}} />
+      </VStack>
+    </SafeAreaView>
   );
 };

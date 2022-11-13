@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { LoginScreen } from '@screens/LoginScreen';
-import { RegisterScreen } from '@screens/RegisterScreen';
+import { ComingSoonPlaceholder } from '@atoms/ComingSoonPlaceholder';
 
 export const SettingsScreen = () => {
-  return <RegisterScreen />;
+  return (
+    <ComingSoonPlaceholder content="SignUp, cloud backup, dark theme and more!" />
+  );
 };

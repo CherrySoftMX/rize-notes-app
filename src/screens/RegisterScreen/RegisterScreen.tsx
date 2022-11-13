@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SafeAreaView, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import {
   Flex,
   Surface,
@@ -13,6 +13,7 @@ import { spacing } from '../../design/tokens/spacing';
 import { MenuLabel } from '@atoms/MenuLabel';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { colors } from '../../design/tokens/colors';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 /**
  * The register screen

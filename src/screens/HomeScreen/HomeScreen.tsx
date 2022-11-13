@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { SearchBar } from '@molecules/SearchBar';
 import { ScreenTitle } from '@atoms/ScreenTitle';
 import { AntiquityFilterOptionsList } from '@molecules/AntiquityFilterOptionsList';
-import { SafeAreaView, View } from 'react-native';
+import { View } from 'react-native';
 import { useNavigation, useTheme } from '@react-navigation/native';
 import { FolderList } from '@organisms/FolderList/FolderList';
 import { NoteForm } from '@organisms/NoteForm';
@@ -18,6 +18,8 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@screens/RootStackParams';
 import { CreateNoteRequest } from 'library/interfaces/Note';
 import { createNote } from '../../library/services/NotesService';
+import SplashScreen from 'react-native-splash-screen';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 type HomeScreenParams = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
@@ -29,7 +31,10 @@ export const HomeScreen = () => {
   const [folders, setFolders] = useState<Folder[]>([]);
 
   useEffect(() => {
-    getFolders().then(result => setFolders(result));
+    getFolders().then(result => {
+      setFolders(result);
+      SplashScreen.hide();
+    });
   }, []);
 
   const openNotesForm = async () => {

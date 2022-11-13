@@ -7,6 +7,7 @@ import auth from '@react-native-firebase/auth';
 import { Text } from 'react-native';
 import { useAuth } from '@hooks/useAuth';
 import { Else, If, Then } from 'react-if';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const App = () => {
   const { user, startAuth } = useAuth();
@@ -15,20 +16,22 @@ const App = () => {
   }, [startAuth]);
 
   return (
-    <MenuProvider>
-      <NavigationContainer>
-        <ScreenProvider>
-          <If condition={user}>
-            <Then>
-              <BottomTabNavigation />
-            </Then>
-            <Else>
-              <Text>Loading...</Text>
-            </Else>
-          </If>
-        </ScreenProvider>
-      </NavigationContainer>
-    </MenuProvider>
+    <SafeAreaProvider>
+      <MenuProvider>
+        <NavigationContainer>
+          <ScreenProvider>
+            <If condition={user}>
+              <Then>
+                <BottomTabNavigation />
+              </Then>
+              <Else>
+                <Text>Loading...</Text>
+              </Else>
+            </If>
+          </ScreenProvider>
+        </NavigationContainer>
+      </MenuProvider>
+    </SafeAreaProvider>
   );
 };
 
