@@ -32,7 +32,7 @@ export const createNote = (noteRequest: CreateNoteRequest): Note => {
     .collection('folders')
     .doc(noteRequest.folderId)
     .update({
-      notes: firestore.FieldValue.arrayUnion(noteId),
+      noteIds: firestore.FieldValue.arrayUnion(noteId),
     })
     .catch((err: any) => console.log(err));
 
