@@ -10,6 +10,7 @@ import { RootStackParamList } from '@screens/RootStackParams';
 import { FolderInterface } from '../../library/interfaces/FolderInterface';
 import { getFolderById } from '../../library/services/FoldersService';
 import { NoteInterface } from 'library/interfaces/NoteInterface';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 type FolderScreenProp = NativeStackNavigationProp<RootStackParamList, 'Folder'>;
 type FolderRouteProp = RouteProp<RootStackParamList, 'Folder'>;
@@ -28,13 +29,15 @@ export const FolderScreen = () => {
   }, [route.params.folderId]);
 
   return (
-    <VStack fill>
-      <FolderDetails {...folder} />
-      <Text style={styles.sectionTitle}>Notes</Text>
-      <NoteList
-        notes={folder.notes as unknown as Array<NoteInterface>}
-        handleClick={() => {}}
-      />
-    </VStack>
+    <SafeAreaView>
+      <VStack fill>
+        <FolderDetails {...folder} />
+        <Text style={styles.sectionTitle}>Notes</Text>
+        <NoteList
+          notes={folder.notes as unknown as Array<NoteInterface>}
+          handleClick={() => {}}
+        />
+      </VStack>
+    </SafeAreaView>
   );
 };

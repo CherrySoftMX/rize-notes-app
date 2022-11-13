@@ -6,6 +6,7 @@ import { ScreenProvider } from './src/library/context/ScreenContext';
 import auth from '@react-native-firebase/auth';
 import { Text } from 'react-native';
 import { useAuth } from '@hooks/useAuth';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const App = () => {
   const { user, startAuth } = useAuth();
@@ -15,18 +16,20 @@ const App = () => {
   }, [startAuth]);
 
   return (
-    <MenuProvider>
-      <NavigationContainer>
-        <ScreenProvider>
-          {user && (
-            <>
-              <BottomTabNavigation />
-            </>
-          )}
-          {!user && <Text>Cargando...</Text>}
-        </ScreenProvider>
-      </NavigationContainer>
-    </MenuProvider>
+    <SafeAreaProvider>
+      <MenuProvider>
+        <NavigationContainer>
+          <ScreenProvider>
+            {user && (
+              <>
+                <BottomTabNavigation />
+              </>
+            )}
+            {!user && <Text>Cargando...</Text>}
+          </ScreenProvider>
+        </NavigationContainer>
+      </MenuProvider>
+    </SafeAreaProvider>
   );
 };
 

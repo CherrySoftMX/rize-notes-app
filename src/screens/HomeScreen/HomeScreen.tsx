@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { SearchBar } from '@molecules/SearchBar';
 import { ScreenTitle } from '@atoms/ScreenTitle';
 import { AntiquityFilterOptionsList } from '@molecules/AntiquityFilterOptionsList';
-import { SafeAreaView, View } from 'react-native';
+import { View } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { FolderList } from '@organisms/FolderList/FolderList';
 import { NoteForm } from '@organisms/NoteForm';
@@ -19,6 +19,7 @@ import { RootStackParamList } from '@screens/RootStackParams';
 import { useNavigation } from '@react-navigation/native';
 import { NoteInterface } from 'library/interfaces/NoteInterface';
 import SplashScreen from 'react-native-splash-screen';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 type homeScreenParams = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
