@@ -6,7 +6,7 @@ import {
   Folder,
   FolderWithNotes,
 } from '../interfaces/Folder';
-import { getNoteById } from './NotesService';
+import { getNoteById, deleteNoteById } from './NotesService';
 import { Note } from '../interfaces/Note';
 
 /**
@@ -98,21 +98,56 @@ export const getNotesOfFolder = async (folder: Folder): Promise<Note[]> => {
  * Gets a folder by id
  *
  * @param folderId - The id of the folder to retrieve
- * @returns A {@Link FolderInterface} object.
+ * @returns A {@Link Folder} object.
  */
-export const getFolderAndNotesById = async (
-  folderId: string,
-): Promise<FolderWithNotes | null> => {
+export const getFolderById = async (folderId: string) => {
   const folderQuery = await firestore()
     .collection('folders')
     .where('id', '==', folderId)
     .get();
-
   if (!folderQuery.docs) {
-    return null;
+    return {} as Folder;
   }
-
   const folder = (folderQuery.docs[0] as any)._data as Folder;
+  return folder;
+};
+
+/**
+ * Gets a folder and its notes by id
+ *
+ * @param folderId - The id of the folder to retrieve
+ * @returns A {@Link FolderWithNotes} object.
+ */
+export const getFolderAndNotesById = async (
+  folderId: string,
+): Promise<FolderWithNotes | null> => {
+  const folder = await getFolderById(folderId);
   const notes = await getNotesOfFolder(folder);
   return { ...folder, notes };
+};
+
+/**
+ * Deletes all the notes associated to a folder
+ *
+ * @param folderId - The id of the folder
+ */
+export const deleteAllNotesOfAFolderById = async (folder: Folder) => {
+  await Promise.all(
+    folder.noteIds.map(async noteId => {
+      await deleteNoteById(noteId);
+    }),
+  );
+};
+
+/**
+ * Deletes a folder and its notes by id
+ *
+ * @param folderId - The id of the folder to delete
+ * @returns The deleted {@Link Folder} object.
+ */
+export const deleteFolderById = async (folderId: string) => {
+  const folderToDelete: Folder = await getFolderById(folderId);
+  await deleteAllNotesOfAFolderById(folderToDelete);
+  await firestore().collection('folders').doc(folderId).delete();
+  return folderToDelete;
 };
