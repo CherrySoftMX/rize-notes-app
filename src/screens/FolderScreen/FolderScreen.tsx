@@ -30,7 +30,7 @@ export const FolderScreen = () => {
 
   return (
     <SafeAreaView>
-      <VStack fill>
+      <VStack>
         <FolderDetails {...folder} />
         <Text style={styles.sectionTitle}>Notes</Text>
         <NoteList
