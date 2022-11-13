@@ -4,16 +4,19 @@ import { Flex } from '@react-native-material/core';
 import { HairLine } from '@atoms/HairLine';
 import { NotePreview } from '@organisms/NotePreview/NotePreview';
 import { colors } from '../../../design/tokens';
-import { styles } from './Note.style';
-import { IconButtonPopupMenu } from '@molecules/IconButtonContextMenu';
+import { styles } from './NoteCard.style';
+import { IconButtonPopupMenu } from '@molecules/IconButtonPopupMenu';
 import { MenuOption } from 'react-native-popup-menu';
 import { Alert } from 'react-native';
-import { NoteInterface } from '../../../library/interfaces/NoteInterface';
+import { Note } from '../../../library/interfaces/Note';
+import { When } from 'react-if';
 
-export const Note = ({ name, content, isLink, isFavorite }: NoteInterface) => {
+export const NoteCard = ({ name, content, isLink, isFavorite }: Note) => {
   return (
     <Flex fill direction="row" self="center" style={styles.card}>
-      {isFavorite && <HairLine w={4} h="100%" color={colors.yellowishMedium} />}
+      <When condition={isFavorite}>
+        <HairLine w={4} h="100%" color={colors.yellowishMedium} />
+      </When>
       <CustomIcon
         name={isLink ? 'link' : 'text-fields'}
         size={20}
@@ -21,8 +24,8 @@ export const Note = ({ name, content, isLink, isFavorite }: NoteInterface) => {
         isRounded
       />
       <NotePreview
-        title={name ? name : 'Unnamed'}
-        content={content ? content : 'Empty note'}
+        title={name || 'Unnamed'}
+        content={content || 'Empty note'}
       />
       <IconButtonPopupMenu
         iconName="menu"

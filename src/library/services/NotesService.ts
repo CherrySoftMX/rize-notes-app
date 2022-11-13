@@ -1,42 +1,42 @@
 import firestore from '@react-native-firebase/firestore';
 import uuid from 'react-native-uuid';
 import { auth } from './AuthService';
-import { NoteInterface } from '../interfaces/NoteInterface';
+import { CreateNoteRequest, Note } from '../interfaces/Note';
 
 /**
  * Inserts a new note in the database.
  *
- * @param noteData - A note.
+ * @param noteRequest - A note.
  *
  * @beta
  */
-export const createNewNote = async (noteData: NoteInterface) => {
+export const createNote = (noteRequest: CreateNoteRequest): Note => {
   const userId = auth.getCurrentUserId();
-  const noteId = uuid.v4();
+  const noteId = uuid.v4() as string;
 
-  const createdNote: NoteInterface = {
-    ...noteData,
+  const newNote: Note = {
+    ...noteRequest,
     id: `${noteId}`,
     image: '',
-    user: userId,
+    userId: userId,
     categories: [],
   };
 
   firestore()
     .collection('notes')
     .doc(noteId)
-    .set(createdNote)
+    .set(newNote)
     .catch((err: any) => console.log(err));
 
   firestore()
     .collection('folders')
-    .doc(noteData.folder)
+    .doc(noteRequest.folderId)
     .update({
-      notes: firestore.FieldValue.arrayUnion(noteId),
+      noteIds: firestore.FieldValue.arrayUnion(noteId),
     })
     .catch((err: any) => console.log(err));
 
-  return createdNote;
+  return newNote;
 };
 
 /**
@@ -46,16 +46,16 @@ export const createNewNote = async (noteData: NoteInterface) => {
  *
  * @beta
  */
-export const getNotes = async () => {
+export const getNotes = async (): Promise<Note[]> => {
   const userId = auth.getCurrentUserId();
 
   const notes = await firestore()
     .collection('notes')
-    .where('user', '==', userId)
+    .where('userId', '==', userId)
     .get();
 
-  if (notes._docs) {
-    return notes._docs.map((doc: any) => doc._data);
+  if (notes.docs) {
+    return notes.docs.map((doc: any) => doc._data);
   } else {
     return [];
   }
@@ -64,19 +64,19 @@ export const getNotes = async () => {
 /**
  * Gets a note by its id.
  *
- * @param id - The id of a note.
- * @returns An object of type {@Link Noteinterface}.
+ * @param noteId - The id of a note.
+ * @returns An object of type {@Link NoteInterface}.
  */
-export const getNoteById = async (id: string) => {
-  const note = await firestore()
+export const getNoteById = async (noteId: string): Promise<Note | null> => {
+  const note = (await firestore()
     .collection('notes')
-    .doc(id)
+    .doc(noteId)
     .get()
-    .catch((err: any) => console.log(err));
+    .catch((err: any) => console.log(err))) as any;
 
   if (note._exists) {
-    return note._data;
+    return note._data as Note;
   } else {
-    return {};
+    return null;
   }
 };

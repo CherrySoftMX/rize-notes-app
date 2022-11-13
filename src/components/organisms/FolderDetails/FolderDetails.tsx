@@ -1,33 +1,41 @@
 import React from 'react';
 import { Alert, Text } from 'react-native';
 import { Box, Flex, HStack, Spacer, VStack } from '@react-native-material/core';
-import { IconButtonPopupMenu } from '@molecules/IconButtonContextMenu';
+import { IconButtonPopupMenu } from '@molecules/IconButtonPopupMenu';
 import { MenuOption } from 'react-native-popup-menu';
 import { ProgressBar } from '@atoms/ProgressBar/ProgressBar';
 import { colors } from '../../../design/tokens';
 import { styles as folderDetailsStyle } from './FolderDetails.style';
-import { styles } from '@organisms/Folder/Folder.style';
-import { FolderInterface } from '../../../library/interfaces/FolderInterface';
+import { styles } from '@organisms/FolderCard/FolderCard.style';
 import { FolderIcon } from '@atoms/FolderIcon';
+import { When } from 'react-if';
+
+interface FolderDetailsProps {
+  name: string;
+  color: string;
+  isLimited: boolean;
+  limit?: number;
+  noteCount: number;
+}
 
 export const FolderDetails = ({
   name,
   color,
   isLimited,
   limit,
-  notes,
-}: FolderInterface) => {
+  noteCount,
+}: FolderDetailsProps) => {
   return (
     <Flex style={styles.container} p={4}>
       <HStack>
-        <FolderIcon color={color ? color : colors.yellowishMedium} />
+        <FolderIcon color={color || colors.yellowishMedium} />
         <Spacer />
         <VStack>
           <Text style={folderDetailsStyle.title}>
-            {name ? name : 'Unnamed folder'}
+            {name || 'Unnamed folder'}
           </Text>
           <Text style={folderDetailsStyle.subtitle}>
-            {`${notes ? notes.length : 0} notes`}
+            {`${noteCount || 0} notes`}
           </Text>
         </VStack>
         <Spacer />
@@ -38,12 +46,9 @@ export const FolderDetails = ({
       </HStack>
       <Spacer />
       <Box p={6} m={6}>
-        {isLimited && (
-          <ProgressBar
-            completed={notes ? notes.length : 0}
-            size={limit ? Number(limit) : 0}
-          />
-        )}
+        <When condition={isLimited}>
+          <ProgressBar noteCount={noteCount} size={limit || 0} />
+        </When>
       </Box>
     </Flex>
   );

@@ -1,16 +1,24 @@
 import React from 'react';
-import { Folder } from '@organisms/Folder/Folder';
+import { FolderCard } from '@organisms/FolderCard/FolderCard';
 import { styles } from './FolderList.style';
-import FOLDER from '../../../library/services/Folders.json';
 import MasonryList from '@react-native-seoul/masonry-list';
+import { Folder } from '../../../library/interfaces/Folder';
 
-export const FolderList = ({ handleClick, ...rest }: any) => {
+interface FolderListProps {
+  ListHeaderComponent?: React.ReactNode | null;
+  handleClick: (e: any) => void;
+  folders: Folder[];
+}
+
+export const FolderList = ({ handleClick, ...rest }: FolderListProps) => {
   return (
     <MasonryList
       {...rest}
-      data={rest.folders || FOLDER.folders}
       numColumns={2}
-      renderItem={({ item }) => <Folder folder={item} handleClick={handleClick}/>}
+      data={rest.folders}
+      renderItem={({ item }) => (
+        <FolderCard folder={item as Folder} handleClick={handleClick} />
+      )}
       keyExtractor={item => item.id}
       contentContainerStyle={styles.container}
       containerStyle={styles.list}

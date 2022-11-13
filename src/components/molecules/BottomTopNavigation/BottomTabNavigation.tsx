@@ -6,7 +6,6 @@ import { HomeScreen } from '@screens/HomeScreen';
 import { FavoritesScreen } from '@screens/FavoritesScreen';
 import { StatisticsScreen } from '@screens/StatisticsScreen';
 import { colors, fontSize } from '../../../design/tokens';
-import { useScreenContext } from '@hooks/useScreentContext';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { FolderScreen } from '@screens/FolderScreen';
 
@@ -14,20 +13,13 @@ const Tab = createMaterialBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
 
 export const BottomTabNavigation = () => {
-  const { setScreenName } = useScreenContext();
-
   return (
     <Tab.Navigator
       initialRouteName="Home"
       activeColor={colors.lightGreen}
-      screenListeners={({ route }) => ({
-        state: () => {
-          setScreenName(route.name);
-        },
-      })}
       barStyle={{ backgroundColor: colors.pureWhite }}>
       <Tab.Screen
-        name="Home"
+        name="HomeStack"
         component={HomeStackScreens}
         options={{
           tabBarLabel: 'Home',
@@ -76,7 +68,7 @@ const HomeStackScreens = () => {
       screenOptions={{
         headerShown: false,
       }}>
-      <HomeStack.Screen name="HomeScreen" component={HomeScreen} />
+      <HomeStack.Screen name="Home" component={HomeScreen} />
       <HomeStack.Screen name="Folder" component={FolderScreen} />
     </HomeStack.Navigator>
   );
