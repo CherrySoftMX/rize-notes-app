@@ -96,7 +96,7 @@ export const NoteForm = ({
                       rowTextStyle={styles.dropdownText}
                       search={true}
                       onSelect={selectedItem => {
-                        setFieldValue('folder', selectedItem.id);
+                        setFieldValue('folderId', selectedItem.id);
                       }}
                       renderDropdownIcon={isOpened => {
                         return (
