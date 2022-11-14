@@ -10,6 +10,8 @@ import { FolderForm } from '@organisms/FolderForm/FolderForm';
 import {
   createFolder,
   getFolders,
+  deleteFolderById,
+  getFolderById,
 } from '../../library/services/FoldersService';
 import { CreateFolderRequest, Folder } from '../../library/interfaces/Folder';
 import { MultiActionFloatButton } from '@molecules/MultiActionFloatButton';
@@ -17,7 +19,7 @@ import { VStack } from '@react-native-material/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@screens/RootStackParams';
 import { CreateNoteRequest } from 'library/interfaces/Note';
-import { createNote } from '../../library/services/NotesService';
+import { createNote, getNotes } from '../../library/services/NotesService';
 import SplashScreen from 'react-native-splash-screen';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -56,6 +58,11 @@ export const HomeScreen = () => {
     noteFolder.noteIds.push(newNote.id);
   };
 
+  const onDeleteFolder = async (folderId: string) => {
+    await deleteFolderById(folderId);
+    setFolders(folders.filter(f => f.id !== folderId));
+  };
+
   return (
     <SafeAreaView>
       <FolderList
@@ -76,6 +83,7 @@ export const HomeScreen = () => {
         }
         folders={folders}
         handleClick={navigateToFolder}
+        handleDelete={onDeleteFolder}
       />
       <MultiActionFloatButton
         onNotePress={() => openNotesForm()}

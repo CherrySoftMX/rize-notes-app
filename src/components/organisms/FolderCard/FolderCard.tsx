@@ -13,9 +13,14 @@ import { When } from 'react-if';
 interface FolderCardProps {
   folder: Folder;
   handleClick: (id: string) => void;
+  handleDelete: (id: string) => void;
 }
 
-export const FolderCard = ({ folder, handleClick }: FolderCardProps) => {
+export const FolderCard = ({
+  folder,
+  handleClick,
+  handleDelete,
+}: FolderCardProps) => {
   const { id, name, color, isLimited, limit = 1, noteIds } = folder;
 
   return (
@@ -34,10 +39,7 @@ export const FolderCard = ({ folder, handleClick }: FolderCardProps) => {
               vAlign="flex-start"
               hAlign="flex-end">
               <MenuOption onSelect={() => Alert.alert('Edit')} text="Edit" />
-              <MenuOption
-                onSelect={() => Alert.alert('Delete')}
-                text="Delete"
-              />
+              <MenuOption onSelect={() => handleDelete(id)} text="Delete" />
             </IconButtonPopupMenu>
           </HStack>
           <Box>

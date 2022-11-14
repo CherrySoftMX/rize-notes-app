@@ -80,3 +80,15 @@ export const getNoteById = async (noteId: string): Promise<Note | null> => {
     return null;
   }
 };
+
+/**
+ * Deletes a note by id.
+ *
+ * @param noteId - The id of the note to delete.
+ * @returns The deleted {@Link Note} object.
+ */
+export const deleteNoteById = async (noteId: string) => {
+  const deletedNote = await getNoteById(noteId);
+  await firestore().collection('notes').doc(noteId).delete();
+  return deletedNote;
+};

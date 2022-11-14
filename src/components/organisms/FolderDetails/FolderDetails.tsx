@@ -41,7 +41,6 @@ export const FolderDetails = ({
         <Spacer />
         <IconButtonPopupMenu iconName="menu" iconColor={colors.greyNickel}>
           <MenuOption onSelect={() => Alert.alert('Edit')} text="Edit" />
-          <MenuOption onSelect={() => Alert.alert('Delete')} text="Delete" />
         </IconButtonPopupMenu>
       </HStack>
       <Spacer />
