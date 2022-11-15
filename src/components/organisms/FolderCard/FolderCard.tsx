@@ -14,12 +14,14 @@ interface FolderCardProps {
   folder: Folder;
   handleClick: (id: string) => void;
   handleDelete: (id: string) => void;
+  handleEdit: (folder: Folder) => void;
 }
 
 export const FolderCard = ({
   folder,
   handleClick,
   handleDelete,
+  handleEdit,
 }: FolderCardProps) => {
   const { id, name, color, isLimited, limit = 1, noteIds } = folder;
 
@@ -38,7 +40,7 @@ export const FolderCard = ({
               iconColor={colors.greyNickel}
               vAlign="flex-start"
               hAlign="flex-end">
-              <MenuOption onSelect={() => Alert.alert('Edit')} text="Edit" />
+              <MenuOption onSelect={() => handleEdit(folder)} text="Edit" />
               <MenuOption onSelect={() => handleDelete(id)} text="Delete" />
             </IconButtonPopupMenu>
           </HStack>

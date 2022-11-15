@@ -14,13 +14,18 @@ import {
   VStack,
 } from '@react-native-material/core';
 import { Formik } from 'formik';
-import { CreateFolderRequest } from '../../../library/interfaces/Folder';
+import {
+  CreateFolderRequest,
+  Folder,
+} from '../../../library/interfaces/Folder';
 import { When } from 'react-if';
 
 interface FolderFormProps {
   showModal: boolean;
   closeModal: (arg: boolean) => void;
-  onSubmit: (arg: CreateFolderRequest) => void;
+  onCreate: (arg: CreateFolderRequest) => void;
+  onEdit: (arg: Folder) => void;
+  folder?: Folder | undefined;
 }
 
 const colorOptions = [
@@ -33,11 +38,27 @@ const colorOptions = [
 export const FolderForm = ({
   showModal,
   closeModal,
-  onSubmit,
+  onCreate,
+  onEdit,
+  folder,
 }: FolderFormProps) => {
-  const { currentIndex, setCurrentIndex } = useArrayNavigator(colorOptions);
-  const createFolder = async (folderRequest: CreateFolderRequest) => {
-    onSubmit(folderRequest);
+  const { currentIndex, setCurrentIndex } = useArrayNavigator(
+    colorOptions,
+    0,
+    folder?.color,
+  );
+  const createFolder = (folderRequest: CreateFolderRequest) => {
+    onCreate(folderRequest);
+    closeModal(!showModal);
+  };
+  const editFolder = (
+    completeFolder: Folder,
+    folderRequest: CreateFolderRequest,
+  ) => {
+    onEdit({
+      ...completeFolder,
+      ...folderRequest,
+    });
     closeModal(!showModal);
   };
   return (
@@ -49,17 +70,24 @@ export const FolderForm = ({
         <View style={styles.container}>
           <Formik
             initialValues={{
-              name: '',
-              color: colorOptions[currentIndex],
-              isLimited: false,
-              limit: '',
+              name: folder ? folder.name : '',
+              color: folder ? folder.color : colorOptions[currentIndex],
+              isLimited: folder ? folder.isLimited : false,
+              limit: folder && folder.limit ? `${folder.limit}` : '',
             }}
-            onSubmit={values =>
-              createFolder({
-                ...values,
-                limit: Number(values.limit) || undefined,
-              })
-            }>
+            onSubmit={values => {
+              if (folder) {
+                editFolder(folder, {
+                  ...values,
+                  limit: Number(values.limit) || undefined,
+                });
+              } else {
+                createFolder({
+                  ...values,
+                  limit: Number(values.limit) || undefined,
+                });
+              }
+            }}>
             {({ handleChange, handleSubmit, values, setFieldValue }) => (
               <VStack spacing={25}>
                 <View>
