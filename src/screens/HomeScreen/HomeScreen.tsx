@@ -83,6 +83,11 @@ export const HomeScreen = () => {
     setFolders([..._folders]);
   };
 
+  const onCloseFolderModal = (showModal: boolean) => {
+    setShowFolderModal(showModal);
+    setFolderToEdit(undefined);
+  };
+
   return (
     <SafeAreaView>
       <FolderList
@@ -118,7 +123,7 @@ export const HomeScreen = () => {
       />
       <FolderForm
         showModal={showFolderModal}
-        closeModal={setShowFolderModal}
+        closeModal={onCloseFolderModal}
         onCreate={onCreateFolder}
         onEdit={onEditFolder}
         folder={folderToEdit}
