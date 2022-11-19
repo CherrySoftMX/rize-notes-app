@@ -8,12 +8,14 @@ interface FolderListProps {
   ListHeaderComponent?: React.ReactNode | null;
   handleClick: (e: any) => void;
   handleDelete: (id: string) => void;
+  handleEdit: (arg: Folder) => void;
   folders: Folder[];
 }
 
 export const FolderList = ({
   handleClick,
   handleDelete,
+  handleEdit,
   ...rest
 }: FolderListProps) => {
   return (
@@ -26,6 +28,7 @@ export const FolderList = ({
           folder={item as Folder}
           handleClick={handleClick}
           handleDelete={handleDelete}
+          handleEdit={handleEdit}
         />
       )}
       keyExtractor={item => item.id}

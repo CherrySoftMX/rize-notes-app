@@ -151,3 +151,18 @@ export const deleteFolderById = async (folderId: string) => {
   await firestore().collection('folders').doc(folderId).delete();
   return folderToDelete;
 };
+
+/**
+ * Edits the content of a folder
+ *
+ * @param folder - A {@Link Folder} object containing the new data
+ */
+export const editFolder = async (folderRequest: Folder) => {
+  const { name, color, isLimited, limit } = folderRequest;
+  await firestore().collection('folders').doc(folderRequest.id).update({
+    name,
+    color,
+    isLimited,
+    limit,
+  });
+};
