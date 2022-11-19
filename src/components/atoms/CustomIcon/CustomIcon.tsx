@@ -1,13 +1,15 @@
 import React from 'react';
-import { Alert, FlexAlignType, Pressable, View } from 'react-native';
+import { Alert, Pressable, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { styles } from './CustomIcon.style';
+import { colors } from '../../../design/tokens/colors';
 
 interface CustomIconProps {
   name: string;
   size: number;
   color: string;
   isRounded?: boolean;
+  backgroundColor?: string;
 }
 
 export const CustomIcon = ({
@@ -15,12 +17,13 @@ export const CustomIcon = ({
   size,
   color,
   isRounded,
+  backgroundColor = colors.mediumGrey,
 }: CustomIconProps) => {
-  let flexPosition: FlexAlignType = isRounded ? 'center' : 'flex-start';
   return (
-    <View style={[styles.fs, { alignSelf: flexPosition }]}>
+    <View
+      style={[styles.fs, { alignSelf: isRounded ? 'center' : 'flex-start' }]}>
       <Pressable
-        style={isRounded && styles.round}
+        style={[isRounded ? styles.round : {}, { backgroundColor }]}
         onPress={() => {
           Alert.alert('Icon Pressed!');
         }}>

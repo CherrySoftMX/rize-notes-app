@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { SearchBar } from '@molecules/SearchBar';
-import { ScreenTitle } from '@atoms/ScreenTitle';
 import { AntiquityFilterOptionsList } from '@molecules/AntiquityFilterOptionsList';
-import { View } from 'react-native';
-import { useNavigation, useTheme } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { FolderList } from '@organisms/FolderList/FolderList';
 import { NoteForm } from '@organisms/NoteForm';
 import { FolderForm } from '@organisms/FolderForm/FolderForm';
@@ -15,18 +12,17 @@ import {
 } from '../../library/services/FoldersService';
 import { CreateFolderRequest, Folder } from '../../library/interfaces/Folder';
 import { MultiActionFloatButton } from '@molecules/MultiActionFloatButton';
-import { VStack } from '@react-native-material/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@screens/RootStackParams';
 import { CreateNoteRequest } from 'library/interfaces/Note';
 import { createNote } from '../../library/services/NotesService';
 import SplashScreen from 'react-native-splash-screen';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { ScreenHeader } from '@organisms/ScreenHeader';
 
 type HomeScreenParams = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
 export const HomeScreen = () => {
-  const { colors } = useTheme();
   const navigation = useNavigation<HomeScreenParams>();
   const [showNotesModal, setShowNotesModal] = useState(false);
   const [showFolderModal, setShowFolderModal] = useState(false);
@@ -92,19 +88,9 @@ export const HomeScreen = () => {
     <SafeAreaView>
       <FolderList
         ListHeaderComponent={
-          <View style={{ backgroundColor: colors.background, paddingTop: 16 }}>
-            <VStack spacing={15}>
-              <View>
-                <ScreenTitle label="My notes" />
-              </View>
-              <View>
-                <SearchBar />
-              </View>
-              <View>
-                <AntiquityFilterOptionsList />
-              </View>
-            </VStack>
-          </View>
+          <ScreenHeader title="My notes">
+            <AntiquityFilterOptionsList />
+          </ScreenHeader>
         }
         folders={folders}
         handleClick={navigateToFolder}

@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors } from '../../../design/tokens';
+import { colors, spacing } from '../../../design/tokens';
 
 export const styles = StyleSheet.create({
   card: {
@@ -13,8 +13,18 @@ export const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 3,
     elevation: 4,
+    paddingHorizontal: spacing.xm + 2,
+    overflow: 'hidden',
   },
   icon: {
-    alignSelf: 'flex-start',
+    position: 'absolute',
+    top: 0,
+    right: 0,
+  },
+  textContainer: {
+    maxWidth: '63%',
+    marginLeft: spacing.xm,
+    overflow: 'hidden',
+    flexWrap: 'nowrap',
   },
 });

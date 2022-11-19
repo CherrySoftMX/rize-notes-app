@@ -1,6 +1,6 @@
 import React from 'react';
-import { Alert, Text } from 'react-native';
-import { Box, Flex, HStack, Spacer, VStack } from '@react-native-material/core';
+import { Alert, Text, View } from 'react-native';
+import { Flex } from '@react-native-material/core';
 import { IconButtonPopupMenu } from '@molecules/IconButtonPopupMenu';
 import { MenuOption } from 'react-native-popup-menu';
 import { ProgressBar } from '@atoms/ProgressBar/ProgressBar';
@@ -26,29 +26,34 @@ export const FolderDetails = ({
   noteCount,
 }: FolderDetailsProps) => {
   return (
-    <Flex style={styles.container} p={4}>
-      <HStack>
-        <FolderIcon color={color || colors.yellowishMedium} />
-        <Spacer />
-        <VStack>
-          <Text style={folderDetailsStyle.title}>
+    <View style={[styles.container, folderDetailsStyle.container]}>
+      <Flex direction="row" style={folderDetailsStyle.headerContainer}>
+        <View style={folderDetailsStyle.folderIcon}>
+          <FolderIcon color={color || colors.yellowishMedium} />
+        </View>
+        <View style={folderDetailsStyle.titleContainer}>
+          <Text style={folderDetailsStyle.title} numberOfLines={2}>
             {name || 'Unnamed folder'}
           </Text>
           <Text style={folderDetailsStyle.subtitle}>
             {`${noteCount || 0} notes`}
           </Text>
-        </VStack>
-        <Spacer />
-        <IconButtonPopupMenu iconName="menu" iconColor={colors.greyNickel}>
+        </View>
+        <IconButtonPopupMenu
+          iconLibrary="entypo"
+          iconName="dots-three-vertical"
+          iconColor={colors.greyNickel}
+          style={folderDetailsStyle.menuIcon}
+          height={60}
+          width={55}>
           <MenuOption onSelect={() => Alert.alert('Edit')} text="Edit" />
         </IconButtonPopupMenu>
-      </HStack>
-      <Spacer />
-      <Box p={6} m={6}>
+      </Flex>
+      <View style={folderDetailsStyle.barContainer}>
         <When condition={isLimited}>
           <ProgressBar noteCount={noteCount} size={limit || 0} />
         </When>
-      </Box>
-    </Flex>
+      </View>
+    </View>
   );
 };
