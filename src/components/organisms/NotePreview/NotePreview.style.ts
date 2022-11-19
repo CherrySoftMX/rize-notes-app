@@ -17,6 +17,5 @@ export const styles = StyleSheet.create({
   item: {
     padding: 10,
     margin: 2,
-    width: 250,
   },
 });

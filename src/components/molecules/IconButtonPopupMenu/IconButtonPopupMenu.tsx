@@ -35,6 +35,8 @@ export const IconButtonPopupMenu: FC<IconButtonContextMenuProps> = ({
         <MenuTrigger>
           <View
             style={{
+              justifyContent: vAlign,
+              alignItems: hAlign,
               width: width,
               height: height,
             }}>
