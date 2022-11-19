@@ -24,7 +24,7 @@ export const NoteList = ({ handleClick, notes, ...rest }: NoteListProps) => {
       ListEmptyComponent={
         <Flex center mt={spacing.md}>
           <File size={205} mood="sad" color="#83D1FB" />
-          <Text style={styles.emptyText}>Seems like the folder is empty.</Text>
+          <Text style={styles.emptyText}>Seems like the folder is empty</Text>
         </Flex>
       }
     />
