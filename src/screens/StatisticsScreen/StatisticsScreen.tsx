@@ -7,6 +7,7 @@ import { CardContainer } from '@atoms/CardContainer';
 import { Flex, Box, HStack, VStack } from '@react-native-material/core';
 import { styles } from './StatisticsScreen.style';
 import { spacing } from '../../design/tokens';
+import { LabelWithCircle } from '@atoms/LabelWithCircle/LabelWithCircle';
 
 const data = [10, 5, 1, 0, 4, 0, 0, 18, 3];
 const pieData = [
@@ -35,14 +36,18 @@ export const StatisticsScreen = () => {
           <Flex direction="row" style={styles.pieChartCard}>
             <View style={[styles.pieContainerSides, styles.pieContainerLabels]}>
               <VStack spacing={spacing.sm}>
-                <HStack spacing={spacing.xm}>
-                  <View style={[styles.circle, styles.linkColor]} />
-                  <Text>Links</Text>
-                </HStack>
-                <HStack spacing={spacing.xm}>
-                  <View style={[styles.circle, styles.textColor]} />
-                  <Text>Text</Text>
-                </HStack>
+                <View>
+                  <LabelWithCircle
+                    label="Links"
+                    color={styles.linkColor.backgroundColor}
+                  />
+                </View>
+                <View>
+                  <LabelWithCircle
+                    label="Text"
+                    color={styles.textColor.backgroundColor}
+                  />
+                </View>
               </VStack>
             </View>
             <View style={styles.pieContainer}>
@@ -54,14 +59,18 @@ export const StatisticsScreen = () => {
             </View>
             <View style={[styles.pieContainerSides, styles.pieContainerLabels]}>
               <VStack spacing={spacing.sm}>
-                <HStack spacing={spacing.xm}>
-                  <View style={[styles.circle, styles.linkColor]} />
-                  <Text>65%</Text>
-                </HStack>
-                <HStack spacing={spacing.xm}>
-                  <View style={[styles.circle, styles.textColor]} />
-                  <Text>35%</Text>
-                </HStack>
+                <View>
+                  <LabelWithCircle
+                    label="65%"
+                    color={styles.linkColor.backgroundColor}
+                  />
+                </View>
+                <View>
+                  <LabelWithCircle
+                    label="35%"
+                    color={styles.textColor.backgroundColor}
+                  />
+                </View>
               </VStack>
             </View>
           </Flex>
