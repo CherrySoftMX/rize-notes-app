@@ -4,8 +4,9 @@ import { styles } from '@atoms/ScreenTitle/ScreenTitle.style';
 
 interface ScreenTitleProps {
   label: string;
+  align?: string;
 }
 
-export const ScreenTitle = ({ label }: ScreenTitleProps) => {
-  return <Text style={styles.label}>{label}</Text>;
+export const ScreenTitle = ({ label, align = 'center' }: ScreenTitleProps) => {
+  return <Text style={[styles.label, { alignSelf: align }]}>{label}</Text>;
 };

@@ -4,8 +4,10 @@ import { View } from 'react-native';
 import { ScreenTitle } from '@atoms/ScreenTitle';
 import { styles } from './StatisticsScreen.style';
 import { PieChartCard } from '@organisms/PieChartCard/';
-import { VStack } from '@react-native-material/core';
+import { VStack, HStack } from '@react-native-material/core';
 import { spacing } from '../../design/tokens';
+import { DataCard } from '@molecules/DataCard';
+import { AntiquityFilterOptionsList } from '@molecules/AntiquityFilterOptionsList';
 
 const pieData = [
   {
@@ -33,12 +35,34 @@ export const StatisticsScreen = () => {
             <ScreenTitle label="Statistics summary" />
           </View>
           <View>
+            <AntiquityFilterOptionsList />
+          </View>
+          <View>
             <PieChartCard
               data={pieData}
               numText={pieData[0].value}
               numLinks={pieData[1].value}
             />
           </View>
+          <View style={styles.sectionTitle}>
+            <ScreenTitle label="Total quantities" align="flex-start" />
+          </View>
+          <HStack spacing={spacing.sm}>
+            <View style={styles.dataCardContainer}>
+              <DataCard label="Text notes" value={`${pieData[0].value}`} />
+            </View>
+            <View style={styles.dataCardContainer}>
+              <DataCard label="Link notes" value={`${pieData[1].value}`} />
+            </View>
+          </HStack>
+          <HStack spacing={spacing.sm}>
+            <View style={styles.dataCardContainer}>
+              <DataCard label="Favorites" value="27" />
+            </View>
+            <View style={styles.dataCardContainer}>
+              <DataCard label="Folders" value="18" />
+            </View>
+          </HStack>
         </VStack>
       </View>
     </SafeAreaView>

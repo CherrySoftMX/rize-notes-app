@@ -4,8 +4,14 @@ import { styles } from './CardContainer.style';
 
 interface CardContainerProps {
   children: React.ReactChild;
+  vPadding?: number;
 }
 
-export const CardContainer = ({ children }: CardContainerProps) => {
-  return <View style={styles.container}>{children}</View>;
+export const CardContainer = ({ children, vPadding }: CardContainerProps) => {
+  return (
+    <View
+      style={[styles.container, vPadding ? { paddingVertical: vPadding } : {}]}>
+      {children}
+    </View>
+  );
 };
