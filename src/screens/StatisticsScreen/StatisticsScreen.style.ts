@@ -3,7 +3,8 @@ import { spacing } from '../../design/tokens/';
 
 export const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 30,
+    paddingHorizontal: spacing.lg,
+    marginBottom: spacing.lg,
   },
   headerContainer: {
     marginBottom: spacing.xm,
@@ -13,5 +14,19 @@ export const styles = StyleSheet.create({
   },
   dataCardContainer: {
     flex: 1 / 2,
+  },
+  lineChartContainer: {
+    height: 200,
+    flexDirection: 'row',
+  },
+  lineChartContainerHorizontal: {
+    flex: 1,
+    marginLeft: spacing.xm,
+  },
+  lineChart: {
+    flex: 1,
+  },
+  lineChartHorizontalLabel: {
+    marginHorizontal: -10,
   },
 });
