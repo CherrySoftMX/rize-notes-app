@@ -7,11 +7,13 @@ import { spacing } from '../../../design/tokens';
 
 interface ScreenHeaderProps {
   title?: string;
+  mHorizontalSearchBar?: number;
   children: React.ReactChild;
 }
 
 export const ScreenHeader = ({
   title = 'Screen Header',
+  mHorizontalSearchBar,
   children,
 }: ScreenHeaderProps) => {
   return (
@@ -21,7 +23,7 @@ export const ScreenHeader = ({
           <ScreenTitle label={title} />
         </View>
         <View>
-          <SearchBar />
+          <SearchBar mHorizontal={mHorizontalSearchBar} />
         </View>
         <View>{children}</View>
       </VStack>

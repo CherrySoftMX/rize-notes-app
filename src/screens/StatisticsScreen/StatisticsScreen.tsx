@@ -8,6 +8,7 @@ import { VStack, HStack } from '@react-native-material/core';
 import { spacing } from '../../design/tokens';
 import { DataCard } from '@molecules/DataCard';
 import { AntiquityFilterOptionsList } from '@molecules/AntiquityFilterOptionsList';
+import { ScreenHeader } from '@organisms/ScreenHeader';
 
 const pieData = [
   {
@@ -30,13 +31,12 @@ export const StatisticsScreen = () => {
   return (
     <SafeAreaView>
       <View style={styles.container}>
+        <View style={styles.headerContainer}>
+          <ScreenHeader title="Statistics summary" mHorizontalSearchBar={0}>
+            <AntiquityFilterOptionsList mHorizontal={0} />
+          </ScreenHeader>
+        </View>
         <VStack spacing={spacing.sm}>
-          <View>
-            <ScreenTitle label="Statistics summary" />
-          </View>
-          <View>
-            <AntiquityFilterOptionsList />
-          </View>
           <View>
             <PieChartCard
               data={pieData}

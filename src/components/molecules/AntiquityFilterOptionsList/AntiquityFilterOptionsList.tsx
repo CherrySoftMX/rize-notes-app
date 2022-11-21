@@ -3,13 +3,25 @@ import { useArrayNavigator } from '@hooks/useArrayNavigator';
 import { AntiquityFilterOptionChip } from '@atoms/AntiquityFilterOptionChip';
 import { ScrollView, View } from 'react-native';
 
-const filterOptions = ['Last week', 'Last month', 'Last 6 months', 'Last year'];
+const filterOptions = [
+  'All time',
+  'Last week',
+  'Last month',
+  'Last 6 months',
+  'Last year',
+];
 
-export const AntiquityFilterOptionsList = () => {
+interface AntiquityFilterOptionsListProps {
+  mHorizontal?: number;
+}
+
+export const AntiquityFilterOptionsList = ({
+  mHorizontal = 10,
+}: AntiquityFilterOptionsListProps) => {
   const { currentIndex, setCurrentIndex } = useArrayNavigator(filterOptions);
 
   return (
-    <View style={{ marginHorizontal: 10, marginBottom: 10 }}>
+    <View style={{ marginHorizontal: mHorizontal, marginBottom: 10 }}>
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
         {filterOptions.map((option, index) => (
           <AntiquityFilterOptionChip
