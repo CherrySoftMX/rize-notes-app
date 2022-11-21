@@ -1,15 +1,12 @@
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Text, View } from 'react-native';
-import { LineChart, Grid, PieChart } from 'react-native-svg-charts';
+import { View } from 'react-native';
 import { ScreenTitle } from '@atoms/ScreenTitle';
-import { CardContainer } from '@atoms/CardContainer';
-import { Flex, Box, HStack, VStack } from '@react-native-material/core';
 import { styles } from './StatisticsScreen.style';
+import { PieChartCard } from '@organisms/PieChartCard/';
+import { VStack } from '@react-native-material/core';
 import { spacing } from '../../design/tokens';
-import { LabelWithCircle } from '@atoms/LabelWithCircle/LabelWithCircle';
 
-const data = [10, 5, 1, 0, 4, 0, 0, 18, 3];
 const pieData = [
   {
     value: 36,
@@ -31,59 +28,18 @@ export const StatisticsScreen = () => {
   return (
     <SafeAreaView>
       <View style={styles.container}>
-        <ScreenTitle label="Statistics summary" />
-        <CardContainer>
-          <Flex direction="row" style={styles.pieChartCard}>
-            <View style={[styles.pieContainerSides, styles.pieContainerLabels]}>
-              <VStack spacing={spacing.sm}>
-                <View>
-                  <LabelWithCircle
-                    label="Links"
-                    color={styles.linkColor.backgroundColor}
-                  />
-                </View>
-                <View>
-                  <LabelWithCircle
-                    label="Text"
-                    color={styles.textColor.backgroundColor}
-                  />
-                </View>
-              </VStack>
-            </View>
-            <View style={styles.pieContainer}>
-              <PieChart style={{ height: 130 }} data={pieData} innerRadius="60%"/>
-              <View style={styles.chartLabel}>
-                <Text style={styles.chartTextCount}>104</Text>
-                <Text style={styles.chartTextSubtitle}>Notes</Text>
-              </View>
-            </View>
-            <View style={[styles.pieContainerSides, styles.pieContainerLabels]}>
-              <VStack spacing={spacing.sm}>
-                <View>
-                  <LabelWithCircle
-                    label="65%"
-                    color={styles.linkColor.backgroundColor}
-                  />
-                </View>
-                <View>
-                  <LabelWithCircle
-                    label="35%"
-                    color={styles.textColor.backgroundColor}
-                  />
-                </View>
-              </VStack>
-            </View>
-          </Flex>
-        </CardContainer>
-        <View>
-          <LineChart
-            style={{ height: 200 }}
-            data={data}
-            svg={{ stroke: 'rgb(134, 65, 244)' }}
-            contentInset={{ top: 20, bottom: 20 }}>
-            <Grid />
-          </LineChart>
-        </View>
+        <VStack spacing={spacing.sm}>
+          <View>
+            <ScreenTitle label="Statistics summary" />
+          </View>
+          <View>
+            <PieChartCard
+              data={pieData}
+              numText={pieData[0].value}
+              numLinks={pieData[1].value}
+            />
+          </View>
+        </VStack>
       </View>
     </SafeAreaView>
   );
