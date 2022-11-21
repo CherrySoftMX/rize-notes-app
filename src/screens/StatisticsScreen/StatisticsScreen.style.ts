@@ -15,18 +15,4 @@ export const styles = StyleSheet.create({
   dataCardContainer: {
     flex: 1 / 2,
   },
-  lineChartContainer: {
-    height: 200,
-    flexDirection: 'row',
-  },
-  lineChartContainerHorizontal: {
-    flex: 1,
-    marginLeft: spacing.xm,
-  },
-  lineChart: {
-    flex: 1,
-  },
-  lineChartHorizontalLabel: {
-    marginHorizontal: -10,
-  },
 });

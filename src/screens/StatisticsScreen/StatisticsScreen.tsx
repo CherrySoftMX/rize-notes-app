@@ -1,24 +1,18 @@
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { View, ScrollView, Text } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { ScreenTitle } from '@atoms/ScreenTitle';
 import { styles } from './StatisticsScreen.style';
 import { PieChartCard } from '@organisms/PieChartCard/';
-import { VStack, HStack, Flex } from '@react-native-material/core';
+import { VStack, HStack } from '@react-native-material/core';
 import { spacing } from '../../design/tokens';
 import { DataCard } from '@molecules/DataCard';
 import { AntiquityFilterOptionsList } from '@molecules/AntiquityFilterOptionsList';
 import { ScreenHeader } from '@organisms/ScreenHeader';
-import { LineChart, Grid, XAxis, YAxis } from 'react-native-svg-charts';
-import { CardContainer } from '@atoms/CardContainer';
-import { ChartVerticalLine } from '@atoms/ChartVerticalLine';
+import { LineChartCard } from '@organisms/LineChartCard';
 
-const lineChartData = [5, 7, 3, 4, 9, 10, 2];
+const lineChartData = [5, 6, 2, 4, 8, 10, 8];
 const daysOfTheWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
-const axesSvg = { fontSize: 10, fill: 'grey' };
-const verticalContentInset = { top: 10, bottom: 10 };
-const xAxisHeight = 30;
 
 const pieData = [
   {
@@ -77,38 +71,7 @@ export const StatisticsScreen = () => {
             <View style={styles.sectionTitle}>
               <ScreenTitle label="Weekly activity" align="flex-start" />
             </View>
-            <CardContainer vPadding={spacing.lg}>
-              <VStack spacing={spacing.xm}>
-                <View style={styles.lineChartContainer}>
-                  <YAxis
-                    data={lineChartData}
-                    style={{ marginBottom: xAxisHeight }}
-                    contentInset={verticalContentInset}
-                    svg={axesSvg}
-                  />
-                  <View style={styles.lineChartContainerHorizontal}>
-                    <LineChart
-                      style={styles.lineChart}
-                      data={lineChartData}
-                      contentInset={verticalContentInset}
-                      svg={{ stroke: 'rgb(134, 65, 244)' }}>
-                      <Grid direction="BOTH" />
-                      <ChartVerticalLine index={1} />
-                    </LineChart>
-                    <XAxis
-                      style={styles.lineChartHorizontalLabel}
-                      data={lineChartData}
-                      formatLabel={(value, index) => daysOfTheWeek[index]}
-                      contentInset={{ left: 10, right: 10 }}
-                      svg={axesSvg}
-                    />
-                  </View>
-                </View>
-                <Flex center>
-                  <Text>Notes created per day</Text>
-                </Flex>
-              </VStack>
-            </CardContainer>
+            <LineChartCard data={lineChartData} labels={daysOfTheWeek} />
           </VStack>
         </View>
       </ScrollView>
