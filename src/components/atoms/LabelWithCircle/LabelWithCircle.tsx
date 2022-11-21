@@ -9,7 +9,10 @@ interface LabelWithCircleProps {
   color: string;
 }
 
-export const LabelWithCircle = ({ label, color }: LabelWithCircleProps) => {
+export const LabelWithCircle = ({
+  label = '',
+  color,
+}: LabelWithCircleProps) => {
   return (
     <HStack spacing={spacing.xm}>
       <View style={[styles.circle, { backgroundColor: color }]} />

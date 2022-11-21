@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { spacing } from '../../design/tokens/';
+import { spacing, fontType } from '../../design/tokens/';
 
 export const styles = StyleSheet.create({
   container: {
@@ -14,5 +14,9 @@ export const styles = StyleSheet.create({
   },
   dataCardContainer: {
     flex: 1 / 2,
+  },
+  chartLabel: {
+    fontFamily: fontType.bold,
+    marginTop: spacing.xm,
   },
 });
