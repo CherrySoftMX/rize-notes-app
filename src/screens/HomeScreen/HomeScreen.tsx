@@ -19,6 +19,8 @@ import { createNote } from '../../library/services/NotesService';
 import SplashScreen from 'react-native-splash-screen';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScreenHeader } from '@organisms/ScreenHeader';
+import { useRecoilState } from 'recoil';
+import { foldersState } from '../../library/state/foldersState';
 
 type HomeScreenParams = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
@@ -26,17 +28,17 @@ export const HomeScreen = () => {
   const navigation = useNavigation<HomeScreenParams>();
   const [showNotesModal, setShowNotesModal] = useState(false);
   const [showFolderModal, setShowFolderModal] = useState(false);
-  const [folders, setFolders] = useState<Folder[]>([]);
   const [folderToEdit, setFolderToEdit] = useState<Folder | undefined>(
     undefined,
   );
+  const [folders, setFolders] = useRecoilState(foldersState);
 
   useEffect(() => {
     getFolders().then(result => {
       setFolders(result);
       SplashScreen.hide();
     });
-  }, []);
+  }, [setFolders]);
 
   const openNotesForm = async () => {
     setShowNotesModal(true);
@@ -52,18 +54,27 @@ export const HomeScreen = () => {
   };
 
   const onCreateFolder = (folderRequest: CreateFolderRequest) => {
-    folders.unshift(createFolder(folderRequest));
+    const newFolder = createFolder(folderRequest);
+    setFolders(previousState => [newFolder, ...previousState]);
   };
 
   const onCreateNote = (noteRequest: CreateNoteRequest) => {
     const newNote = createNote(noteRequest);
-    const noteFolder = folders.filter(f => f.id === noteRequest.folderId)[0];
-    noteFolder.noteIds.push(newNote.id);
+    setFolders((previous: Array<Folder>) => {
+      const _folders: Array<Folder> = previous.map(folder => {
+        if (folder.id === noteRequest.folderId) {
+          return { ...folder, noteIds: [...folder.noteIds, newNote.id] };
+        } else {
+          return folder;
+        }
+      });
+      return [..._folders];
+    });
   };
 
   const onDeleteFolder = async (folderId: string) => {
     await deleteFolderById(folderId);
-    setFolders(folders.filter(f => f.id !== folderId));
+    setFolders(previousState => previousState.filter(f => f.id !== folderId));
   };
 
   const onEditFolder = async (folderRequest: Folder) => {
