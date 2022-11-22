@@ -20,6 +20,7 @@
     "@react-navigation/native": "^6.0.13",
     "@react-navigation/native-stack": "^6.9.1",
     "@types/react-kawaii": "^0.17.0",
+    "@types/react-native-svg-charts": "^5.0.12",
     "formik": "^2.2.9",
     "react": "18.1.0",
     "react-if": "^4.1.4",
@@ -32,7 +33,8 @@
     "react-native-screens": "^3.18.2",
     "react-native-select-dropdown": "^2.0.4",
     "react-native-splash-screen": "^3.3.0",
-    "react-native-svg": "^13.5.0",
+    "react-native-svg": "^13.6.0",
+    "react-native-svg-charts": "^5.4.0",
     "react-native-uuid": "^2.0.1",
     "react-native-vector-icons": "^9.2.0",
     "yup": "^0.32.11"

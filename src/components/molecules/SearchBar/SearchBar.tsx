@@ -8,9 +8,19 @@ import { IconButtonPopupMenu } from '@molecules/IconButtonPopupMenu';
 import { MenuOption } from 'react-native-popup-menu';
 import { fontSize } from '../../../design/tokens';
 
-export const SearchBar = () => {
+interface SearchBarProps {
+  mHorizontal?: number;
+}
+
+export const SearchBar = ({ mHorizontal }: SearchBarProps) => {
   return (
-    <View elevation={4} category="medium" style={styles.searchBarShadow}>
+    <View
+      elevation={4}
+      category="medium"
+      style={[
+        styles.searchBarShadow,
+        mHorizontal !== undefined ? { marginHorizontal: mHorizontal } : {},
+      ]}>
       <Flex direction="row" style={styles.container}>
         <SearchByNoteTypeButton />
         <TextInput placeholder="Search" style={styles.textInput} />
