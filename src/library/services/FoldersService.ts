@@ -134,7 +134,7 @@ export const getFolderAndNotesById = async (
 export const deleteAllNotesOfAFolderById = async (folder: Folder) => {
   await Promise.all(
     folder.noteIds.map(async noteId => {
-      await deleteNoteById(noteId);
+      await deleteNoteById(noteId, false);
     }),
   );
 };
@@ -158,11 +158,12 @@ export const deleteFolderById = async (folderId: string) => {
  * @param folder - A {@Link Folder} object containing the new data
  */
 export const editFolder = async (folderRequest: Folder) => {
-  const { name, color, isLimited, limit } = folderRequest;
+  const { name, color, isLimited, limit, noteIds } = folderRequest;
   await firestore().collection('folders').doc(folderRequest.id).update({
     name,
     color,
     isLimited,
     limit,
+    noteIds,
   });
 };

@@ -21,9 +21,13 @@ import { useSetRecoilState } from 'recoil';
 import { foldersState } from '../../library/state/foldersState';
 import { FolderForm } from '@organisms/FolderForm/FolderForm';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { deleteNoteById } from '../../library/services/NotesService';
 
 type FolderRouteProp = RouteProp<RootStackParamList, 'Folder'>;
-type FolderScreenParams = NativeStackNavigationProp<RootStackParamList, 'Folder'>;
+type FolderScreenParams = NativeStackNavigationProp<
+  RootStackParamList,
+  'Folder'
+>;
 
 export const FolderScreen = () => {
   const navigation = useNavigation<FolderScreenParams>();
@@ -73,6 +77,37 @@ export const FolderScreen = () => {
     navigation.goBack();
   };
 
+  const onDeleteNote = async (noteId: string) => {
+    const deletedNote = await deleteNoteById(noteId, true);
+    if (!deletedNote) {
+      return;
+    }
+    const notes = folderWithNotes.notes.filter(
+      note => note.id !== deletedNote.id,
+    );
+    const editedFolder: FolderWithNotes = { ...folderWithNotes, notes };
+    setFolderWithNotes(editedFolder);
+    setFoldersState(previousState =>
+      previousState.map(folder => {
+        if (folder.id === editedFolder.id) {
+          const notesReferences = folder.noteIds.filter(id => id !== noteId);
+          const newFolderState: Folder = {
+            id: editedFolder.id,
+            userId: editedFolder.userId,
+            name: editedFolder.name,
+            color: editedFolder.color,
+            isLimited: editedFolder.isLimited,
+            limit: editedFolder.limit,
+            noteIds: notesReferences,
+          };
+          return newFolderState;
+        } else {
+          return folder;
+        }
+      }),
+    );
+  };
+
   return (
     <SafeAreaView>
       <NoteList
@@ -95,6 +130,7 @@ export const FolderScreen = () => {
         }
         notes={folderWithNotes?.notes || []}
         handleClick={() => {}}
+        handleDelete={onDeleteNote}
       />
       <FolderForm
         showModal={showFolderModal}

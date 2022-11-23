@@ -2,6 +2,7 @@ import firestore from '@react-native-firebase/firestore';
 import uuid from 'react-native-uuid';
 import { auth } from './AuthService';
 import { CreateNoteRequest, Note } from '../interfaces/Note';
+import { getFolderById, editFolder } from './FoldersService';
 
 /**
  * Inserts a new note in the database.
@@ -74,7 +75,7 @@ export const getNoteById = async (noteId: string): Promise<Note | null> => {
     .get()
     .catch((err: any) => console.log(err))) as any;
 
-  if (note._exists) {
+  if (note?._exists) {
     return note._data as Note;
   } else {
     return null;
@@ -87,8 +88,20 @@ export const getNoteById = async (noteId: string): Promise<Note | null> => {
  * @param noteId - The id of the note to delete.
  * @returns The deleted {@Link Note} object.
  */
-export const deleteNoteById = async (noteId: string) => {
+export const deleteNoteById = async (
+  noteId: string,
+  deleteFolderReference: boolean,
+) => {
   const deletedNote = await getNoteById(noteId);
+  if (!deletedNote) {
+    return null;
+  }
   await firestore().collection('notes').doc(noteId).delete();
+  if (deleteFolderReference) {
+    const folder = await getFolderById(deletedNote.folderId);
+    const noteIds = folder.noteIds.filter(nId => nId !== noteId);
+    const editedFolder = { ...folder, noteIds };
+    editFolder(editedFolder);
+  }
   return deletedNote;
 };
