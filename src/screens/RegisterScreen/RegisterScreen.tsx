@@ -14,6 +14,7 @@ import { MenuLabel } from '@atoms/MenuLabel';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { colors } from '../../design/tokens/colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LogoWithTitle } from '@atoms/LogoWithTitle';
 
 /**
  * The register screen
@@ -34,6 +35,7 @@ export const RegisterScreen = () => {
                   inputContainerStyle={styles.input}
                   placeholder="Type your email"
                   variant="standard"
+                  inputStyle={styles.inputFont}
                   trailing={props => (
                     <Icon name="mail" {...props} color={colors.primary} />
                   )}
@@ -46,6 +48,7 @@ export const RegisterScreen = () => {
                   placeholder="Type your password"
                   variant="standard"
                   secureTextEntry={!showPassword}
+                  inputStyle={styles.inputFont}
                   trailing={props => (
                     <IconButton
                       icon={propsIcon => (
@@ -68,6 +71,7 @@ export const RegisterScreen = () => {
                   placeholder="Confirm your password"
                   variant="standard"
                   secureTextEntry={!showPasswordConfirm}
+                  inputStyle={styles.inputFont}
                   trailing={props => (
                     <IconButton
                       icon={propsIcon => (
@@ -104,6 +108,7 @@ export const RegisterScreen = () => {
             </VStack>
           </Flex>
         </Surface>
+        <LogoWithTitle styles={styles.logo} />
       </Flex>
     </SafeAreaView>
   );
