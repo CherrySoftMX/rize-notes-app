@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
   background: {
     backgroundColor: colors.primary,
     width: '100%',
-    height: Dimensions.get('window').height - spacing.lg,
+    height: Dimensions.get('window').height,
   },
   container: {
     width: '85%',

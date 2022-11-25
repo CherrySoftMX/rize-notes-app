@@ -2,6 +2,8 @@ import firestore from '@react-native-firebase/firestore';
 import uuid from 'react-native-uuid';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { authConstants } from '../constants/auth';
+import { UserRequest, User } from 'library/interfaces/User';
+import firebaseAuth from '@react-native-firebase/auth';
 
 /**
  * A collection of methods to manage app auth.
@@ -23,10 +25,17 @@ class AuthService {
   public async initiateApp(user: any) {
     const storedUserId = await this.getUserInStorage();
     if (user) {
-      this.startAppOnline(user.uid, storedUserId);
-      return user.uid;
+      const userFullData = await this.startAppOnline(user.uid);
+      if (userFullData) {
+        console.log('Online');
+        console.log(userFullData.id);
+        return userFullData.id;
+      }
+      return storedUserId;
     }
     await this.startAppOffline(storedUserId);
+    console.log('Offline');
+    console.log(this.getCurrentUserId());
     return this.getCurrentUserId();
   }
 
@@ -38,15 +47,19 @@ class AuthService {
    *
    * @alpha
    */
-  private startAppOnline(onlineUserId: string, storedUserId: string) {
-    this.goOnline();
-    if (onlineUserId === storedUserId) {
-      console.log('Los datos estan sincronizados');
-      return;
+  private async startAppOnline(onlineUserId: string) {
+    const userData = await firestore()
+      .collection('users')
+      .doc(onlineUserId)
+      .get()
+      .catch((err: any) => console.log(err));
+    if (userData?._exists) {
+      this.goOnline();
+      this.setCurrentUserId(userData._data.id);
+      return userData._data as User;
+    } else {
+      return null;
     }
-    console.log('Parece que acabas de crear una cuenta nueva');
-    console.log('Sincronizando datos offline con la cuenta online...');
-    /* Proceso de sincronizacion... */
   }
 
   /**
@@ -76,6 +89,24 @@ class AuthService {
       authConstants.userStorageIdentifier,
     );
     return await JSON.parse(item);
+  }
+
+  public async registerUser({ email, password, id }: UserRequest) {
+    const { user } = await firebaseAuth().createUserWithEmailAndPassword(
+      email,
+      password,
+    );
+
+    firestore()
+      .collection('users')
+      .doc(user.uid)
+      .set({ email, password, id, uid: user.uid })
+      .catch((err: any) => console.log(err));
+  }
+
+  public logout() {
+    console.log('Cerrando sesion');
+    firebaseAuth().signOut();
   }
 
   /**

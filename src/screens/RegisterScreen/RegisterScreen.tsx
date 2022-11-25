@@ -16,6 +16,7 @@ import { colors } from '../../design/tokens/colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LogoWithTitle } from '@atoms/LogoWithTitle';
 import { Formik } from 'formik';
+import { auth } from '../../library/services/AuthService';
 
 /**
  * The register screen
@@ -24,11 +25,12 @@ export const RegisterScreen = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
 
-  const onRegister = ({email, password, confirmPassword}) => {
-    console.log('Register:');
-    console.log(email, password, confirmPassword);
+  const onRegister = async ({email, password, confirmPassword}) => {
     if (password !== confirmPassword) {
       Alert.alert("Passwords don't match");
+    } else {
+      const id = auth.getCurrentUserId();
+      await auth.registerUser({ email, password, id });
     }
   };
 
