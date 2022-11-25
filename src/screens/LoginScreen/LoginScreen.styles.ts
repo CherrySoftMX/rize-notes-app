@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { colors } from '../../design/tokens/colors';
 import { spacing, fontType, fontSize } from '../../design/tokens';
 
@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
   background: {
     backgroundColor: colors.primary,
     width: '100%',
-    height: '100%',
+    height: Dimensions.get('window').height - spacing.lg,
   },
   container: {
     width: '85%',
