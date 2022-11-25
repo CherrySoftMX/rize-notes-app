@@ -3,7 +3,7 @@ import { Text } from 'react-native';
 import { styles } from '@atoms/ScreenTitle/ScreenTitle.style';
 
 interface ScreenTitleProps {
-  label: string;
+  label: string | number;
   align?: string;
 }
 

@@ -7,7 +7,7 @@ import { spacing } from '../../../design/tokens';
 
 interface DataCardProps {
   label: string;
-  value: string;
+  value: string | number;
 }
 
 export const DataCard = ({ label, value }: DataCardProps) => {
