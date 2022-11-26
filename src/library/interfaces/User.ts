@@ -6,7 +6,6 @@ export interface UserRequest {
 
 export interface User {
   email: string;
-  password: string;
   id: string;
   uid: string;
 }
