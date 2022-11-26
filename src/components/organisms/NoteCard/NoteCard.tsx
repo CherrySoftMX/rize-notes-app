@@ -6,10 +6,24 @@ import { colors } from '../../../design/tokens';
 import { styles } from './NoteCard.style';
 import { IconButtonPopupMenu } from '@molecules/IconButtonPopupMenu';
 import { MenuOption } from 'react-native-popup-menu';
-import { Alert } from 'react-native';
-import { Note } from '../../../library/interfaces/Note';
 
-export const NoteCard = ({ name, content, isLink, isFavorite }: Note) => {
+interface NoteCardProps {
+  id: string;
+  name: string;
+  content: string;
+  isLink: boolean;
+  isFavorite: boolean;
+  handleDelete: (id: string) => void;
+}
+
+export const NoteCard = ({
+  id,
+  name,
+  content,
+  isLink,
+  isFavorite,
+  handleDelete = () => {},
+}: NoteCardProps) => {
   return (
     <Flex direction="row" style={styles.card}>
       <CustomIcon
@@ -33,8 +47,7 @@ export const NoteCard = ({ name, content, isLink, isFavorite }: Note) => {
         style={styles.icon}
         height={55}
         width={55}>
-        <MenuOption onSelect={() => Alert.alert('Edit')} text="Edit" />
-        <MenuOption onSelect={() => Alert.alert('Delete')} text="Delete" />
+        <MenuOption onSelect={() => handleDelete(id)} text="Delete" />
       </IconButtonPopupMenu>
     </Flex>
   );

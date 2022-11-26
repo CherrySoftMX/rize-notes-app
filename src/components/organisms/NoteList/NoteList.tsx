@@ -9,16 +9,24 @@ import { spacing } from '../../../design/tokens';
 
 interface NoteListProps {
   handleClick: (id: string) => void;
+  handleDelete: (id: string) => void;
   notes: Note[];
   ListHeaderComponent?: React.ReactNode | null;
 }
 
-export const NoteList = ({ handleClick, notes, ...rest }: NoteListProps) => {
+export const NoteList = ({
+  handleClick,
+  handleDelete,
+  notes,
+  ...rest
+}: NoteListProps) => {
   return (
     <FlatList
       {...rest}
       data={notes}
-      renderItem={({ item }) => <NoteCard {...item} />}
+      renderItem={({ item }: { item: Note }) => (
+        <NoteCard {...item} handleDelete={handleDelete} />
+      )}
       keyExtractor={item => item.id}
       contentContainerStyle={styles.container}
       ListEmptyComponent={

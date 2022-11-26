@@ -11,19 +11,25 @@ import { FolderIcon } from '@atoms/FolderIcon';
 import { When } from 'react-if';
 
 interface FolderDetailsProps {
+  id: string;
   name: string;
   color: string;
   isLimited: boolean;
   limit?: number;
   noteCount: number;
+  handleEdit: () => void;
+  handleDelete: (id: string) => void;
 }
 
 export const FolderDetails = ({
+  id,
   name,
   color,
   isLimited,
   limit,
   noteCount,
+  handleEdit,
+  handleDelete,
 }: FolderDetailsProps) => {
   return (
     <View style={[styles.container, folderDetailsStyle.container]}>
@@ -46,7 +52,8 @@ export const FolderDetails = ({
           style={folderDetailsStyle.menuIcon}
           height={60}
           width={55}>
-          <MenuOption onSelect={() => Alert.alert('Edit')} text="Edit" />
+          <MenuOption onSelect={() => handleEdit()} text="Edit" />
+          <MenuOption onSelect={() => handleDelete(id)} text="Delete" />
         </IconButtonPopupMenu>
       </Flex>
       <View style={folderDetailsStyle.barContainer}>

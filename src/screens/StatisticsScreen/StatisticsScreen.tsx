@@ -11,6 +11,8 @@ import { AntiquityFilterOptionsList } from '@molecules/AntiquityFilterOptionsLis
 import { ScreenHeader } from '@organisms/ScreenHeader';
 import { LineChartCard } from '@organisms/LineChartCard';
 import { BiggerFoldersChart } from '@organisms/BiggerFoldersChart';
+import { useRecoilValue } from 'recoil';
+import { foldersState } from '../../library/state/foldersState';
 
 const pieData = [
   {
@@ -72,6 +74,7 @@ const lineChartData = [5, 6, 2, 4, 3, 10, 8];
 const daysOfTheWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 export const StatisticsScreen = () => {
+  const folders = useRecoilValue(foldersState);
   return (
     <SafeAreaView>
       <ScrollView>
@@ -105,7 +108,7 @@ export const StatisticsScreen = () => {
                 <DataCard label="Favorites" value="27" />
               </View>
               <View style={styles.dataCardContainer}>
-                <DataCard label="Folders" value="18" />
+                <DataCard label="Folders" value={folders.length} />
               </View>
             </HStack>
             <View style={styles.sectionTitle}>

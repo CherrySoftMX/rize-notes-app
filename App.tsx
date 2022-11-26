@@ -8,6 +8,7 @@ import { Text } from 'react-native';
 import { useAuth } from '@hooks/useAuth';
 import { Else, If, Then } from 'react-if';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { RecoilRoot } from 'recoil';
 
 const App = () => {
   const { user, startAuth } = useAuth();
@@ -17,20 +18,22 @@ const App = () => {
 
   return (
     <SafeAreaProvider>
-      <MenuProvider>
-        <NavigationContainer>
-          <ScreenProvider>
-            <If condition={user}>
-              <Then>
-                <BottomTabNavigation />
-              </Then>
-              <Else>
-                <Text>Loading...</Text>
-              </Else>
-            </If>
-          </ScreenProvider>
-        </NavigationContainer>
-      </MenuProvider>
+      <RecoilRoot>
+        <MenuProvider>
+          <NavigationContainer>
+            <ScreenProvider>
+              <If condition={user}>
+                <Then>
+                  <BottomTabNavigation />
+                </Then>
+                <Else>
+                  <Text>Loading...</Text>
+                </Else>
+              </If>
+            </ScreenProvider>
+          </NavigationContainer>
+        </MenuProvider>
+      </RecoilRoot>
     </SafeAreaProvider>
   );
 };
