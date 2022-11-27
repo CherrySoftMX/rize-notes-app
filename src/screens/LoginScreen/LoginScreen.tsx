@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, StatusBar } from 'react-native';
+import { Text, View, StatusBar, Alert } from 'react-native';
 import { colors } from '../../design/tokens/colors';
 import {
   Flex,
@@ -16,15 +16,28 @@ import { styles } from './LoginScreen.styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LogoWithTitle } from '@atoms/LogoWithTitle';
 import { Formik } from 'formik';
+import { UserRequest } from '../../library/interfaces/User';
+import { auth } from '../../library/services/AuthService';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '@screens/RootStackParams';
+
+type LoginScreenParams = NativeStackNavigationProp<RootStackParamList, 'Login'>;
 
 /**
  * The login screen
  */
 export const LoginScreen = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const navigation = useNavigation<LoginScreenParams>();
 
-  const onLogin = (values: any) => {
-    console.log(values);
+  const onLogin = async ({ email, password }: UserRequest) => {
+    const { success, error } = await auth.loginUser({ email, password });
+    if (success) {
+      navigation.goBack();
+    } else {
+      Alert.alert(`Error: ${error}`);
+    }
   };
 
   return (

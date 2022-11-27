@@ -119,6 +119,24 @@ class AuthService {
   }
 
   /**
+   * Signs a user into its account.
+   *
+   * @param param0 - The data of the user to login
+   */
+  public async loginUser({ email, password }: UserRequest) {
+    let status = {
+      success: true,
+      error: '',
+    };
+    await firebaseAuth()
+      .signInWithEmailAndPassword(email, password)
+      .catch(error => {
+        status = { success: false, error: error.code };
+      });
+    return status;
+  }
+
+  /**
    * Logs out the current user
    */
   public logout() {
