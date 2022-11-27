@@ -22,6 +22,7 @@ import { foldersState } from '../../library/state/foldersState';
 import { FolderForm } from '@organisms/FolderForm/FolderForm';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { deleteNoteById, filterNotesByContent } from '../../library/services/NotesService';
+import { AntiquityFilterOptionsList } from '@molecules/AntiquityFilterOptionsList';
 
 type SearchRouteProp = RouteProp<RootStackParamList, 'Search'>;
 type SearchScreenParams = NativeStackNavigationProp<
@@ -33,12 +34,15 @@ export const SearchScreen = () => {
   const navigation = useNavigation<SearchScreenParams>();
   const route = useRoute<SearchRouteProp>();
 
-
   const [query, setQuery] = useState('');
+  const [lastQuery, setLastQuery] = useState('');
+
+
   const [notes, setNotes] = useState([] as Array<Note>);
 
   useEffect(()=>{
     setQuery(route.params.query);
+    setLastQuery(route.params.query);
     setNotes(route.params.notes);
   }, [])
 
@@ -46,6 +50,7 @@ export const SearchScreen = () => {
   const onSearch = async () => {
     const foundNotes = await filterNotesByContent(query);
     setNotes(foundNotes);
+    setLastQuery(query);
   }
 
    const onDeleteNote = async (noteId: string) => {
@@ -65,8 +70,9 @@ export const SearchScreen = () => {
         ListHeaderComponent={
           <ScreenHeader title="Search" handleClick={onSearch} setQuery={setQuery}>
             <VStack spacing={spacing.sm}>
+              <AntiquityFilterOptionsList />
               <View>
-                <Text style={styles.sectionTitle}>{'results from: ' + query}</Text>
+                <Text style={styles.sectionTitle}>{'results from: ' + lastQuery}</Text>
               </View>
             </VStack>
           </ScreenHeader>
