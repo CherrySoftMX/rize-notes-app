@@ -8,6 +8,8 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@screens/RootStackParams';
 import { auth } from '../../library/services/AuthService';
 import { When } from 'react-if';
+import { useRecoilValue } from 'recoil';
+import { userState } from '../../library/state/userState';
 
 type HomeScreenParams = NativeStackNavigationProp<
   RootStackParamList,
@@ -16,6 +18,7 @@ type HomeScreenParams = NativeStackNavigationProp<
 
 export const SettingsScreen = () => {
   const navigation = useNavigation<HomeScreenParams>();
+  const user = useRecoilValue(userState);
 
   const onGoRegister = () => {
     navigation.navigate('Register');
@@ -28,10 +31,10 @@ export const SettingsScreen = () => {
   return (
     <SafeAreaView>
       <View>
-        <Text>User ID: {auth.getCurrentUserId()}</Text>
-        <Text>Is logged in: {auth.isUserLogged() ? 'Yes' : 'No'}</Text>
-        <When condition={auth.isUserLogged()}>
-          <Text>Email: {auth.getCurrentUserEmail()}</Text>
+        <Text>User ID: {user.id}</Text>
+        <Text>Is logged in: {user.isLogged ? 'Yes' : 'No'}</Text>
+        <When condition={user.isLogged}>
+          <Text>Email: {user.email}</Text>
         </When>
       </View>
       <Flex center style={{ height: '100%' }}>

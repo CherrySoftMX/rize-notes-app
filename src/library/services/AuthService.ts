@@ -32,7 +32,7 @@ class AuthService {
       return this.startAppOnline(user, storedUserId);
     }
     await this.startAppOffline(storedUserId);
-    return this.getCurrentUserId();
+    return this.getUserData();
   }
 
   /**
@@ -49,16 +49,17 @@ class AuthService {
     offlineUserId: string,
   ) {
     this.goOffline(); // Should be goOnline()
-    this.setUserData({
+    const user = {
       email: onlineUser.email,
       id: offlineUserId,
       isLogged: true,
-    }); // Should be onlineUser.uid but cloud sync isn't implemented yet
+    };
+    this.setUserData(user); // Should be onlineUser.uid but cloud sync isn't implemented yet
     /*await AsyncStorage.setItem(
       authConstants.userStorageIdentifier,
       JSON.stringify(onlineUser.uid),
     );*/ // Should store the uid but currently for development the stored id won't change.
-    return offlineUserId; // Should be onlineUser.uid but cloud sync isn't implemented yet
+    return user; // Should be onlineUser.uid but cloud sync isn't implemented yet
   }
 
   /**
@@ -68,15 +69,20 @@ class AuthService {
    */
   private async startAppOffline(storedUserId: string) {
     this.goOffline();
+    const user = {
+      id: '',
+      email: '',
+      isLogged: false,
+    };
     if (storedUserId) {
-      this.setUserData({ id: storedUserId, email: '', isLogged: false });
+      this.setUserData({ ...user, id: storedUserId });
     } else {
       const newUserId = `${uuid.v4()}`;
       await AsyncStorage.setItem(
         authConstants.userStorageIdentifier,
         JSON.stringify(newUserId),
       );
-      this.setUserData({ id: newUserId, email: '', isLogged: false });
+      this.setUserData({ ...user, id: newUserId });
     }
   }
 

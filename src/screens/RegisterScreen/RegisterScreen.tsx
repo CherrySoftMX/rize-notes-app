@@ -17,6 +17,16 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { LogoWithTitle } from '@atoms/LogoWithTitle';
 import { Formik } from 'formik';
 import { auth } from '../../library/services/AuthService';
+import { RootStackParamList } from '@screens/RootStackParams';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/native';
+import { useSetRecoilState } from 'recoil';
+import { userState } from '../../library/state/userState';
+
+type RegisterScreenParams = NativeStackNavigationProp<
+  RootStackParamList,
+  'Register'
+>;
 
 /**
  * The register screen
@@ -24,12 +34,15 @@ import { auth } from '../../library/services/AuthService';
 export const RegisterScreen = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
+  const navigation = useNavigation<RegisterScreenParams>();
+  const setUser = useSetRecoilState(userState);
 
   const onRegister = async ({email, password, confirmPassword}) => {
     if (password !== confirmPassword) {
       Alert.alert("Passwords don't match");
     } else {
       await auth.registerUser({ email, password });
+      navigation.goBack();
     }
   };
 
