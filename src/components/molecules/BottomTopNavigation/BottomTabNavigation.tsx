@@ -9,6 +9,7 @@ import { colors, fontSize } from '../../../design/tokens';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { FolderScreen } from '@screens/FolderScreen';
 import { RegisterScreen } from '@screens/RegisterScreen';
+import { LoginScreen } from '@screens/LoginScreen';
 
 const Tab = createMaterialBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -84,6 +85,7 @@ export const BottomTabNavigation = () => {
       }}>
       <Base.Screen name="Home" component={TabNavigation} />
       <Base.Screen name="Register" component={RegisterScreen} />
+      <Base.Screen name="Login" component={LoginScreen} />
     </Base.Navigator>
   );
 };

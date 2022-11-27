@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, Alert } from 'react-native';
+import { Text, View, Alert, StatusBar } from 'react-native';
 import {
   Flex,
   Surface,
@@ -45,6 +45,7 @@ export const RegisterScreen = () => {
 
   return (
     <SafeAreaView>
+      <StatusBar backgroundColor={colors.primary} />
       <Formik
         initialValues={{
           email: '',
