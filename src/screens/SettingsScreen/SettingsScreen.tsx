@@ -28,8 +28,8 @@ export const SettingsScreen = () => {
     navigation.navigate('Login');
   };
 
-  const onLogout = () => {
-    auth.logout();
+  const onLogout = async () => {
+    await auth.logout();
   };
 
   return (

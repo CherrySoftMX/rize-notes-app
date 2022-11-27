@@ -4,6 +4,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { authConstants } from '../constants/auth';
 import { UserRequest, LocalUser, FirebaseUser } from 'library/interfaces/User';
 import firebaseAuth from '@react-native-firebase/auth';
+import {
+  getFolders,
+  uploadAndChangeUserOfFolders,
+  changeUserOfFolders,
+} from './FoldersService';
+import {
+  getNotes,
+  uploadAndChangeUserOfNotes,
+  changeUserOfNotes,
+} from './NotesService';
 
 /**
  * A collection of methods to manage app auth.
@@ -29,7 +39,7 @@ class AuthService {
   public async initiateApp(user: FirebaseUser) {
     const storedUserId = await this.getUserInStorage();
     if (user) {
-      return this.startAppOnline(user, storedUserId);
+      return this.startAppOnline(user);
     }
     await this.startAppOffline(storedUserId);
     return this.getUserData();
@@ -42,28 +52,21 @@ class AuthService {
    * @param onlineUserId - Uid of the user object given by Firebase/Auth
    * @param storedUserId - Id of the user stored in local Async Storage
    *
-   * @alpha - Currently when you register a new account, the
-   * folders and notes created offline won't be uploaded to the cloud
-   * and you will not see them anymore, but, if you create new folders
-   * and notes and you logout, then you will see the folders and notes
-   * you created offline PLUS the folders and notes you created online.
+   * @alpha
    */
-  private async startAppOnline(
-    onlineUser: FirebaseUser,
-    offlineUserId: string,
-  ) {
-    this.goOnline(); // Should be goOnline()
+  private async startAppOnline(onlineUser: FirebaseUser) {
+    this.goOnline();
     const user = {
       email: onlineUser.email,
-      id: offlineUserId,
+      id: onlineUser.uid,
       isLogged: true,
     };
-    this.setUserData(user); // Should be onlineUser.uid but cloud sync isn't implemented yet
-    /*await AsyncStorage.setItem(
+    this.setUserData(user);
+    await AsyncStorage.setItem(
       authConstants.userStorageIdentifier,
       JSON.stringify(onlineUser.uid),
-    );*/ // Should store the uid but currently for development the stored id won't change.
-    return user; // Should be onlineUser.uid but cloud sync isn't implemented yet
+    );
+    return user;
   }
 
   /**
@@ -106,16 +109,24 @@ class AuthService {
    * @param param0 - The data of the user to register
    */
   public async registerUser({ email, password }: UserRequest) {
+    const currentUserFolders = await getFolders();
+    const currentUserNotes = await getNotes();
+
     const { user } = await firebaseAuth().createUserWithEmailAndPassword(
       email,
       password,
     );
 
-    firestore()
-      .collection('users')
-      .doc(user.uid)
-      .set({ email, id: user.uid })
-      .catch((err: any) => console.log(err));
+    if (user) {
+      firestore()
+        .collection('users')
+        .doc(user.uid)
+        .set({ email, id: user.uid })
+        .catch((err: any) => console.log(err));
+
+      await uploadAndChangeUserOfFolders(user.uid, currentUserFolders);
+      await uploadAndChangeUserOfNotes(user.uid, currentUserNotes);
+    }
   }
 
   /**
@@ -139,9 +150,18 @@ class AuthService {
   /**
    * Logs out the current user
    */
-  public logout() {
+  public async logout() {
+    const currentUserFolders = await getFolders();
+    const currentUserNotes = await getNotes();
+    const user = this.getCurrentUserId();
+
     console.log('Cerrando sesion');
-    firebaseAuth().signOut();
+    console.log(currentUserFolders);
+    console.log(currentUserNotes);
+    await firebaseAuth().signOut();
+
+    await uploadAndChangeUserOfFolders(user, currentUserFolders);
+    await uploadAndChangeUserOfNotes(user, currentUserNotes);
   }
 
   /**
