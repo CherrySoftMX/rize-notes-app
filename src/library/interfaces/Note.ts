@@ -12,6 +12,8 @@ export interface Note {
   isLink: boolean;
   image?: string;
   categories: string[];
+  createAt: string;
+  updateAr: string;
 }
 
 export interface CreateNoteRequest {

@@ -3,4 +3,5 @@ export const screens = {
   favorites: 'Favorites',
   statistics: 'Statistics',
   settings: 'Settings',
+  search: 'Search',
 };

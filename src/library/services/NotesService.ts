@@ -105,3 +105,39 @@ export const deleteNoteById = async (
   }
   return deletedNote;
 };
+
+/**
+ * Filter notes by las number days
+ *
+ * @param days - days to filter notes
+ * @returns An array of {@link Note}.
+ */
+export const fileterNotesByLastNumberDays = async (days: number) => {
+  const notes = await getNotes();
+
+  const filteredNotes = notes.filter(note => {
+    const currentTime = new Date();
+    const createdAtNote = new Date(note.createAt);
+
+    return createdAtNote.getTime() <= currentTime.getTime();
+  });
+
+  return filteredNotes;
+};
+
+/**
+ * Filter notes by search in content (name and content of note)
+ *
+ * @param search - search to filter notes
+ * @returns An array of {@link Note}.
+ */
+export const filterNotesByContent = async (search: string) => {
+  const notes = await getNotes();
+
+  const filteredNotes = notes.filter(note => {
+    const content = note.content + ' ' + note.name;
+    return content.includes(search);
+  });
+
+  return filteredNotes;
+};

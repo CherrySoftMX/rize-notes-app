@@ -15,12 +15,13 @@ import { MultiActionFloatButton } from '@molecules/MultiActionFloatButton';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@screens/RootStackParams';
 import { CreateNoteRequest } from 'library/interfaces/Note';
-import { createNote } from '../../library/services/NotesService';
+import { createNote, fileterNotesByLastNumberDays, filterNotesByContent } from '../../library/services/NotesService';
 import SplashScreen from 'react-native-splash-screen';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScreenHeader } from '@organisms/ScreenHeader';
 import { useRecoilState } from 'recoil';
 import { foldersState } from '../../library/state/foldersState';
+import { Alert } from 'react-native';
 
 type HomeScreenParams = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
@@ -95,11 +96,18 @@ export const HomeScreen = () => {
     setFolderToEdit(undefined);
   };
 
+  const [query, setQuery] = useState('');
+  
+  const onSearch = async () => {
+    const notes = await filterNotesByContent(query);
+    navigation.navigate('Search', { notes, query});
+  }
+
   return (
     <SafeAreaView>
       <FolderList
         ListHeaderComponent={
-          <ScreenHeader title="My notes">
+          <ScreenHeader title="My notes" handleClick={onSearch} setQuery={setQuery}> 
             <AntiquityFilterOptionsList />
           </ScreenHeader>
         }

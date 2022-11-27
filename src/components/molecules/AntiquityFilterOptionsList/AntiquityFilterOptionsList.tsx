@@ -4,7 +4,6 @@ import { AntiquityFilterOptionChip } from '@atoms/AntiquityFilterOptionChip';
 import { ScrollView, View } from 'react-native';
 
 const filterOptions = [
-  'All time',
   'Last week',
   'Last month',
   'Last 6 months',
