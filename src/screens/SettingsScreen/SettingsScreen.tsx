@@ -24,6 +24,10 @@ export const SettingsScreen = () => {
     navigation.navigate('Register');
   };
 
+  const onGoLogin = () => {
+    navigation.navigate('Login');
+  };
+
   const onLogout = () => {
     auth.logout();
   };
@@ -40,7 +44,7 @@ export const SettingsScreen = () => {
       <Flex center style={{ height: '100%' }}>
         <VStack spacing={spacing.lg}>
           <Button title="Register" onPress={onGoRegister} />
-          <Button title="Login" />
+          <Button title="Login" onPress={onGoLogin} />
           <Button title="Log out" onPress={onLogout} />
         </VStack>
       </Flex>

@@ -3,4 +3,5 @@ export type RootStackParamList = {
   Folder: { folderId: string };
   Settings: undefined;
   Register: undefined;
+  Login: undefined;
 };
