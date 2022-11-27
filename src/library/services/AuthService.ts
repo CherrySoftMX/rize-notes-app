@@ -2,7 +2,7 @@ import firestore from '@react-native-firebase/firestore';
 import uuid from 'react-native-uuid';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { authConstants } from '../constants/auth';
-import { UserRequest, User } from 'library/interfaces/User';
+import { UserRequest, LocalUser, FirebaseUser } from 'library/interfaces/User';
 import firebaseAuth from '@react-native-firebase/auth';
 
 /**
@@ -10,17 +10,13 @@ import firebaseAuth from '@react-native-firebase/auth';
  */
 class AuthService {
   private static instance: AuthService;
-  private currentUser: string;
-  private isOnline: boolean;
-  private userData: User;
+  private userData: LocalUser;
 
   constructor() {
-    this.currentUser = '';
-    this.isOnline = false;
     this.userData = {
       email: '',
       id: '',
-      uid: '',
+      isLogged: false,
     };
   }
 
@@ -30,7 +26,7 @@ class AuthService {
    * @param user - A user object given by Firebase/Auth onAuthStateChanged method.
    * @returns The id of the current user.
    */
-  public async initiateApp(user: any) {
+  public async initiateApp(user: FirebaseUser) {
     const storedUserId = await this.getUserInStorage();
     if (user) {
       return this.startAppOnline(user, storedUserId);
@@ -48,12 +44,21 @@ class AuthService {
    *
    * @alpha
    */
-  private async startAppOnline(onlineUser: User, offlineUserId: string) {
-    this.setCurrentUserId(offlineUserId); // Should be onlineUser.uid but cloud sync isn't implemented yet
-    this.setIsOnline(true);
-    this.goOffline();
-    this.setUserData(onlineUser);
-    return offlineUserId;
+  private async startAppOnline(
+    onlineUser: FirebaseUser,
+    offlineUserId: string,
+  ) {
+    this.goOffline(); // Should be goOnline()
+    this.setUserData({
+      email: onlineUser.email,
+      id: offlineUserId,
+      isLogged: true,
+    }); // Should be onlineUser.uid but cloud sync isn't implemented yet
+    /*await AsyncStorage.setItem(
+      authConstants.userStorageIdentifier,
+      JSON.stringify(onlineUser.uid),
+    );*/ // Should store the uid but currently for development the stored id won't change.
+    return offlineUserId; // Should be onlineUser.uid but cloud sync isn't implemented yet
   }
 
   /**
@@ -63,16 +68,15 @@ class AuthService {
    */
   private async startAppOffline(storedUserId: string) {
     this.goOffline();
-    this.setIsOnline(false);
     if (storedUserId) {
-      this.setCurrentUserId(storedUserId);
+      this.setUserData({ id: storedUserId, email: '', isLogged: false });
     } else {
-      const newUserId = uuid.v4();
+      const newUserId = `${uuid.v4()}`;
       await AsyncStorage.setItem(
         authConstants.userStorageIdentifier,
         JSON.stringify(newUserId),
       );
-      this.setCurrentUserId(`${newUserId}`);
+      this.setUserData({ id: newUserId, email: '', isLogged: false });
     }
   }
 
@@ -91,7 +95,7 @@ class AuthService {
    *
    * @param param0 - The data of the user to register
    */
-  public async registerUser({ email, password, id }: UserRequest) {
+  public async registerUser({ email, password }: UserRequest) {
     const { user } = await firebaseAuth().createUserWithEmailAndPassword(
       email,
       password,
@@ -100,7 +104,7 @@ class AuthService {
     firestore()
       .collection('users')
       .doc(user.uid)
-      .set({ email, id, uid: user.uid })
+      .set({ email, id: user.uid })
       .catch((err: any) => console.log(err));
   }
 
@@ -109,7 +113,6 @@ class AuthService {
    */
   public logout() {
     console.log('Cerrando sesion');
-    this.setIsOnline(false);
     firebaseAuth().signOut();
   }
 
@@ -117,16 +120,14 @@ class AuthService {
    * Returns the current user ID.
    */
   public getCurrentUserId() {
-    return this.currentUser;
+    return this.userData.id;
   }
 
   /**
-   * Sets the current user ID.
-   *
-   * @param userId
+   * Returns the email of the current user.
    */
-  private setCurrentUserId(userId: string) {
-    this.currentUser = userId;
+  public getCurrentUserEmail() {
+    return this.userData.email;
   }
 
   /**
@@ -134,7 +135,7 @@ class AuthService {
    *
    * @param data
    */
-  private setUserData(data: User) {
+  private setUserData(data: LocalUser) {
     this.userData = data;
   }
 
@@ -142,26 +143,14 @@ class AuthService {
    * Returns the data of the current user
    */
   public getUserData() {
-    return {
-      isLogged: this.isOnline,
-      user: this.userData,
-    };
-  }
-
-  /**
-   * Sets if the user is logged online
-   *
-   * @param isOnline
-   */
-  private setIsOnline(isOnline: boolean) {
-    this.isOnline = isOnline;
+    return this.userData;
   }
 
   /**
    * Returns the login status of the current user
    */
   public isUserLogged() {
-    return this.isOnline;
+    return this.userData.isLogged;
   }
 
   /**

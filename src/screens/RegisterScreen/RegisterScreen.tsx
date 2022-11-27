@@ -29,8 +29,7 @@ export const RegisterScreen = () => {
     if (password !== confirmPassword) {
       Alert.alert("Passwords don't match");
     } else {
-      const id = auth.getCurrentUserId();
-      await auth.registerUser({ email, password, id });
+      await auth.registerUser({ email, password });
     }
   };
 

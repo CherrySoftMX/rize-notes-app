@@ -1,11 +1,15 @@
 export interface UserRequest {
   email: string;
   password: string;
-  id: string;
 }
 
-export interface User {
+export interface FirebaseUser {
+  uid: string;
+  email: string;
+}
+
+export interface LocalUser {
   email: string;
   id: string;
-  uid: string;
+  isLogged: boolean;
 }

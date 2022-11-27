@@ -31,10 +31,10 @@ export const SettingsScreen = () => {
         <Text>User ID: {auth.getCurrentUserId()}</Text>
         <Text>Is logged in: {auth.isUserLogged() ? 'Yes' : 'No'}</Text>
         <When condition={auth.isUserLogged()}>
-          <Text>Email: {auth.getUserData().user.email}</Text>
+          <Text>Email: {auth.getCurrentUserEmail()}</Text>
         </When>
       </View>
-      <Flex center style={{height: '100%'}}>
+      <Flex center style={{ height: '100%' }}>
         <VStack spacing={spacing.lg}>
           <Button title="Register" onPress={onGoRegister} />
           <Button title="Login" />
