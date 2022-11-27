@@ -2,16 +2,22 @@ import firestore from '@react-native-firebase/firestore';
 import uuid from 'react-native-uuid';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { authConstants } from '../constants/auth';
+import { UserRequest, LocalUser, FirebaseUser } from 'library/interfaces/User';
+import firebaseAuth from '@react-native-firebase/auth';
 
 /**
  * A collection of methods to manage app auth.
  */
 class AuthService {
   private static instance: AuthService;
-  private currentUser: string;
+  private userData: LocalUser;
 
   constructor() {
-    this.currentUser = '';
+    this.userData = {
+      email: '',
+      id: '',
+      isLogged: false,
+    };
   }
 
   /**
@@ -20,33 +26,44 @@ class AuthService {
    * @param user - A user object given by Firebase/Auth onAuthStateChanged method.
    * @returns The id of the current user.
    */
-  public async initiateApp(user: any) {
+  public async initiateApp(user: FirebaseUser) {
     const storedUserId = await this.getUserInStorage();
     if (user) {
-      this.startAppOnline(user.uid, storedUserId);
-      return user.uid;
+      return this.startAppOnline(user, storedUserId);
     }
     await this.startAppOffline(storedUserId);
-    return this.getCurrentUserId();
+    return this.getUserData();
   }
 
   /**
    * Initializes the app in online mode.
+   * Currently only loads the user data stored in the cloud.
    *
    * @param onlineUserId - Uid of the user object given by Firebase/Auth
    * @param storedUserId - Id of the user stored in local Async Storage
    *
-   * @alpha
+   * @alpha - Currently when you register a new account, the
+   * folders and notes created offline won't be uploaded to the cloud
+   * and you will not see them anymore, but, if you create new folders
+   * and notes and you logout, then you will see the folders and notes
+   * you created offline PLUS the folders and notes you created online.
    */
-  private startAppOnline(onlineUserId: string, storedUserId: string) {
-    this.goOnline();
-    if (onlineUserId === storedUserId) {
-      console.log('Los datos estan sincronizados');
-      return;
-    }
-    console.log('Parece que acabas de crear una cuenta nueva');
-    console.log('Sincronizando datos offline con la cuenta online...');
-    /* Proceso de sincronizacion... */
+  private async startAppOnline(
+    onlineUser: FirebaseUser,
+    offlineUserId: string,
+  ) {
+    this.goOnline(); // Should be goOnline()
+    const user = {
+      email: onlineUser.email,
+      id: offlineUserId,
+      isLogged: true,
+    };
+    this.setUserData(user); // Should be onlineUser.uid but cloud sync isn't implemented yet
+    /*await AsyncStorage.setItem(
+      authConstants.userStorageIdentifier,
+      JSON.stringify(onlineUser.uid),
+    );*/ // Should store the uid but currently for development the stored id won't change.
+    return user; // Should be onlineUser.uid but cloud sync isn't implemented yet
   }
 
   /**
@@ -56,15 +73,20 @@ class AuthService {
    */
   private async startAppOffline(storedUserId: string) {
     this.goOffline();
+    const user = {
+      id: '',
+      email: '',
+      isLogged: false,
+    };
     if (storedUserId) {
-      this.setCurrentUserId(storedUserId);
+      this.setUserData({ ...user, id: storedUserId });
     } else {
-      const newUserId = uuid.v4();
+      const newUserId = `${uuid.v4()}`;
       await AsyncStorage.setItem(
         authConstants.userStorageIdentifier,
         JSON.stringify(newUserId),
       );
-      this.setCurrentUserId(`${newUserId}`);
+      this.setUserData({ ...user, id: newUserId });
     }
   }
 
@@ -79,19 +101,66 @@ class AuthService {
   }
 
   /**
-   * Returns the current user ID.
+   * Registers a new user in firebase
+   *
+   * @param param0 - The data of the user to register
    */
-  public getCurrentUserId() {
-    return this.currentUser;
+  public async registerUser({ email, password }: UserRequest) {
+    const { user } = await firebaseAuth().createUserWithEmailAndPassword(
+      email,
+      password,
+    );
+
+    firestore()
+      .collection('users')
+      .doc(user.uid)
+      .set({ email, id: user.uid })
+      .catch((err: any) => console.log(err));
   }
 
   /**
-   * Sets the current user ID.
-   *
-   * @param userId
+   * Logs out the current user
    */
-  private setCurrentUserId(userId: string) {
-    this.currentUser = userId;
+  public logout() {
+    console.log('Cerrando sesion');
+    firebaseAuth().signOut();
+  }
+
+  /**
+   * Returns the current user ID.
+   */
+  public getCurrentUserId() {
+    return this.userData.id;
+  }
+
+  /**
+   * Returns the email of the current user.
+   */
+  public getCurrentUserEmail() {
+    return this.userData.email;
+  }
+
+  /**
+   * Sets the data of the current user
+   *
+   * @param data
+   */
+  private setUserData(data: LocalUser) {
+    this.userData = data;
+  }
+
+  /**
+   * Returns the data of the current user
+   */
+  public getUserData() {
+    return this.userData;
+  }
+
+  /**
+   * Returns the login status of the current user
+   */
+  public isUserLogged() {
+    return this.userData.isLogged;
   }
 
   /**

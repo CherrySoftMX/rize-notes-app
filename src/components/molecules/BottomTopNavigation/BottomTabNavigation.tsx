@@ -8,14 +8,16 @@ import { StatisticsScreen } from '@screens/StatisticsScreen';
 import { colors, fontSize } from '../../../design/tokens';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { FolderScreen } from '@screens/FolderScreen';
+import { RegisterScreen } from '@screens/RegisterScreen';
 
 const Tab = createMaterialBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
+const Base = createNativeStackNavigator();
 
-export const BottomTabNavigation = () => {
+const TabNavigation = () => {
   return (
     <Tab.Navigator
-      initialRouteName="Home"
+      initialRouteName="HomeStack"
       activeColor={colors.lightGreen}
       barStyle={{ backgroundColor: colors.pureWhite }}>
       <Tab.Screen
@@ -71,5 +73,17 @@ const HomeStackScreens = () => {
       <HomeStack.Screen name="Home" component={HomeScreen} />
       <HomeStack.Screen name="Folder" component={FolderScreen} />
     </HomeStack.Navigator>
+  );
+};
+
+export const BottomTabNavigation = () => {
+  return (
+    <Base.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Base.Screen name="Home" component={TabNavigation} />
+      <Base.Screen name="Register" component={RegisterScreen} />
+    </Base.Navigator>
   );
 };

@@ -1,11 +1,12 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { colors } from '../../design/tokens/colors';
+import { spacing, fontType, fontSize } from '../../design/tokens';
 
 export const styles = StyleSheet.create({
   background: {
     backgroundColor: colors.primary,
     width: '100%',
-    height: '100%',
+    height: Dimensions.get('window').height,
   },
   container: {
     width: '85%',
@@ -14,6 +15,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 25,
     paddingBottom: 33,
     backgroundColor: colors.pureWhite,
+    marginTop: -spacing.md,
   },
   title1: {
     fontWeight: 'bold',
@@ -21,14 +23,17 @@ export const styles = StyleSheet.create({
     color: '#7E7D84',
   },
   title2: {
-    fontWeight: 'bold',
-    fontSize: 22,
+    fontSize: fontSize.lg + 2,
     color: '#7E7D84',
     marginBottom: 35,
+    fontFamily: fontType.bold,
   },
   input: {
     backgroundColor: colors.pureWhite,
     marginTop: 5,
+  },
+  inputFont: {
+    fontFamily: fontType.regular,
   },
   stack: {
     width: '100%',
@@ -36,12 +41,20 @@ export const styles = StyleSheet.create({
   buttonLogin: {
     width: 135,
     alignSelf: 'center',
-    marginTop: 10,
+    marginTop: spacing.xm,
   },
   label: {
-    fontSize: 16,
+    fontSize: fontSize.md - 1,
     color: '#7E7D84',
     alignSelf: 'center',
     marginVertical: 5,
+    fontFamily: fontType.regular,
+  },
+  logo: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    left: 0,
+    alignItems: 'center',
   },
 });
