@@ -20,8 +20,6 @@ import { auth } from '../../library/services/AuthService';
 import { RootStackParamList } from '@screens/RootStackParams';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
-import { useSetRecoilState } from 'recoil';
-import { userState } from '../../library/state/userState';
 
 type RegisterScreenParams = NativeStackNavigationProp<
   RootStackParamList,
@@ -35,7 +33,6 @@ export const RegisterScreen = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
   const navigation = useNavigation<RegisterScreenParams>();
-  const setUser = useSetRecoilState(userState);
 
   const onRegister = async ({email, password, confirmPassword}) => {
     if (password !== confirmPassword) {

@@ -42,13 +42,17 @@ class AuthService {
    * @param onlineUserId - Uid of the user object given by Firebase/Auth
    * @param storedUserId - Id of the user stored in local Async Storage
    *
-   * @alpha
+   * @alpha - Currently when you register a new account, the
+   * folders and notes created offline won't be uploaded to the cloud
+   * and you will not see them anymore, but, if you create new folders
+   * and notes and you logout, then you will see the folders and notes
+   * you created offline PLUS the folders and notes you created online.
    */
   private async startAppOnline(
     onlineUser: FirebaseUser,
     offlineUserId: string,
   ) {
-    this.goOffline(); // Should be goOnline()
+    this.goOnline(); // Should be goOnline()
     const user = {
       email: onlineUser.email,
       id: offlineUserId,
