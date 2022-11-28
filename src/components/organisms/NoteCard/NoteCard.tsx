@@ -8,21 +8,23 @@ import { IconButtonPopupMenu } from '@molecules/IconButtonPopupMenu';
 import { MenuOption } from 'react-native-popup-menu';
 
 interface NoteCardProps {
-  id: string;
+  noteId: string;
   name: string;
   content: string;
   isLink: boolean;
   isFavorite: boolean;
-  handleDelete: (id: string) => void;
+  onPress: (noteId: string) => void;
+  onDelete: (noteId: string) => void;
 }
 
 export const NoteCard = ({
-  id,
+  noteId,
   name,
   content,
   isLink,
   isFavorite,
-  handleDelete = () => {},
+  onDelete = () => {},
+  onPress = () => {},
 }: NoteCardProps) => {
   return (
     <Flex direction="row" style={styles.card}>
@@ -36,9 +38,10 @@ export const NoteCard = ({
         isRounded
       />
       <NotePreview
+        noteId={noteId}
         title={name || 'Unnamed'}
         content={content || 'Empty note'}
-        style={styles.textContainer}
+        onPress={onPress}
       />
       <IconButtonPopupMenu
         iconLibrary="entypo"
@@ -47,7 +50,7 @@ export const NoteCard = ({
         style={styles.icon}
         height={55}
         width={55}>
-        <MenuOption onSelect={() => handleDelete(id)} text="Delete" />
+        <MenuOption onSelect={() => onDelete(noteId)} text="Delete" />
       </IconButtonPopupMenu>
     </Flex>
   );

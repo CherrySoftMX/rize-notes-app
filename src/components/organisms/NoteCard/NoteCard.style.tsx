@@ -21,10 +21,4 @@ export const styles = StyleSheet.create({
     top: 0,
     right: 0,
   },
-  textContainer: {
-    maxWidth: '63%',
-    marginLeft: spacing.xm,
-    overflow: 'hidden',
-    flexWrap: 'nowrap',
-  },
 });

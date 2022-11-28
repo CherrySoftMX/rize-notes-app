@@ -10,6 +10,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { FolderScreen } from '@screens/FolderScreen';
 import { RegisterScreen } from '@screens/RegisterScreen';
 import { LoginScreen } from '@screens/LoginScreen';
+import { NoteScreen } from '@screens/NoteScreen';
 
 const Tab = createMaterialBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -73,6 +74,7 @@ const HomeStackScreens = () => {
       }}>
       <HomeStack.Screen name="Home" component={HomeScreen} />
       <HomeStack.Screen name="Folder" component={FolderScreen} />
+      <HomeStack.Screen name="Note" component={NoteScreen} />
     </HomeStack.Navigator>
   );
 };

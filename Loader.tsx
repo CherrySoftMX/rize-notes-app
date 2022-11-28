@@ -4,7 +4,7 @@ import { MenuProvider } from 'react-native-popup-menu';
 import { NavigationContainer } from '@react-navigation/native';
 import { ScreenProvider } from './src/library/context/ScreenContext';
 import { Else, If, Then } from 'react-if';
-import { BottomTabNavigation } from '@molecules/BottomTopNavigation';
+import { BottomTabNavigation } from '@molecules/BottomTapNavigation';
 import { Text } from 'react-native';
 import { useAuth } from '@hooks/useAuth';
 

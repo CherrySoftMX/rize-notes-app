@@ -8,16 +8,16 @@ import { Flex } from '@react-native-material/core';
 import { spacing } from '../../../design/tokens';
 
 interface NoteListProps {
-  handleClick: (id: string) => void;
-  handleDelete: (id: string) => void;
-  notes: Note[];
   ListHeaderComponent?: React.ReactNode | null;
+  notes: Note[];
+  onNotePressed: (id: string) => void;
+  onDeleteNote: (id: string) => void;
 }
 
 export const NoteList = ({
-  handleClick,
-  handleDelete,
   notes,
+  onNotePressed,
+  onDeleteNote,
   ...rest
 }: NoteListProps) => {
   return (
@@ -25,7 +25,12 @@ export const NoteList = ({
       {...rest}
       data={notes}
       renderItem={({ item }: { item: Note }) => (
-        <NoteCard {...item} handleDelete={handleDelete} />
+        <NoteCard
+          {...item}
+          noteId={item.id}
+          onDelete={onDeleteNote}
+          onPress={onNotePressed}
+        />
       )}
       keyExtractor={item => item.id}
       contentContainerStyle={styles.container}

@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
-import { colors } from '../../../design/tokens/colors';
-import { fontSize, fontType } from '../../../design/tokens';
+import { colors } from '../../../design/tokens';
+import { fontSize, fontType, spacing } from '../../../design/tokens';
 
 export const styles = StyleSheet.create({
   title: {
@@ -14,8 +14,10 @@ export const styles = StyleSheet.create({
     color: colors.mediumGrey,
     fontFamily: fontType.regular,
   },
-  item: {
-    padding: 10,
-    margin: 2,
+  textContainer: {
+    width: '100%',
+    marginLeft: spacing.xm,
+    overflow: 'hidden',
+    flexWrap: 'nowrap',
   },
 });

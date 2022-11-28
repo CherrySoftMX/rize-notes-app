@@ -1,22 +1,29 @@
 import React from 'react';
 import { Text } from '@react-native-material/core';
-import { View } from 'react-native';
+import { Pressable } from 'react-native';
 import { styles } from './NotePreview.style';
 
 interface NotePreviewProps {
+  noteId: string;
   title: string;
   content: string;
+  onPress: (noteId: string) => void;
 }
 
-export const NotePreview = ({ title, content, ...rest }: NotePreviewProps) => {
+export const NotePreview = ({
+  noteId,
+  title,
+  content,
+  onPress,
+}: NotePreviewProps) => {
   return (
-    <View style={styles.item} {...rest}>
+    <Pressable style={styles.textContainer} onPress={() => onPress(noteId)}>
       <Text style={styles.title} numberOfLines={1}>
         {title}
       </Text>
       <Text style={styles.textEllipsis} numberOfLines={1}>
         {content}
       </Text>
-    </View>
+    </Pressable>
   );
 };
