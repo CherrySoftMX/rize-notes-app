@@ -6,5 +6,5 @@ export type RootStackParamList = {
   Settings: undefined;
   Register: undefined;
   Login: undefined;
-  Search: { notes: Array<Note>; query: string };
+  Search: { notes: Array<Note>; query: string; indexDate: number };
 };

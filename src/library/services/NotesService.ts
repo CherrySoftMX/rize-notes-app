@@ -15,12 +15,15 @@ export const createNote = (noteRequest: CreateNoteRequest): Note => {
   const userId = auth.getCurrentUserId();
   const noteId = uuid.v4() as string;
 
+  const currentDate = new Date().toUTCString();
   const newNote: Note = {
     ...noteRequest,
     id: `${noteId}`,
     image: '',
     userId: userId,
     categories: [],
+    createAt: currentDate,
+    updateAt: currentDate,
   };
 
   firestore()
@@ -117,9 +120,9 @@ export const fileterNotesByLastNumberDays = async (days: number) => {
 
   const filteredNotes = notes.filter(note => {
     const currentTime = new Date();
+    currentTime.setDate(currentTime.getDate() - days);
     const createdAtNote = new Date(note.createAt);
-
-    return createdAtNote.getTime() <= currentTime.getTime();
+    return createdAtNote.getTime() >= currentTime.getTime();
   });
 
   return filteredNotes;

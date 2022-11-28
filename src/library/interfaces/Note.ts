@@ -13,7 +13,7 @@ export interface Note {
   image?: string;
   categories: string[];
   createAt: string;
-  updateAr: string;
+  updateAt: string;
 }
 
 export interface CreateNoteRequest {

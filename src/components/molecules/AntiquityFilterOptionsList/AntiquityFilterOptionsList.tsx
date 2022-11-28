@@ -12,12 +12,14 @@ const filterOptions = [
 
 interface AntiquityFilterOptionsListProps {
   mHorizontal?: number;
+  onClick: (index:number) => void;
 }
 
 export const AntiquityFilterOptionsList = ({
   mHorizontal = 10,
+  onClick,
 }: AntiquityFilterOptionsListProps) => {
-  const { currentIndex, setCurrentIndex } = useArrayNavigator(filterOptions);
+  const { currentIndex, setCurrentIndex } = useArrayNavigator(filterOptions, 0, null);
 
   return (
     <View style={{ marginHorizontal: mHorizontal, marginBottom: 10 }}>
@@ -27,7 +29,10 @@ export const AntiquityFilterOptionsList = ({
             key={index}
             label={option}
             isSelected={currentIndex === index}
-            onPress={() => setCurrentIndex(index)}
+            onPress={() => {
+                onClick(index);
+                setCurrentIndex(index);
+            }}
           />
         ))}
       </ScrollView>
