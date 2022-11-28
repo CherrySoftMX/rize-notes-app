@@ -24,7 +24,6 @@ type SearchScreenParams = NativeStackNavigationProp<
 >;
 
 export const SearchScreen = () => {
-  const navigation = useNavigation<SearchScreenParams>();
   const route = useRoute<SearchRouteProp>();
 
   const [query, setQuery] = useState('');

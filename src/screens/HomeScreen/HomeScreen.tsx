@@ -17,7 +17,6 @@ import { RootStackParamList } from '@screens/RootStackParams';
 import { CreateNoteRequest, Note } from 'library/interfaces/Note';
 import {
   createNote,
-  fileterNotesByLastNumberDays,
   filterNotesByContent,
 } from '../../library/services/NotesService';
 import SplashScreen from 'react-native-splash-screen';
@@ -25,7 +24,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScreenHeader } from '@organisms/ScreenHeader';
 import { useRecoilState } from 'recoil';
 import { foldersState } from '../../library/state/foldersState';
-import { Alert } from 'react-native';
 
 type HomeScreenParams = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
