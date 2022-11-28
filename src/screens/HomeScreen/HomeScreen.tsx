@@ -14,8 +14,11 @@ import { CreateFolderRequest, Folder } from '../../library/interfaces/Folder';
 import { MultiActionFloatButton } from '@molecules/MultiActionFloatButton';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@screens/RootStackParams';
-import { CreateNoteRequest } from 'library/interfaces/Note';
-import { createNote } from '../../library/services/NotesService';
+import { CreateNoteRequest, Note } from 'library/interfaces/Note';
+import {
+  createNote,
+  filterNotesByContent,
+} from '../../library/services/NotesService';
 import SplashScreen from 'react-native-splash-screen';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScreenHeader } from '@organisms/ScreenHeader';
@@ -95,12 +98,28 @@ export const HomeScreen = () => {
     setFolderToEdit(undefined);
   };
 
+  const [query, setQuery] = useState('');
+
+  const onSearch = async () => {
+    const notes = await filterNotesByContent(query);
+    const indexDate = -1;
+    navigation.navigate('Search', { notes, query, indexDate });
+  };
+
+  const onFilterByDates = (indexDate: number) => {
+    const notes: Array<Note> = [];
+    navigation.navigate('Search', { notes, query, indexDate });
+  };
+
   return (
     <SafeAreaView>
       <FolderList
         ListHeaderComponent={
-          <ScreenHeader title="My notes">
-            <AntiquityFilterOptionsList />
+          <ScreenHeader
+            title="My notes"
+            handleClick={onSearch}
+            setQuery={setQuery}>
+            <AntiquityFilterOptionsList onClick={onFilterByDates} />
           </ScreenHeader>
         }
         folders={folders}

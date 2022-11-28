@@ -10,9 +10,11 @@ import { fontSize } from '../../../design/tokens';
 
 interface SearchBarProps {
   mHorizontal?: number;
+  handleClick: (e: any) => void;
+  setQuery: (text:string) => void;
 }
 
-export const SearchBar = ({ mHorizontal }: SearchBarProps) => {
+export const SearchBar = ({ mHorizontal, handleClick, setQuery }: SearchBarProps) => {
   return (
     <View
       elevation={4}
@@ -23,8 +25,9 @@ export const SearchBar = ({ mHorizontal }: SearchBarProps) => {
       ]}>
       <Flex direction="row" style={styles.container}>
         <SearchByNoteTypeButton />
-        <TextInput placeholder="Search" style={styles.textInput} />
+        <TextInput placeholder="Search" style={styles.textInput} onChangeText={text=>setQuery(text)}/>
         <IoniconButton
+          onPress={handleClick}
           style={styles.trailingSearchButton}
           iconName="search-sharp"
         />

@@ -15,12 +15,15 @@ export const createNote = (noteRequest: CreateNoteRequest): Note => {
   const userId = auth.getCurrentUserId();
   const noteId = uuid.v4() as string;
 
+  const currentDate = new Date().toUTCString();
   const newNote: Note = {
     ...noteRequest,
     id: `${noteId}`,
     image: '',
     userId: userId,
     categories: [],
+    createAt: currentDate,
+    updateAt: currentDate,
   };
 
   firestore()
@@ -104,4 +107,40 @@ export const deleteNoteById = async (
     editFolder(editedFolder);
   }
   return deletedNote;
+};
+
+/**
+ * Filter notes by las number days
+ *
+ * @param days - days to filter notes
+ * @returns An array of {@link Note}.
+ */
+export const fileterNotesByLastNumberDays = async (days: number) => {
+  const notes = await getNotes();
+
+  const filteredNotes = notes.filter(note => {
+    const currentTime = new Date();
+    currentTime.setDate(currentTime.getDate() - days);
+    const createdAtNote = new Date(note.createAt);
+    return createdAtNote.getTime() >= currentTime.getTime();
+  });
+
+  return filteredNotes;
+};
+
+/**
+ * Filter notes by search in content (name and content of note)
+ *
+ * @param search - search to filter notes
+ * @returns An array of {@link Note}.
+ */
+export const filterNotesByContent = async (search: string) => {
+  const notes = await getNotes();
+
+  const filteredNotes = notes.filter(note => {
+    const content = note.content + ' ' + note.name;
+    return content.includes(search);
+  });
+
+  return filteredNotes;
 };
