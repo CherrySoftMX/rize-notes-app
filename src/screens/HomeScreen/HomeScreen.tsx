@@ -4,23 +4,15 @@ import { useNavigation } from '@react-navigation/native';
 import { FolderList } from '@organisms/FolderList/FolderList';
 import { NoteForm } from '@organisms/NoteForm';
 import { FolderForm } from '@organisms/FolderForm/FolderForm';
-import {
-  createFolder,
-  getFolders,
-  deleteFolderById,
-  editFolder,
-} from '../../library/services/FoldersService';
-import { CreateFolderRequest, Folder } from '../../library/interfaces/Folder';
+import { Folder } from '../../library/interfaces/Folder';
 import { MultiActionFloatButton } from '@molecules/MultiActionFloatButton';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@screens/RootStackParams';
-import { CreateNoteRequest } from 'library/interfaces/Note';
-import { createNote } from '../../library/services/NotesService';
-import SplashScreen from 'react-native-splash-screen';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScreenHeader } from '@organisms/ScreenHeader';
-import { useRecoilState } from 'recoil';
-import { foldersState } from '../../library/state/foldersState';
+import { useFolder } from '@hooks/useFolder';
+import SplashScreen from 'react-native-splash-screen';
+import { useNotes } from '@hooks/useNotes';
 
 type HomeScreenParams = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
@@ -28,24 +20,21 @@ export const HomeScreen = () => {
   const navigation = useNavigation<HomeScreenParams>();
   const [showNotesModal, setShowNotesModal] = useState(false);
   const [showFolderModal, setShowFolderModal] = useState(false);
-  const [folderToEdit, setFolderToEdit] = useState<Folder | undefined>(
-    undefined,
-  );
-  const [folders, setFolders] = useRecoilState(foldersState);
+  const [folderToEdit, setFolderToEdit] = useState<Folder | undefined>();
+  const { folders, handleCreateFolder, handleEditFolder, handleDeleteFolder } =
+    useFolder();
+  const { handleCreateNote } = useNotes();
 
   useEffect(() => {
-    getFolders().then(result => {
-      setFolders(result);
-      SplashScreen.hide();
-    });
-  }, [setFolders]);
-
-  const openNotesForm = async () => {
-    setShowNotesModal(true);
-  };
+    SplashScreen.hide();
+  }, []);
 
   const navigateToFolder = (folderId: string) => {
     navigation.navigate('Folder', { folderId });
+  };
+
+  const openNotesForm = async () => {
+    setShowNotesModal(true);
   };
 
   const onSelectFolderToEdit = (folder: Folder) => {
@@ -53,45 +42,13 @@ export const HomeScreen = () => {
     setShowFolderModal(!showFolderModal);
   };
 
-  const onCreateFolder = (folderRequest: CreateFolderRequest) => {
-    const newFolder = createFolder(folderRequest);
-    setFolders(previousState => [newFolder, ...previousState]);
-  };
-
-  const onCreateNote = (noteRequest: CreateNoteRequest) => {
-    const newNote = createNote(noteRequest);
-    setFolders((previous: Array<Folder>) => {
-      const _folders: Array<Folder> = previous.map(folder => {
-        if (folder.id === noteRequest.folderId) {
-          return { ...folder, noteIds: [...folder.noteIds, newNote.id] };
-        } else {
-          return folder;
-        }
-      });
-      return [..._folders];
-    });
-  };
-
-  const onDeleteFolder = async (folderId: string) => {
-    await deleteFolderById(folderId);
-    setFolders(previousState => previousState.filter(f => f.id !== folderId));
+  const onCloseFolderModal = (showModal: boolean) => {
+    setShowFolderModal(showModal);
+    setFolderToEdit(undefined);
   };
 
   const onEditFolder = async (folderRequest: Folder) => {
-    const _folders = folders.map(folder => {
-      if (folder.id === folderRequest.id) {
-        return folderRequest;
-      } else {
-        return folder;
-      }
-    });
-    editFolder(folderRequest);
-    setFolderToEdit(undefined);
-    setFolders([..._folders]);
-  };
-
-  const onCloseFolderModal = (showModal: boolean) => {
-    setShowFolderModal(showModal);
+    await handleEditFolder(folderRequest);
     setFolderToEdit(undefined);
   };
 
@@ -105,8 +62,8 @@ export const HomeScreen = () => {
         }
         folders={folders}
         handleClick={navigateToFolder}
-        handleDelete={onDeleteFolder}
         handleEdit={onSelectFolderToEdit}
+        handleDelete={handleDeleteFolder}
       />
       <MultiActionFloatButton
         onNotePress={() => openNotesForm()}
@@ -114,16 +71,16 @@ export const HomeScreen = () => {
       />
       <NoteForm
         folders={folders}
+        handleCreateNote={handleCreateNote}
         showModal={showNotesModal}
         closeModal={setShowNotesModal}
-        handleCreateNote={onCreateNote}
       />
       <FolderForm
+        folder={folderToEdit}
+        onCreate={handleCreateFolder}
+        onEdit={onEditFolder}
         showModal={showFolderModal}
         closeModal={onCloseFolderModal}
-        onCreate={onCreateFolder}
-        onEdit={onEditFolder}
-        folder={folderToEdit}
       />
     </SafeAreaView>
   );
