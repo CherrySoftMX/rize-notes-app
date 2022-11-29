@@ -12,7 +12,7 @@ interface AntiquityFilterOptionsListProps {
 
 export const AntiquityFilterOptionsList = ({
   mHorizontal = 10,
-  onClick,
+  onClick = () => {},
 }: AntiquityFilterOptionsListProps) => {
   const { currentIndex, setCurrentIndex } = useArrayNavigator(
     filterOptions,

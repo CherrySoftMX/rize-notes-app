@@ -13,6 +13,7 @@ import { LineChartCard } from '@organisms/LineChartCard';
 import { BiggerFoldersChart } from '@organisms/BiggerFoldersChart';
 import { useRecoilValue } from 'recoil';
 import { foldersState } from '../../library/state/foldersState';
+import { notesState } from '../../library/state/notesState';
 
 const pieData = [
   {
@@ -75,6 +76,7 @@ const daysOfTheWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 export const StatisticsScreen = () => {
   const folders = useRecoilValue(foldersState);
+  const notes = useRecoilValue(notesState);
   return (
     <SafeAreaView>
       <ScrollView>
@@ -97,10 +99,16 @@ export const StatisticsScreen = () => {
             </View>
             <HStack spacing={spacing.sm}>
               <View style={styles.dataCardContainer}>
-                <DataCard label="Text notes" value={`${pieData[0].value}`} />
+                <DataCard
+                  label="Text notes"
+                  value={notes.filter(n => !n.isLink).length}
+                />
               </View>
               <View style={styles.dataCardContainer}>
-                <DataCard label="Link notes" value={`${pieData[1].value}`} />
+                <DataCard
+                  label="Link notes"
+                  value={notes.filter(n => n.isLink).length}
+                />
               </View>
             </HStack>
             <HStack spacing={spacing.sm}>

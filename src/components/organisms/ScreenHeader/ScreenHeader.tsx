@@ -17,8 +17,8 @@ export const ScreenHeader = ({
   title = 'Screen Header',
   mHorizontalSearchBar,
   children,
-  handleClick,
-  setQuery,
+  handleClick = () => {},
+  setQuery = () => {},
 }: ScreenHeaderProps) => {
   return (
     <View style={styles.container}>
