@@ -14,23 +14,7 @@ import { BiggerFoldersChart } from '@organisms/BiggerFoldersChart';
 import { useRecoilValue } from 'recoil';
 import { foldersState } from '../../library/state/foldersState';
 import { notesState } from '../../library/state/notesState';
-
-const pieData = [
-  {
-    value: 36,
-    svg: {
-      fill: '#0A8877',
-    },
-    key: 'pie-text',
-  },
-  {
-    value: 68,
-    svg: {
-      fill: '#EE786B',
-    },
-    key: 'pie-links',
-  },
-];
+import { statisticsData } from '../../library/state/statisticsState';
 
 const barChartData = [
   {
@@ -75,8 +59,14 @@ const lineChartData = [5, 6, 2, 4, 3, 10, 8];
 const daysOfTheWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 export const StatisticsScreen = () => {
-  const folders = useRecoilValue(foldersState);
-  const notes = useRecoilValue(notesState);
+  const {
+    totalNumFolders,
+    numLinkNotes,
+    numTextNotes,
+    numFavorites,
+    pieChartData,
+  } = useRecoilValue(statisticsData);
+
   return (
     <SafeAreaView>
       <ScrollView>
@@ -89,9 +79,9 @@ export const StatisticsScreen = () => {
           <VStack spacing={spacing.sm}>
             <View>
               <PieChartCard
-                data={pieData}
-                numText={pieData[0].value}
-                numLinks={pieData[1].value}
+                data={pieChartData}
+                numText={numTextNotes}
+                numLinks={numLinkNotes}
               />
             </View>
             <View style={styles.sectionTitle}>
@@ -99,24 +89,18 @@ export const StatisticsScreen = () => {
             </View>
             <HStack spacing={spacing.sm}>
               <View style={styles.dataCardContainer}>
-                <DataCard
-                  label="Text notes"
-                  value={notes.filter(n => !n.isLink).length}
-                />
+                <DataCard label="Text notes" value={numTextNotes} />
               </View>
               <View style={styles.dataCardContainer}>
-                <DataCard
-                  label="Link notes"
-                  value={notes.filter(n => n.isLink).length}
-                />
+                <DataCard label="Link notes" value={numLinkNotes} />
               </View>
             </HStack>
             <HStack spacing={spacing.sm}>
               <View style={styles.dataCardContainer}>
-                <DataCard label="Favorites" value="27" />
+                <DataCard label="Favorites" value={numFavorites} />
               </View>
               <View style={styles.dataCardContainer}>
-                <DataCard label="Folders" value={folders.length} />
+                <DataCard label="Folders" value={totalNumFolders} />
               </View>
             </HStack>
             <View style={styles.sectionTitle}>

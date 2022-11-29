@@ -144,14 +144,20 @@ class AuthService {
     const previousUserFolders = await getFolders();
     const previousUserNotes = await getNotes();
 
-    const { user } = await firebaseAuth()
+    const logData = await firebaseAuth()
       .signInWithEmailAndPassword(email, password)
       .catch(error => {
         status = { success: false, error: error.code };
       });
 
+    if (!logData) {
+      console.log('Error al iniciar sesión');
+      return status;
+    }
+    const user = logData.user as FirebaseUser;
+
     // Synchronize data of offline and online user
-    if (!previousUser.isLogged && previousUser.id === user.uid) {
+    if (!previousUser.isLogged && previousUser.id === logData.user.uid) {
       const onlineUserFolders = await getFolders();
       const onlineUserNotes = await getNotes();
 
