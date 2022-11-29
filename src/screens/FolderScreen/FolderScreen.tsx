@@ -22,6 +22,7 @@ import { foldersState } from '../../library/state/foldersState';
 import { FolderForm } from '@organisms/FolderForm/FolderForm';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { deleteNoteById } from '../../library/services/NotesService';
+import { notesState } from '../../library/state/notesState';
 
 type FolderRouteProp = RouteProp<RootStackParamList, 'Folder'>;
 type FolderScreenParams = NativeStackNavigationProp<
@@ -37,6 +38,7 @@ export const FolderScreen = () => {
   const [folderWithNotes, setFolderWithNotes] = useState<FolderWithNotes>({
     notes: [] as Array<Note>,
   } as FolderWithNotes);
+  const setNotes = useSetRecoilState(notesState);
 
   useEffect(() => {
     getFolderAndNotesById(route.params.folderId).then(result => {
@@ -56,8 +58,6 @@ export const FolderScreen = () => {
 
   const onEditFolder = (folderRequest: Folder) => {
     setFolderWithNotes({ ...folderWithNotes, ...folderRequest });
-    console.log('REQUEST');
-    console.log(folderRequest);
     editFolder(folderRequest);
     setFoldersState((previousState: Array<Folder>) => {
       const _folders: Array<Folder> = previousState.map((folder: Folder) => {
@@ -72,9 +72,12 @@ export const FolderScreen = () => {
   };
 
   const onDeleteFolder = async (folderId: string) => {
-    await deleteFolderById(folderId);
+    const deletedFolder = await deleteFolderById(folderId);
     setFoldersState(previousState =>
       previousState.filter(f => f.id !== folderId),
+    );
+    setNotes(previousState =>
+      previousState.filter(note => !deletedFolder.noteIds.includes(note.id)),
     );
     navigation.goBack();
   };
@@ -88,6 +91,9 @@ export const FolderScreen = () => {
       note => note.id !== deletedNote.id,
     );
     const editedFolder: FolderWithNotes = { ...folderWithNotes, notes };
+    setNotes(previousState =>
+      previousState.filter(note => note.id !== deletedNote.id),
+    );
     setFolderWithNotes(editedFolder);
     setFoldersState(previousState =>
       previousState.map(folder => {

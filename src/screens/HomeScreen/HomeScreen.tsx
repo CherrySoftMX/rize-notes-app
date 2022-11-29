@@ -22,8 +22,9 @@ import {
 import SplashScreen from 'react-native-splash-screen';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScreenHeader } from '@organisms/ScreenHeader';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { foldersState } from '../../library/state/foldersState';
+import { notesState } from '../../library/state/notesState';
 
 type HomeScreenParams = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
@@ -35,6 +36,7 @@ export const HomeScreen = () => {
     undefined,
   );
   const [folders, setFolders] = useRecoilState(foldersState);
+  const setNotes = useSetRecoilState(notesState);
 
   useEffect(() => {
     getFolders().then(result => {
@@ -73,11 +75,15 @@ export const HomeScreen = () => {
       });
       return [..._folders];
     });
+    setNotes((previous: Array<Note>) => [...previous, newNote]);
   };
 
   const onDeleteFolder = async (folderId: string) => {
-    await deleteFolderById(folderId);
+    const deletedFolder = await deleteFolderById(folderId);
     setFolders(previousState => previousState.filter(f => f.id !== folderId));
+    setNotes(previousState =>
+      previousState.filter(note => !deletedFolder.noteIds.includes(note.id)),
+    );
   };
 
   const onEditFolder = async (folderRequest: Folder) => {

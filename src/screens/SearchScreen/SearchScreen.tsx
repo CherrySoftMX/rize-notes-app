@@ -3,7 +3,7 @@ import { NoteList } from '@organisms/NoteList/NoteList';
 import { VStack } from '@react-native-material/core';
 import { styles } from './SearchScreen.style';
 import { Text, View } from 'react-native';
-import { RouteProp, useRoute, useNavigation } from '@react-navigation/native';
+import { RouteProp, useRoute } from '@react-navigation/native';
 import { RootStackParamList } from '@screens/RootStackParams';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Note } from 'library/interfaces/Note';
@@ -16,6 +16,8 @@ import {
   filterNotesByContent,
 } from '../../library/services/NotesService';
 import { AntiquityFilterOptionsList } from '@molecules/AntiquityFilterOptionsList';
+import { notesState } from '../../library/state/notesState';
+import { useSetRecoilState } from 'recoil';
 
 type SearchRouteProp = RouteProp<RootStackParamList, 'Search'>;
 type SearchScreenParams = NativeStackNavigationProp<
@@ -25,11 +27,10 @@ type SearchScreenParams = NativeStackNavigationProp<
 
 export const SearchScreen = () => {
   const route = useRoute<SearchRouteProp>();
-
   const [query, setQuery] = useState('');
   const [lastQuery, setLastQuery] = useState('');
-
   const [notes, setNotes] = useState([] as Array<Note>);
+  const setGlobalNotes = useSetRecoilState(notesState);
 
   useEffect(() => {
     setQuery(route.params.query);
@@ -59,8 +60,10 @@ export const SearchScreen = () => {
       return;
     }
     const updatedNotes = notes.filter(note => note.id !== deletedNote.id);
-
     setNotes(updatedNotes);
+    setGlobalNotes(previousState =>
+      previousState.filter(note => note.id !== noteId),
+    );
   };
 
   return (
