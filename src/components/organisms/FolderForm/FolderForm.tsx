@@ -73,18 +73,18 @@ export const FolderForm = ({
               name: folder ? folder.name : '',
               color: folder ? folder.color : colorOptions[currentIndex],
               isLimited: folder ? folder.isLimited : false,
-              limit: folder && folder.limit ? `${folder.limit}` : '',
+              limit: folder && folder.limit ? `${folder.limit}` : '0',
             }}
             onSubmit={values => {
               if (folder) {
                 editFolder(folder, {
                   ...values,
-                  limit: Number(values.limit) || undefined,
+                  limit: Number(values.limit) || 0,
                 });
               } else {
                 createFolder({
                   ...values,
-                  limit: Number(values.limit) || undefined,
+                  limit: Number(values.limit) || 0,
                 });
               }
             }}>

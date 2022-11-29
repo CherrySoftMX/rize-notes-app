@@ -110,7 +110,7 @@ export const deleteNoteById = async (
 };
 
 /**
- * Filter notes by las number days
+ * Filter notes by last number of days
  *
  * @param days - days to filter notes
  * @returns An array of {@link Note}.
@@ -143,4 +143,46 @@ export const filterNotesByContent = async (search: string) => {
   });
 
   return filteredNotes;
+};
+
+/**
+ * Uploads the array of {@Link Note} to firestore with
+ * the provided id of the user. This method should only
+ * be called if there's an active session.
+ *
+ * @param newUserId - The new id which will replace the old id.
+ * @param notes - An array of {@Link Note}.
+ */
+export const uploadAndChangeUserOfNotes = async (
+  newUserId: string,
+  notes: Array<Note>,
+) => {
+  await Promise.all(
+    notes.map(note => {
+      firestore()
+        .collection('notes')
+        .doc(note.id)
+        .set({
+          ...note,
+          userId: newUserId,
+        })
+        .catch((err: any) => console.log(err));
+    }),
+  );
+};
+
+/**
+ * Updates the user id of existing notes.
+ *
+ * @param newUserId - The new id which will replace the old id.
+ * @param notes - An array of {@Link Note}.
+ */
+export const changeUserOfNotes = (newUserId: string, notes: Array<Note>) => {
+  notes.map(note => {
+    firestore()
+      .collection('notes')
+      .doc(note.id)
+      .update({ userId: newUserId })
+      .catch((err: any) => console.log(err));
+  });
 };

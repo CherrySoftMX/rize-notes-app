@@ -56,6 +56,8 @@ export const FolderScreen = () => {
 
   const onEditFolder = (folderRequest: Folder) => {
     setFolderWithNotes({ ...folderWithNotes, ...folderRequest });
+    console.log('REQUEST');
+    console.log(folderRequest);
     editFolder(folderRequest);
     setFoldersState((previousState: Array<Folder>) => {
       const _folders: Array<Folder> = previousState.map((folder: Folder) => {
