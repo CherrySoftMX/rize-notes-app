@@ -8,11 +8,13 @@ import {
   getFolders,
   uploadAndChangeUserOfFolders,
   changeUserOfFolders,
+  deleteFolderById,
 } from './FoldersService';
 import {
   getNotes,
   uploadAndChangeUserOfNotes,
   changeUserOfNotes,
+  deleteNoteById,
 } from './NotesService';
 
 /**
@@ -149,19 +151,45 @@ class AuthService {
 
   /**
    * Logs out the current user
+   * @beta
    */
   public async logout() {
-    const currentUserFolders = await getFolders();
-    const currentUserNotes = await getNotes();
+    const onlineUserFolders = await getFolders();
+    const onlineUserNotes = await getNotes();
     const user = this.getCurrentUserId();
 
-    console.log('Cerrando sesion');
-    console.log(currentUserFolders);
-    console.log(currentUserNotes);
+    console.log('Sign out');
     await firebaseAuth().signOut();
 
-    await uploadAndChangeUserOfFolders(user, currentUserFolders);
-    await uploadAndChangeUserOfNotes(user, currentUserNotes);
+    const offlineUserFolders = await getFolders();
+    const offlineUserNotes = await getNotes();
+
+    // Delete offline folders which have been deleted online.
+    const onlineUserFoldersIds = onlineUserFolders.map(f => f.id);
+    const deletedFolders = offlineUserFolders.filter(
+      f => !onlineUserFoldersIds.includes(f.id),
+    );
+    try {
+      await Promise.all(deletedFolders.map(f => deleteFolderById(f.id)));
+    } catch (err) {
+      console.log('Error al sincronizar carpetas borradas');
+      console.log(err);
+    }
+
+    // Delete offline notes which have been deleted online
+    const onlineUserNotesIds = onlineUserNotes.map(n => n.id);
+    const deletedNotes = offlineUserNotes.filter(
+      n => !onlineUserNotesIds.includes(n.id),
+    );
+    try {
+      await Promise.all(deletedNotes.map(n => deleteNoteById(n.id, true)));
+    } catch (err) {
+      console.log('Error al sincronizar notas borradas');
+      console.log(err);
+    }
+
+    await uploadAndChangeUserOfFolders(user, onlineUserFolders);
+    await uploadAndChangeUserOfNotes(user, onlineUserNotes);
   }
 
   /**
