@@ -7,13 +7,11 @@ import firebaseAuth from '@react-native-firebase/auth';
 import {
   getFolders,
   uploadAndChangeUserOfFolders,
-  changeUserOfFolders,
   deleteFolderById,
 } from './FoldersService';
 import {
   getNotes,
   uploadAndChangeUserOfNotes,
-  changeUserOfNotes,
   deleteNoteById,
 } from './NotesService';
 
@@ -141,11 +139,50 @@ class AuthService {
       success: true,
       error: '',
     };
-    await firebaseAuth()
+
+    const previousUser = this.getUserData();
+    const previousUserFolders = await getFolders();
+    const previousUserNotes = await getNotes();
+
+    const { user } = await firebaseAuth()
       .signInWithEmailAndPassword(email, password)
       .catch(error => {
         status = { success: false, error: error.code };
       });
+
+    // Synchronize data of offline and online user
+    if (!previousUser.isLogged && previousUser.id === user.uid) {
+      const onlineUserFolders = await getFolders();
+      const onlineUserNotes = await getNotes();
+
+      // Delete online folders which have been deleted offline.
+      const previousUserFoldersIds = previousUserFolders.map(f => f.id);
+      const deletedFolders = onlineUserFolders.filter(
+        f => !previousUserFoldersIds.includes(f.id),
+      );
+      try {
+        await Promise.all(deletedFolders.map(f => deleteFolderById(f.id)));
+      } catch (err) {
+        console.log('Error al sincronizar carpetas borradas');
+        console.log(err);
+      }
+
+      // Delete online notes which have been deleted offline
+      const previousUserNotesIds = previousUserNotes.map(n => n.id);
+      const deletedNotes = onlineUserNotes.filter(
+        n => !previousUserNotesIds.includes(n.id),
+      );
+      try {
+        await Promise.all(deletedNotes.map(n => deleteNoteById(n.id, true)));
+      } catch (err) {
+        console.log('Error al sincronizar notas borradas');
+        console.log(err);
+      }
+
+      await uploadAndChangeUserOfFolders(user.uid, previousUserFolders);
+      await uploadAndChangeUserOfNotes(user.uid, previousUserNotes);
+    }
+
     return status;
   }
 

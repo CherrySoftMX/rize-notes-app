@@ -143,9 +143,9 @@ export const filterNotesByContent = async (search: string) => {
   });
 
   return filteredNotes;
-}
+};
 
- /**
+/**
  * Uploads the array of {@Link Note} to firestore with
  * the provided id of the user. This method should only
  * be called if there's an active session.
