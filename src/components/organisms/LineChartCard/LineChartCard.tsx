@@ -8,7 +8,7 @@ import { spacing, colors } from '../../../design/tokens';
 import { styles } from './LineChartCard.style';
 
 const axesSvg = { fontSize: 10, fill: 'grey' };
-const verticalContentInset = { top: 10, bottom: 10 };
+const verticalContentInset = { top: 10, bottom: 15, left: 10, right: 10 };
 const xAxisHeight = 30;
 
 interface LineChartCardProps {
@@ -16,13 +16,16 @@ interface LineChartCardProps {
   labels: Array<string | number>;
 }
 
-export const LineChartCard = ({ data, labels }: LineChartCardProps) => {
+export const LineChartCard = ({
+  data = [],
+  labels = [],
+}: LineChartCardProps) => {
   return (
     <CardContainer vPadding={spacing.lg}>
       <VStack spacing={spacing.xm}>
         <View style={styles.lineChartContainer}>
           <YAxis
-            data={data}
+            data={[...data, 0]}
             style={{ marginBottom: xAxisHeight / 2 }}
             contentInset={verticalContentInset}
             svg={axesSvg}
@@ -32,6 +35,7 @@ export const LineChartCard = ({ data, labels }: LineChartCardProps) => {
               style={styles.lineChart}
               data={data}
               contentInset={verticalContentInset}
+              gridMin={0}
               svg={{ stroke: colors.primary, strokeWidth: 2 }}>
               <Grid />
               {data.map((_, i) => (
@@ -42,7 +46,7 @@ export const LineChartCard = ({ data, labels }: LineChartCardProps) => {
               style={styles.lineChartHorizontalLabel}
               data={data}
               formatLabel={(value, index) => labels[index]}
-              contentInset={{ left: 10, right: 10 }}
+              contentInset={{ left: 20, right: 20 }}
               svg={axesSvg}
             />
           </View>

@@ -56,15 +56,21 @@ export const PieChartCard = ({
           <VStack spacing={spacing.sm}>
             <View>
               <LabelWithCircle
-                label={`${Math.floor(
-                  (numLinks * 100) / (numLinks + numText),
-                )}%`}
+                label={
+                  numLinks + numText !== 0
+                    ? `${Math.floor((numLinks * 100) / (numLinks + numText))}%`
+                    : '0'
+                }
                 color={styles.linkColor.backgroundColor}
               />
             </View>
             <View>
               <LabelWithCircle
-                label={`${Math.ceil((numText * 100) / (numLinks + numText))}%`}
+                label={
+                  numLinks + numText !== 0
+                    ? `${Math.ceil((numText * 100) / (numLinks + numText))}%`
+                    : '0'
+                }
                 color={styles.textColor.backgroundColor}
               />
             </View>
