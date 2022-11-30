@@ -5,55 +5,14 @@ import { ScreenTitle } from '@atoms/ScreenTitle';
 import { styles } from './StatisticsScreen.style';
 import { PieChartCard } from '@organisms/PieChartCard/';
 import { VStack, HStack } from '@react-native-material/core';
-import { spacing, colors } from '../../design/tokens';
+import { spacing } from '../../design/tokens';
 import { DataCard } from '@molecules/DataCard';
 import { AntiquityFilterOptionsList } from '@molecules/AntiquityFilterOptionsList';
 import { ScreenHeader } from '@organisms/ScreenHeader';
 import { LineChartCard } from '@organisms/LineChartCard';
 import { BiggerFoldersChart } from '@organisms/BiggerFoldersChart';
 import { useRecoilValue } from 'recoil';
-import { foldersState } from '../../library/state/foldersState';
-import { notesState } from '../../library/state/notesState';
 import { statisticsData } from '../../library/state/statisticsState';
-
-const barChartData = [
-  {
-    value: 32,
-    label: 'School',
-    svg: {
-      fill: colors.lightGreen,
-      opacity: 0.9,
-    },
-    key: 'folder1',
-  },
-  {
-    value: 27,
-    label: 'Videogames',
-    svg: {
-      fill: colors.orangyRed,
-      opacity: 0.9,
-    },
-    key: 'folder2',
-  },
-  {
-    value: 19,
-    label: 'Tutorials',
-    svg: {
-      fill: colors.lightLilac,
-      opacity: 0.9,
-    },
-    key: 'folder3',
-  },
-  {
-    value: 16,
-    label: 'News',
-    svg: {
-      fill: colors.yellowishMedium,
-      opacity: 0.9,
-    },
-    key: 'folder4',
-  },
-];
 
 const lineChartData = [5, 6, 2, 4, 3, 10, 8];
 const daysOfTheWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -65,6 +24,7 @@ export const StatisticsScreen = () => {
     numTextNotes,
     numFavorites,
     pieChartData,
+    barChartData,
   } = useRecoilValue(statisticsData);
 
   return (
