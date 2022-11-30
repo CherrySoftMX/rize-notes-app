@@ -3,6 +3,7 @@ import { notesState } from './notesState';
 import { foldersState } from './foldersState';
 import { Folder } from '../../library/interfaces/Folder';
 import { labelColors } from '@organisms/BiggerFoldersChart';
+import { Note } from '../../library/interfaces/Note';
 
 export const statisticsData = selector({
   key: 'StatisticsData',
@@ -23,6 +24,8 @@ export const statisticsData = selector({
 
     const barChartData = generateBarChartDataStructure(folders);
 
+    const lineChartData = generateLineChartDataStructure(notes);
+
     return {
       totalNumNotes,
       totalNumFolders,
@@ -31,6 +34,7 @@ export const statisticsData = selector({
       numFavorites,
       pieChartData,
       barChartData,
+      lineChartData,
     };
   },
 });
@@ -88,4 +92,28 @@ const generateBarChartDataStructure = (folders: Array<Folder>) => {
     };
   });
   return chartData;
+};
+
+const generateLineChartDataStructure = (notes: Array<Note>) => {
+  const DAYS_OF_WEEK = 7;
+
+  const currentDate = new Date();
+  const lastWeek = new Date();
+  lastWeek.setDate(lastWeek.getDate() - DAYS_OF_WEEK + 1);
+  lastWeek.setHours(0, 0, 0);
+
+  const lastWeekNotes = notes.filter(note => {
+    const noteDate = new Date(note.createAt);
+    return noteDate.getTime() >= lastWeek.getTime();
+  });
+
+  const lineChartData = [];
+  for (let day = lastWeek.getDate(); day <= currentDate.getDate(); day++) {
+    const notesPerDay = lastWeekNotes.filter(note => {
+      const noteDate = new Date(note.createAt);
+      return noteDate.getDate() === day;
+    }).length;
+    lineChartData.push(notesPerDay);
+  }
+  return lineChartData;
 };

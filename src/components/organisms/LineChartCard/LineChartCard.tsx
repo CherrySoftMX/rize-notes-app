@@ -16,13 +16,13 @@ interface LineChartCardProps {
   labels: Array<string | number>;
 }
 
-export const LineChartCard = ({ data, labels }: LineChartCardProps) => {
+export const LineChartCard = ({ data = [], labels }: LineChartCardProps) => {
   return (
     <CardContainer vPadding={spacing.lg}>
       <VStack spacing={spacing.xm}>
         <View style={styles.lineChartContainer}>
           <YAxis
-            data={data}
+            data={[...data, 0]}
             style={{ marginBottom: xAxisHeight / 2 }}
             contentInset={verticalContentInset}
             svg={axesSvg}
@@ -32,6 +32,7 @@ export const LineChartCard = ({ data, labels }: LineChartCardProps) => {
               style={styles.lineChart}
               data={data}
               contentInset={verticalContentInset}
+              gridMin={0}
               svg={{ stroke: colors.primary, strokeWidth: 2 }}>
               <Grid />
               {data.map((_, i) => (

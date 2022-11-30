@@ -14,7 +14,6 @@ import { BiggerFoldersChart } from '@organisms/BiggerFoldersChart';
 import { useRecoilValue } from 'recoil';
 import { statisticsData } from '../../library/state/statisticsState';
 
-const lineChartData = [5, 6, 2, 4, 3, 10, 8];
 const daysOfTheWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 export const StatisticsScreen = () => {
@@ -25,6 +24,7 @@ export const StatisticsScreen = () => {
     numFavorites,
     pieChartData,
     barChartData,
+    lineChartData,
   } = useRecoilValue(statisticsData);
 
   return (
