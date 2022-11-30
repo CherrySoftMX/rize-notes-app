@@ -8,7 +8,7 @@ import { spacing, colors } from '../../../design/tokens';
 import { styles } from './LineChartCard.style';
 
 const axesSvg = { fontSize: 10, fill: 'grey' };
-const verticalContentInset = { top: 10, bottom: 10 };
+const verticalContentInset = { top: 10, bottom: 15, left: 10, right: 10 };
 const xAxisHeight = 30;
 
 interface LineChartCardProps {
@@ -16,7 +16,10 @@ interface LineChartCardProps {
   labels: Array<string | number>;
 }
 
-export const LineChartCard = ({ data = [], labels }: LineChartCardProps) => {
+export const LineChartCard = ({
+  data = [],
+  labels = [],
+}: LineChartCardProps) => {
   return (
     <CardContainer vPadding={spacing.lg}>
       <VStack spacing={spacing.xm}>
@@ -43,7 +46,7 @@ export const LineChartCard = ({ data = [], labels }: LineChartCardProps) => {
               style={styles.lineChartHorizontalLabel}
               data={data}
               formatLabel={(value, index) => labels[index]}
-              contentInset={{ left: 10, right: 10 }}
+              contentInset={{ left: 20, right: 20 }}
               svg={axesSvg}
             />
           </View>

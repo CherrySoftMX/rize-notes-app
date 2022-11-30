@@ -14,8 +14,6 @@ import { BiggerFoldersChart } from '@organisms/BiggerFoldersChart';
 import { useRecoilValue } from 'recoil';
 import { statisticsData } from '../../library/state/statisticsState';
 
-const daysOfTheWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
 export const StatisticsScreen = () => {
   const {
     totalNumFolders,
@@ -25,6 +23,7 @@ export const StatisticsScreen = () => {
     pieChartData,
     barChartData,
     lineChartData,
+    lineChartDataLabels,
   } = useRecoilValue(statisticsData);
 
   return (
@@ -72,7 +71,7 @@ export const StatisticsScreen = () => {
             <View style={styles.sectionTitle}>
               <ScreenTitle label="Weekly activity" align="flex-start" />
             </View>
-            <LineChartCard data={lineChartData} labels={daysOfTheWeek} />
+            <LineChartCard data={lineChartData} labels={lineChartDataLabels} />
           </VStack>
         </View>
       </ScrollView>

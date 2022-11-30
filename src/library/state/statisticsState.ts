@@ -24,7 +24,8 @@ export const statisticsData = selector({
 
     const barChartData = generateBarChartDataStructure(folders);
 
-    const lineChartData = generateLineChartDataStructure(notes);
+    const { lineChartData, lineChartDataLabels } =
+      generateLineChartDataStructure(notes);
 
     return {
       totalNumNotes,
@@ -35,6 +36,7 @@ export const statisticsData = selector({
       pieChartData,
       barChartData,
       lineChartData,
+      lineChartDataLabels,
     };
   },
 });
@@ -107,13 +109,22 @@ const generateLineChartDataStructure = (notes: Array<Note>) => {
     return noteDate.getTime() >= lastWeek.getTime();
   });
 
-  const lineChartData = [];
+  const lineChartData: Array<number> = [];
+  const lineChartDataLabels: Array<string> = [];
   for (let day = lastWeek.getDate(); day <= currentDate.getDate(); day++) {
     const notesPerDay = lastWeekNotes.filter(note => {
       const noteDate = new Date(note.createAt);
       return noteDate.getDate() === day;
-    }).length;
-    lineChartData.push(notesPerDay);
+    });
+    lineChartData.push(notesPerDay.length);
+
+    const dayData = new Date();
+    dayData.setDate(day);
+    const dayString = dayData.toUTCString().slice(0, 3);
+    lineChartDataLabels.push(dayString);
   }
-  return lineChartData;
+  return {
+    lineChartData,
+    lineChartDataLabels,
+  };
 };
