@@ -38,9 +38,9 @@ export const useFolders = () => {
   };
 
   const handleDeleteFolder = async (folderId: string) => {
-    const deletedNote = await deleteFolderById(folderId);
+    const deletedFolder = await deleteFolderById(folderId);
     setFolders(prev => prev.filter(f => f.id !== folderId));
-    setNotes(prev => prev.filter(note => note.id !== deletedNote.id));
+    setNotes(prev => prev.filter(note => note.folderId !== deletedFolder.id));
   };
 
   return {
