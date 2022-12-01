@@ -20,7 +20,7 @@ export const FavoritesScreen = () => {
         <NoteList
           ListHeaderComponent={
             <ScreenHeader
-              title="Folder"
+              title="Favorites"
               handleClick={() => {}}
               setQuery={() => {}}>
               <VStack spacing={spacing.sm}>
