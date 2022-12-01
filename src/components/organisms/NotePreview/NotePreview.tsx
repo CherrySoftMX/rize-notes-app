@@ -2,11 +2,13 @@ import React from 'react';
 import { Text } from '@react-native-material/core';
 import { Pressable } from 'react-native';
 import { styles } from './NotePreview.style';
+import { When } from 'react-if';
 
 interface NotePreviewProps {
   noteId: string;
   title: string;
   content: string;
+  showContent?: boolean;
   onPress: (noteId: string) => void;
 }
 
@@ -14,6 +16,7 @@ export const NotePreview = ({
   noteId,
   title,
   content,
+  showContent = true,
   onPress,
 }: NotePreviewProps) => {
   return (
@@ -21,9 +24,11 @@ export const NotePreview = ({
       <Text style={styles.title} numberOfLines={1}>
         {title}
       </Text>
-      <Text style={styles.textEllipsis} numberOfLines={1}>
-        {content}
-      </Text>
+      <When condition={showContent}>
+        <Text style={styles.textEllipsis} numberOfLines={1}>
+          {content}
+        </Text>
+      </When>
     </Pressable>
   );
 };

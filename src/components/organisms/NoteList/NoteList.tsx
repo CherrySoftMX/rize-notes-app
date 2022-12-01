@@ -10,7 +10,7 @@ import { spacing } from '../../../design/tokens';
 interface NoteListProps {
   ListHeaderComponent?: React.ReactNode | null;
   notes: Note[];
-  onNotePressed: (id: string) => void;
+  onNotePressed: (noteId: string) => void;
   onDeleteNote: (id: string) => void;
 }
 
@@ -28,8 +28,8 @@ export const NoteList = ({
         <NoteCard
           {...item}
           noteId={item.id}
+          onPress={() => onNotePressed(item.id)}
           onDelete={onDeleteNote}
-          onPress={onNotePressed}
         />
       )}
       keyExtractor={item => item.id}
