@@ -13,6 +13,7 @@ import { LineChartCard } from '@organisms/LineChartCard';
 import { BiggerFoldersChart } from '@organisms/BiggerFoldersChart';
 import { useRecoilValue } from 'recoil';
 import { statisticsData } from '../../library/state/statisticsState';
+import { ScreenWrapper } from '@atoms/ScreenWrapper';
 
 export const StatisticsScreen = () => {
   const {
@@ -28,53 +29,58 @@ export const StatisticsScreen = () => {
 
   return (
     <SafeAreaView>
-      <ScrollView>
-        <View style={styles.container}>
-          <View style={styles.headerContainer}>
-            <ScreenHeader title="Statistics summary" mHorizontalSearchBar={0}>
-              <AntiquityFilterOptionsList mHorizontal={0} />
-            </ScreenHeader>
-          </View>
-          <VStack spacing={spacing.sm}>
-            <View>
-              <PieChartCard
-                data={pieChartData}
-                numText={numTextNotes}
-                numLinks={numLinkNotes}
+      <ScreenWrapper>
+        <ScrollView>
+          <View style={styles.container}>
+            <View style={styles.headerContainer}>
+              <ScreenHeader title="Statistics summary" mHorizontalSearchBar={0}>
+                <AntiquityFilterOptionsList mHorizontal={0} />
+              </ScreenHeader>
+            </View>
+            <VStack spacing={spacing.sm}>
+              <View>
+                <PieChartCard
+                  data={pieChartData}
+                  numText={numTextNotes}
+                  numLinks={numLinkNotes}
+                />
+              </View>
+              <View style={styles.sectionTitle}>
+                <ScreenTitle label="General summary" align="flex-start" />
+              </View>
+              <HStack spacing={spacing.sm}>
+                <View style={styles.dataCardContainer}>
+                  <DataCard label="Text notes" value={numTextNotes} />
+                </View>
+                <View style={styles.dataCardContainer}>
+                  <DataCard label="Link notes" value={numLinkNotes} />
+                </View>
+              </HStack>
+              <HStack spacing={spacing.sm}>
+                <View style={styles.dataCardContainer}>
+                  <DataCard label="Favorites" value={numFavorites} />
+                </View>
+                <View style={styles.dataCardContainer}>
+                  <DataCard label="Folders" value={totalNumFolders} />
+                </View>
+              </HStack>
+              <View style={styles.sectionTitle}>
+                <ScreenTitle label="Bigger folders" align="flex-start" />
+              </View>
+              <View>
+                <BiggerFoldersChart data={barChartData} />
+              </View>
+              <View style={styles.sectionTitle}>
+                <ScreenTitle label="Weekly activity" align="flex-start" />
+              </View>
+              <LineChartCard
+                data={lineChartData}
+                labels={lineChartDataLabels}
               />
-            </View>
-            <View style={styles.sectionTitle}>
-              <ScreenTitle label="Total quantities" align="flex-start" />
-            </View>
-            <HStack spacing={spacing.sm}>
-              <View style={styles.dataCardContainer}>
-                <DataCard label="Text notes" value={numTextNotes} />
-              </View>
-              <View style={styles.dataCardContainer}>
-                <DataCard label="Link notes" value={numLinkNotes} />
-              </View>
-            </HStack>
-            <HStack spacing={spacing.sm}>
-              <View style={styles.dataCardContainer}>
-                <DataCard label="Favorites" value={numFavorites} />
-              </View>
-              <View style={styles.dataCardContainer}>
-                <DataCard label="Folders" value={totalNumFolders} />
-              </View>
-            </HStack>
-            <View style={styles.sectionTitle}>
-              <ScreenTitle label="Bigger folders" align="flex-start" />
-            </View>
-            <View>
-              <BiggerFoldersChart data={barChartData} />
-            </View>
-            <View style={styles.sectionTitle}>
-              <ScreenTitle label="Weekly activity" align="flex-start" />
-            </View>
-            <LineChartCard data={lineChartData} labels={lineChartDataLabels} />
-          </VStack>
-        </View>
-      </ScrollView>
+            </VStack>
+          </View>
+        </ScrollView>
+      </ScreenWrapper>
     </SafeAreaView>
   );
 };

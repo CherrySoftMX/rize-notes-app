@@ -12,8 +12,9 @@ import { ScreenHeader } from '@organisms/ScreenHeader';
 import { spacing } from '../../design/tokens';
 import { FolderForm } from '@organisms/FolderForm/FolderForm';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useFolder } from '@hooks/useFolder';
+import { useFolders } from '@hooks/useFolder';
 import { useNotes } from '@hooks/useNotes';
+import { ScreenWrapper } from '@atoms/ScreenWrapper';
 
 type FolderRouteProp = RouteProp<RootStackParamList, 'Folder'>;
 type FolderScreenParams = NativeStackNavigationProp<
@@ -27,7 +28,7 @@ export const FolderScreen = () => {
   const noteNavigation = useNavigation<NoteScreenParams>();
   const route = useRoute<FolderRouteProp>();
   const [showFolderModal, setShowFolderModal] = useState(false);
-  const { handleEditFolder, handleDeleteFolder } = useFolder();
+  const { handleEditFolder, handleDeleteFolder } = useFolders();
   const { folderWithNotes, setFolderWithNotes, handleDeleteNote } = useNotes(
     route.params.folderId,
   );
@@ -56,35 +57,37 @@ export const FolderScreen = () => {
 
   return (
     <SafeAreaView>
-      <NoteList
-        ListHeaderComponent={
-          <ScreenHeader title="Folder">
-            <VStack spacing={spacing.sm}>
-              <View>
-                <FolderDetails
-                  {...folderWithNotes}
-                  noteCount={folderWithNotes?.notes.length || 0}
-                  handleEdit={onOpenEditModal}
-                  handleDelete={onDeleteFolder}
-                />
-              </View>
-              <View>
-                <Text style={styles.sectionTitle}>Notes</Text>
-              </View>
-            </VStack>
-          </ScreenHeader>
-        }
-        notes={folderWithNotes?.notes || []}
-        onNotePressed={navigateToNote}
-        onDeleteNote={handleDeleteNote}
-      />
-      <FolderForm
-        folder={folderWithNotes as any as Folder}
-        onCreate={() => {}}
-        onEdit={onEditFolder}
-        showModal={showFolderModal}
-        closeModal={onCloseFolderModal}
-      />
+      <ScreenWrapper>
+        <NoteList
+          ListHeaderComponent={
+            <ScreenHeader title="Folder">
+              <VStack spacing={spacing.sm}>
+                <View>
+                  <FolderDetails
+                    {...folderWithNotes}
+                    noteCount={folderWithNotes?.notes.length || 0}
+                    handleEdit={onOpenEditModal}
+                    handleDelete={onDeleteFolder}
+                  />
+                </View>
+                <View>
+                  <Text style={styles.sectionTitle}>Notes</Text>
+                </View>
+              </VStack>
+            </ScreenHeader>
+          }
+          notes={folderWithNotes?.notes || []}
+          onNotePressed={navigateToNote}
+          onDeleteNote={handleDeleteNote}
+        />
+        <FolderForm
+          folder={folderWithNotes as any as Folder}
+          onCreate={() => {}}
+          onEdit={onEditFolder}
+          showModal={showFolderModal}
+          closeModal={onCloseFolderModal}
+        />
+      </ScreenWrapper>
     </SafeAreaView>
   );
 };

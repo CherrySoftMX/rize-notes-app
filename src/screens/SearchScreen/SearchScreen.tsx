@@ -9,21 +9,17 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Note } from 'library/interfaces/Note';
 import { ScreenHeader } from '@organisms/ScreenHeader';
 import { spacing } from '../../design/tokens';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {
   deleteNoteById,
-  getNotesCreatedInTheLast,
   filterNotesByContent,
+  getNotesCreatedInTheLast,
 } from '../../library/services/NotesService';
 import { AntiquityFilterOptionsList } from '@molecules/AntiquityFilterOptionsList';
 import { notesState } from '../../library/state/notesState';
 import { useSetRecoilState } from 'recoil';
+import { ScreenWrapper } from '@atoms/ScreenWrapper';
 
 type SearchRouteProp = RouteProp<RootStackParamList, 'Search'>;
-type SearchScreenParams = NativeStackNavigationProp<
-  RootStackParamList,
-  'Search'
->;
 
 export const SearchScreen = () => {
   const route = useRoute<SearchRouteProp>();
@@ -68,26 +64,28 @@ export const SearchScreen = () => {
 
   return (
     <SafeAreaView>
-      <NoteList
-        ListHeaderComponent={
-          <ScreenHeader
-            title="Search"
-            handleClick={onSearch}
-            setQuery={setQuery}>
-            <VStack spacing={spacing.sm}>
-              <AntiquityFilterOptionsList onClick={filterByDate} />
-              <View>
-                <Text style={styles.sectionTitle}>
-                  {'results from: ' + lastQuery}
-                </Text>
-              </View>
-            </VStack>
-          </ScreenHeader>
-        }
-        notes={notes}
-        handleClick={() => {}}
-        handleDelete={onDeleteNote}
-      />
+      <ScreenWrapper>
+        <NoteList
+          ListHeaderComponent={
+            <ScreenHeader
+              title="Search"
+              handleClick={onSearch}
+              setQuery={setQuery}>
+              <VStack spacing={spacing.sm}>
+                <AntiquityFilterOptionsList onClick={filterByDate} />
+                <View>
+                  <Text style={styles.sectionTitle}>
+                    Results from: {lastQuery}
+                  </Text>
+                </View>
+              </VStack>
+            </ScreenHeader>
+          }
+          notes={notes}
+          handleClick={() => {}}
+          handleDelete={onDeleteNote}
+        />
+      </ScreenWrapper>
     </SafeAreaView>
   );
 };

@@ -3,7 +3,6 @@ import { spacing, fontType } from '../../design/tokens/';
 
 export const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: spacing.lg,
     marginBottom: spacing.lg,
   },
   headerContainer: {
