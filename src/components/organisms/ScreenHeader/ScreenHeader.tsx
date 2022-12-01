@@ -9,12 +9,16 @@ interface ScreenHeaderProps {
   title?: string;
   mHorizontalSearchBar?: number;
   children: React.ReactChild;
+  handleClick: (e: any) => void;
+  setQuery: (text: string) => void;
 }
 
 export const ScreenHeader = ({
   title = 'Screen Header',
   mHorizontalSearchBar,
   children,
+  handleClick = () => {},
+  setQuery = () => {},
 }: ScreenHeaderProps) => {
   return (
     <View style={styles.container}>
@@ -23,7 +27,11 @@ export const ScreenHeader = ({
           <ScreenTitle label={title} />
         </View>
         <View>
-          <SearchBar mHorizontal={mHorizontalSearchBar} />
+          <SearchBar
+            mHorizontal={mHorizontalSearchBar}
+            handleClick={handleClick}
+            setQuery={setQuery}
+          />
         </View>
         <View>{children}</View>
       </VStack>

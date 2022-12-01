@@ -5,9 +5,11 @@ import { createNote, deleteNoteById } from '../../services/NotesService';
 import { Folder, FolderWithNotes } from '../../interfaces/Folder';
 import { useEffect, useState } from 'react';
 import { getFolderAndNotesById } from '../../services/FoldersService';
+import { notesState } from '../../state/notesState';
 
 export const useNotes = (folderId?: string) => {
   const setFolders = useSetRecoilState(foldersState);
+  const setNotes = useSetRecoilState(notesState);
   const [folderWithNotes, setFolderWithNotes] = useState<FolderWithNotes>({
     notes: [] as Note[],
   } as FolderWithNotes);
@@ -33,6 +35,7 @@ export const useNotes = (folderId?: string) => {
         }
       });
     });
+    setNotes(prev => [...prev, newNote]);
   };
 
   const handleDeleteNote = async (noteId: string) => {
@@ -44,6 +47,7 @@ export const useNotes = (folderId?: string) => {
       note => note.id !== deletedNote.id,
     );
     const editedFolder: FolderWithNotes = { ...folderWithNotes, notes };
+    setNotes(prev => prev.filter(note => note.id !== deletedNote.id));
     setFolderWithNotes(editedFolder);
     setFolders(prev => {
       return prev.map(folder => {

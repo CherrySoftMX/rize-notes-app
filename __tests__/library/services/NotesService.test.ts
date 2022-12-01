@@ -1,7 +1,7 @@
 import {
   createNote,
   getNoteById,
-  getNotes,
+  getNotesOfLoggedUser,
 } from '../../../src/library/services/NotesService';
 import { CreateNoteRequest, Note } from '../../../src/library/interfaces/Note';
 
@@ -23,7 +23,7 @@ it('Should create a new note', async () => {
 });
 
 it('Should return all stored notes', async () => {
-  const obtainedNotes = await getNotes();
+  const obtainedNotes = await getNotesOfLoggedUser();
 
   expect(obtainedNotes).toBeDefined();
   expect(obtainedNotes).toHaveLength(0);

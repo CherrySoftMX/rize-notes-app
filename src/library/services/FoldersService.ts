@@ -46,7 +46,7 @@ export const createFolder = (folderRequest: CreateFolderRequest): Folder => {
  *
  * @beta
  */
-export const getFolders = async (): Promise<Folder[]> => {
+export const getFoldersOfLoggedUser = async (): Promise<Folder[]> => {
   const userId = auth.getCurrentUserId();
 
   const folders = await firestore()
@@ -67,7 +67,7 @@ export const getFolders = async (): Promise<Folder[]> => {
  * @returns An array of {@Link FolderInterface} with complete notes data.
  */
 export const getFoldersWithNotes = async (): Promise<FolderWithNotes[]> => {
-  const folders = await getFolders();
+  const folders = await getFoldersOfLoggedUser();
   return await Promise.all(
     folders.map(async folder => {
       const notes = await getNotesOfFolder(folder);
@@ -159,11 +159,59 @@ export const deleteFolderById = async (folderId: string) => {
  */
 export const editFolder = async (folderRequest: Folder) => {
   const { name, color, isLimited, limit, noteIds } = folderRequest;
-  await firestore().collection('folders').doc(folderRequest.id).update({
-    name,
-    color,
-    isLimited,
-    limit,
-    noteIds,
+  await firestore()
+    .collection('folders')
+    .doc(folderRequest.id)
+    .update({
+      name,
+      color,
+      isLimited,
+      limit,
+      noteIds,
+    })
+    .catch((err: any) => console.log(err));
+};
+
+/**
+ * Uploads the array of {@Link Folder} to firestore with
+ * the provided id of the user.
+ *
+ * @param newUserId - The new id which will replace the old id.
+ * @param folders - An array of {@Link Folder}.
+ */
+export const uploadAndChangeUserOfFolders = async (
+  newUserId: string,
+  folders: Array<Folder>,
+) => {
+  await Promise.all(
+    folders.map(folder => {
+      firestore()
+        .collection('folders')
+        .doc(folder.id)
+        .set({
+          ...folder,
+          userId: newUserId,
+        })
+        .catch((err: any) => console.log(err));
+    }),
+  );
+};
+
+/**
+ * Updates the user id of existing folders.
+ *
+ * @param newUserId - The new id which will replace the old id.
+ * @param folders - An array of {@Link Folder}.
+ */
+export const changeUserOfFolders = (
+  newUserId: string,
+  folders: Array<Folder>,
+) => {
+  folders.map(folder => {
+    firestore()
+      .collection('folders')
+      .doc(folder.id)
+      .update({ userId: newUserId })
+      .catch((err: any) => console.log(err));
   });
 };

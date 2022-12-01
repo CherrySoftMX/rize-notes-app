@@ -2,7 +2,7 @@ import firestore from '@react-native-firebase/firestore';
 import uuid from 'react-native-uuid';
 import { auth } from './AuthService';
 import { CreateNoteRequest, Note } from '../interfaces/Note';
-import { getFolderById, editFolder } from './FoldersService';
+import { editFolder, getFolderById } from './FoldersService';
 
 /**
  * Inserts a new note in the database.
@@ -15,12 +15,15 @@ export const createNote = (noteRequest: CreateNoteRequest): Note => {
   const userId = auth.getCurrentUserId();
   const noteId = uuid.v4() as string;
 
+  const currentDate = new Date().toUTCString();
   const newNote: Note = {
     ...noteRequest,
     id: `${noteId}`,
     image: '',
     userId: userId,
     categories: [],
+    createAt: currentDate,
+    updateAt: currentDate,
   };
 
   firestore()
@@ -47,7 +50,7 @@ export const createNote = (noteRequest: CreateNoteRequest): Note => {
  *
  * @beta
  */
-export const getNotes = async (): Promise<Note[]> => {
+export const getNotesOfLoggedUser = async (): Promise<Note[]> => {
   const userId = auth.getCurrentUserId();
 
   const notes = await firestore()
@@ -104,4 +107,78 @@ export const deleteNoteById = async (
     editFolder(editedFolder);
   }
   return deletedNote;
+};
+
+/**
+ * Returns notes created in the last N days
+ *
+ * @param days - Past N days
+ * @returns An array of {@link Note}.
+ */
+export const getNotesCreatedInTheLast = async (days: number) => {
+  const notes = await getNotesOfLoggedUser();
+
+  return notes.filter(note => {
+    const currentTime = new Date();
+    currentTime.setDate(currentTime.getDate() - days);
+    const createdAtNote = new Date(note.createAt);
+    return createdAtNote.getTime() >= currentTime.getTime();
+  });
+};
+
+/**
+ * Filter notes by search in content (name and content of note)
+ *
+ * @param search - search to filter notes
+ * @returns An array of {@link Note}.
+ */
+export const filterNotesByContent = async (search: string) => {
+  const notes = await getNotesOfLoggedUser();
+
+  return notes.filter(note => {
+    const content = note.content + ' ' + note.name;
+    return content.includes(search);
+  });
+};
+
+/**
+ * Uploads the array of {@Link Note} to firestore with
+ * the provided id of the user. This method should only
+ * be called if there's an active session.
+ *
+ * @param newUserId - The new id which will replace the old id.
+ * @param notes - An array of {@Link Note}.
+ */
+export const uploadAndChangeUserOfNotes = async (
+  newUserId: string,
+  notes: Array<Note>,
+) => {
+  await Promise.all(
+    notes.map(note => {
+      firestore()
+        .collection('notes')
+        .doc(note.id)
+        .set({
+          ...note,
+          userId: newUserId,
+        })
+        .catch((err: any) => console.log(err));
+    }),
+  );
+};
+
+/**
+ * Updates the user id of existing notes.
+ *
+ * @param newUserId - The new id which will replace the old id.
+ * @param notes - An array of {@Link Note}.
+ */
+export const changeUserOfNotes = (newUserId: string, notes: Array<Note>) => {
+  notes.map(note => {
+    firestore()
+      .collection('notes')
+      .doc(note.id)
+      .update({ userId: newUserId })
+      .catch((err: any) => console.log(err));
+  });
 };

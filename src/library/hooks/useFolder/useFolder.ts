@@ -1,4 +1,4 @@
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { foldersState } from '../../state/foldersState';
 import {
   createFolder,
@@ -6,9 +6,11 @@ import {
   editFolder,
 } from '../../services/FoldersService';
 import { CreateFolderRequest, Folder } from '../../interfaces/Folder';
+import { notesState } from '../../state/notesState';
 
 export const useFolder = () => {
   const [folders, setFolders] = useRecoilState(foldersState);
+  const setNotes = useSetRecoilState(notesState);
 
   const handleCreateFolder = (folderRequest: CreateFolderRequest) => {
     const newFolder = createFolder(folderRequest);
@@ -28,8 +30,9 @@ export const useFolder = () => {
   };
 
   const handleDeleteFolder = async (folderId: string) => {
-    await deleteFolderById(folderId);
+    const deletedNote = await deleteFolderById(folderId);
     setFolders(prev => prev.filter(f => f.id !== folderId));
+    setNotes(prev => prev.filter(note => note.id !== deletedNote.id));
   };
 
   return {

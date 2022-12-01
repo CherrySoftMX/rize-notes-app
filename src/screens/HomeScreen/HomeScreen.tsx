@@ -13,11 +13,14 @@ import { ScreenHeader } from '@organisms/ScreenHeader';
 import { useFolder } from '@hooks/useFolder';
 import SplashScreen from 'react-native-splash-screen';
 import { useNotes } from '@hooks/useNotes';
+import { Note } from 'library/interfaces/Note';
+import { filterNotesByContent } from '../../library/services/NotesService';
 
 type HomeScreenParams = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
 export const HomeScreen = () => {
   const navigation = useNavigation<HomeScreenParams>();
+  const [query, setQuery] = useState('');
   const [showNotesModal, setShowNotesModal] = useState(false);
   const [showFolderModal, setShowFolderModal] = useState(false);
   const [folderToEdit, setFolderToEdit] = useState<Folder | undefined>();
@@ -47,17 +50,31 @@ export const HomeScreen = () => {
     setFolderToEdit(undefined);
   };
 
+  const onSearch = async () => {
+    const notes = await filterNotesByContent(query);
+    const indexDate = -1;
+    navigation.navigate('Search', { notes, query, indexDate });
+  };
+
   const onEditFolder = async (folderRequest: Folder) => {
     await handleEditFolder(folderRequest);
     setFolderToEdit(undefined);
+  };
+
+  const onFilterByAntiquity = (indexDate: number) => {
+    const notes: Note[] = [];
+    navigation.navigate('Search', { notes, query, indexDate });
   };
 
   return (
     <SafeAreaView>
       <FolderList
         ListHeaderComponent={
-          <ScreenHeader title="My notes">
-            <AntiquityFilterOptionsList />
+          <ScreenHeader
+            title="My notes"
+            handleClick={onSearch}
+            setQuery={setQuery}>
+            <AntiquityFilterOptionsList onClick={onFilterByAntiquity} />
           </ScreenHeader>
         }
         folders={folders}

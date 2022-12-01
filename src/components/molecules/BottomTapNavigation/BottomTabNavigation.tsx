@@ -11,6 +11,7 @@ import { FolderScreen } from '@screens/FolderScreen';
 import { RegisterScreen } from '@screens/RegisterScreen';
 import { LoginScreen } from '@screens/LoginScreen';
 import { NoteScreen } from '@screens/NoteScreen';
+import { SearchScreen } from '@screens/SearchScreen';
 
 const Tab = createMaterialBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -75,6 +76,7 @@ const HomeStackScreens = () => {
       <HomeStack.Screen name="Home" component={HomeScreen} />
       <HomeStack.Screen name="Folder" component={FolderScreen} />
       <HomeStack.Screen name="Note" component={NoteScreen} />
+      <HomeStack.Screen name="Search" component={SearchScreen} />
     </HomeStack.Navigator>
   );
 };
@@ -88,6 +90,7 @@ export const BottomTabNavigation = () => {
       <Base.Screen name="Home" component={TabNavigation} />
       <Base.Screen name="Register" component={RegisterScreen} />
       <Base.Screen name="Login" component={LoginScreen} />
+      <Base.Screen name="Search" component={SearchScreen} />
     </Base.Navigator>
   );
 };
