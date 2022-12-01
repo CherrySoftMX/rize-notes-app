@@ -19,7 +19,7 @@ interface ChartData {
 }
 
 interface BiggerFoldersChartProps {
-  data: Array<ChartData>;
+  data: ChartData[];
 }
 
 export const labelColors: Array<string> = [
@@ -31,7 +31,11 @@ export const labelColors: Array<string> = [
 
 export const BiggerFoldersChart = ({ data = [] }: BiggerFoldersChartProps) => {
   return (
-    <CardContainer style={{ paddingVertical: spacing.md + 5 }}>
+    <CardContainer
+      style={{
+        paddingVertical: spacing.md + 5,
+        paddingHorizontal: 18,
+      }}>
       <VStack spacing={spacing.sm}>
         <Flex direction="row" style={styles.wrapFlex}>
           {data.map((d, index) => (
