@@ -1,89 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { NoteList } from '@organisms/NoteList/NoteList';
-import { VStack } from '@react-native-material/core';
-import { styles } from './SearchScreen.style';
-import { Text, View } from 'react-native';
-import { RouteProp, useRoute } from '@react-navigation/native';
-import { RootStackParamList } from '@screens/RootStackParams';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Note } from 'library/interfaces/Note';
 import { ScreenHeader } from '@organisms/ScreenHeader';
-import { spacing } from '../../design/tokens';
-import {
-  deleteNoteById,
-  filterNotesByContent,
-  getNotesCreatedInTheLast,
-} from '../../library/services/NotesService';
-import { AntiquityFilterOptionsList } from '@molecules/AntiquityFilterOptionsList';
-import { notesState } from '../../library/state/notesState';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { ScreenWrapper } from '@atoms/ScreenWrapper';
-
-type SearchRouteProp = RouteProp<RootStackParamList, 'Search'>;
+import { searchSpecState } from '../../library/state/searchSpecState';
+import { Note } from '../../library/interfaces/Note';
+import { filterNotesBySearchSpec } from '../../library/services/NotesService';
 
 export const SearchScreen = () => {
-  const route = useRoute<SearchRouteProp>();
-  const [query, setQuery] = useState('');
-  const [lastQuery, setLastQuery] = useState('');
-  const [notes, setNotes] = useState([] as Array<Note>);
-  const setGlobalNotes = useSetRecoilState(notesState);
+  const searchSpec = useRecoilValue(searchSpecState);
+  const [notes, setNotes] = useState<Note[]>([]);
 
   useEffect(() => {
-    setQuery(route.params.query);
-    setLastQuery(route.params.query);
-    setNotes(route.params.notes);
-    if (route.params.indexDate >= 0) filterByDate(route.params.indexDate);
-  }, []);
-
-  const onSearch = async () => {
-    const foundNotes = await filterNotesByContent(query);
-    console.log(foundNotes);
-    setNotes(foundNotes);
-    setLastQuery(query);
-  };
-
-  const values = [6, 30, 180, 360]; //last week - last month - last 6 months - last year
-
-  const filterByDate = async (index: number) => {
-    if (index < 0) return;
-    const foundNotes = await getNotesCreatedInTheLast(values[index]);
-    setNotes(foundNotes);
-  };
-
-  const onDeleteNote = async (noteId: string) => {
-    const deletedNote = await deleteNoteById(noteId, true);
-    if (!deletedNote) {
-      return;
-    }
-    const updatedNotes = notes.filter(note => note.id !== deletedNote.id);
-    setNotes(updatedNotes);
-    setGlobalNotes(previousState =>
-      previousState.filter(note => note.id !== noteId),
-    );
-  };
+    filterNotesBySearchSpec(searchSpec).then(result => setNotes(result));
+  }, [searchSpec]);
 
   return (
     <SafeAreaView>
       <ScreenWrapper>
         <NoteList
           ListHeaderComponent={
-            <ScreenHeader
-              title="Search"
-              handleClick={onSearch}
-              setQuery={setQuery}>
-              <VStack spacing={spacing.sm}>
-                <AntiquityFilterOptionsList onClick={filterByDate} />
-                <View>
-                  <Text style={styles.sectionTitle}>
-                    Results from: {lastQuery}
-                  </Text>
-                </View>
-              </VStack>
-            </ScreenHeader>
+            <ScreenHeader title="Search" showAntiquityFilterOptions={true} />
           }
           notes={notes}
-          handleClick={() => {}}
-          handleDelete={onDeleteNote}
         />
       </ScreenWrapper>
     </SafeAreaView>

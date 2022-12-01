@@ -21,10 +21,7 @@ export const FavoritesScreen = () => {
       <ScreenWrapper>
         <NoteList
           ListHeaderComponent={
-            <ScreenHeader
-              title="Favorites"
-              handleClick={() => {}}
-              setQuery={() => {}}>
+            <ScreenHeader title="Favorites">
               <VStack spacing={spacing.sm}>
                 <View>
                   <FolderDetails

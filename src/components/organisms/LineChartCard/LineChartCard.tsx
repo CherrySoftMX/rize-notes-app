@@ -21,7 +21,11 @@ export const LineChartCard = ({
   labels = [],
 }: LineChartCardProps) => {
   return (
-    <CardContainer style={{ paddingVertical: spacing.lg }}>
+    <CardContainer
+      style={{
+        paddingVertical: spacing.lg,
+        paddingHorizontal: 18,
+      }}>
       <VStack spacing={spacing.xm}>
         <View style={styles.lineChartContainer}>
           <YAxis

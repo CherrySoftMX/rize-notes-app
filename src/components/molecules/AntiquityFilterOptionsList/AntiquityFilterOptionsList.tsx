@@ -2,34 +2,37 @@ import React from 'react';
 import { useArrayNavigator } from '@hooks/useArrayNavigator';
 import { AntiquityFilterOptionChip } from '@atoms/AntiquityFilterOptionChip';
 import { ScrollView, View } from 'react-native';
-
-const filterOptions = ['Last week', 'Last month', 'Last 6 months', 'Last year'];
+import {
+  ALL_TIME,
+  AntiquityOption,
+  antiquityOptions,
+} from '../../../library/constants';
 
 interface AntiquityFilterOptionsListProps {
-  mHorizontal?: number;
-  onClick: (index: number) => void;
+  selectedOption?: AntiquityOption;
+  onOptionPressed?: (option: AntiquityOption) => void;
 }
 
 export const AntiquityFilterOptionsList = ({
-  mHorizontal = 10,
-  onClick = () => {},
+  selectedOption = ALL_TIME,
+  onOptionPressed = () => {},
 }: AntiquityFilterOptionsListProps) => {
   const { currentIndex, setCurrentIndex } = useArrayNavigator(
-    filterOptions,
+    antiquityOptions,
     0,
-    null,
+    selectedOption,
   );
 
   return (
-    <View style={{ marginHorizontal: mHorizontal, marginBottom: 10 }}>
+    <View style={{ marginHorizontal: 10, marginBottom: 10 }}>
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-        {filterOptions.map((option, index) => (
+        {antiquityOptions.map((option, index) => (
           <AntiquityFilterOptionChip
             key={index}
-            label={option}
+            label={option.label}
             isSelected={currentIndex === index}
             onPress={() => {
-              onClick(index);
+              onOptionPressed(option);
               setCurrentIndex(index);
             }}
           />

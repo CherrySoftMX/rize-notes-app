@@ -3,6 +3,7 @@ import uuid from 'react-native-uuid';
 import { auth } from './AuthService';
 import { CreateNoteRequest, Note } from '../interfaces/Note';
 import { editFolder, getFolderById } from './FoldersService';
+import { SearchSpec } from '../constants/searchSpec';
 
 /**
  * Inserts a new note in the database.
@@ -110,6 +111,20 @@ export const deleteNoteById = async (
 };
 
 /**
+ * Returns notes than match the specified {@Link SearchSpec}.
+ *
+ * @param searchSpec - The specification to match the user notes with.
+ */
+export const filterNotesBySearchSpec = async (searchSpec: SearchSpec) => {
+  const notes = await getNotesCreatedInTheLast(searchSpec.antiquityOption.days);
+
+  return notes.filter(note => {
+    const content = note.content.toLowerCase() + ' ' + note.name.toLowerCase();
+    return content.includes(searchSpec.query.toLowerCase());
+  });
+};
+
+/**
  * Returns notes created in the last N days
  *
  * @param days - Past N days
@@ -118,26 +133,15 @@ export const deleteNoteById = async (
 export const getNotesCreatedInTheLast = async (days: number) => {
   const notes = await getNotesOfLoggedUser();
 
+  if (days === Number.MAX_VALUE) {
+    return notes;
+  }
+
   return notes.filter(note => {
     const currentTime = new Date();
     currentTime.setDate(currentTime.getDate() - days);
     const createdAtNote = new Date(note.createAt);
     return createdAtNote.getTime() >= currentTime.getTime();
-  });
-};
-
-/**
- * Filter notes by search in content (name and content of note)
- *
- * @param search - search to filter notes
- * @returns An array of {@link Note}.
- */
-export const filterNotesByContent = async (search: string) => {
-  const notes = await getNotesOfLoggedUser();
-
-  return notes.filter(note => {
-    const content = note.content + ' ' + note.name;
-    return content.includes(search);
   });
 };
 

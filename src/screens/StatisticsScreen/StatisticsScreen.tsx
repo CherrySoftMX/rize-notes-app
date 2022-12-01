@@ -33,7 +33,7 @@ export const StatisticsScreen = () => {
         <ScrollView>
           <View style={styles.container}>
             <View style={styles.headerContainer}>
-              <ScreenHeader title="Statistics summary" mHorizontalSearchBar={0}>
+              <ScreenHeader title="Statistics summary">
                 <AntiquityFilterOptionsList mHorizontal={0} />
               </ScreenHeader>
             </View>
