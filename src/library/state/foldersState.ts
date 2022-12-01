@@ -4,5 +4,5 @@ import { getFoldersOfLoggedUser } from '../services/FoldersService';
 
 export const foldersState = atom<Folder[]>({
   key: 'foldersState',
-  default: getFoldersOfLoggedUser(),
+  default: [],
 });

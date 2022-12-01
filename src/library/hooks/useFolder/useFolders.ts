@@ -4,16 +4,24 @@ import {
   createFolder,
   deleteFolderById,
   editFolder,
+  getFoldersOfLoggedUser,
 } from '../../services/FoldersService';
 import { CreateFolderRequest, Folder } from '../../interfaces/Folder';
 import { notesState } from '../../state/notesState';
+import { useEffect } from 'react';
 
-export const useFolder = () => {
+export const useFolders = () => {
   const [folders, setFolders] = useRecoilState(foldersState);
   const setNotes = useSetRecoilState(notesState);
 
-  const handleCreateFolder = (folderRequest: CreateFolderRequest) => {
-    const newFolder = createFolder(folderRequest);
+  useEffect(() => {
+    getFoldersOfLoggedUser().then(result => {
+      setFolders(result);
+    });
+  }, [setFolders]);
+
+  const handleCreateFolder = (folderReq: CreateFolderRequest) => {
+    const newFolder = createFolder(folderReq);
     setFolders(prev => [newFolder, ...prev]);
   };
 
@@ -25,8 +33,8 @@ export const useFolder = () => {
         return folder;
       }
     });
-    await editFolder(folderReq);
     setFolders(_folders);
+    await editFolder(folderReq);
   };
 
   const handleDeleteFolder = async (folderId: string) => {

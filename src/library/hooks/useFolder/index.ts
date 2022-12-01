@@ -1,1 +1,1 @@
-export * from './useFolder';
+export * from './useFolders';

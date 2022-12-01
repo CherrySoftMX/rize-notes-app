@@ -1,14 +1,14 @@
-import { foldersState } from '../../state/foldersState';
 import { useSetRecoilState } from 'recoil';
 import { CreateNoteRequest, Note } from '../../interfaces/Note';
 import { createNote, deleteNoteById } from '../../services/NotesService';
-import { Folder, FolderWithNotes } from '../../interfaces/Folder';
+import { FolderWithNotes } from '../../interfaces/Folder';
 import { useEffect, useState } from 'react';
 import { getFolderAndNotesById } from '../../services/FoldersService';
 import { notesState } from '../../state/notesState';
+import { useFolders } from '@hooks/useFolder';
 
 export const useNotes = (folderId?: string) => {
-  const setFolders = useSetRecoilState(foldersState);
+  const { setFolders } = useFolders();
   const setNotes = useSetRecoilState(notesState);
   const [folderWithNotes, setFolderWithNotes] = useState<FolderWithNotes>({
     notes: [] as Note[],
@@ -17,9 +17,7 @@ export const useNotes = (folderId?: string) => {
   useEffect(() => {
     if (folderId) {
       getFolderAndNotesById(folderId).then(result => {
-        if (result) {
-          setFolderWithNotes(result);
-        }
+        setFolderWithNotes(result);
       });
     }
   }, [folderId]);
@@ -27,11 +25,11 @@ export const useNotes = (folderId?: string) => {
   const handleCreateNote = (noteReq: CreateNoteRequest) => {
     const newNote = createNote(noteReq);
     setFolders(prev => {
-      return prev.map(folder => {
-        if (folder.id === noteReq.folderId) {
-          return { ...folder, noteIds: [...folder.noteIds, newNote.id] };
+      return prev.map(folders => {
+        if (folders.id === noteReq.folderId) {
+          return { ...folders, noteIds: [...folders.noteIds, newNote.id] };
         } else {
-          return folder;
+          return folders;
         }
       });
     });
@@ -47,27 +45,18 @@ export const useNotes = (folderId?: string) => {
       note => note.id !== deletedNote.id,
     );
     const editedFolder: FolderWithNotes = { ...folderWithNotes, notes };
-    setNotes(prev => prev.filter(note => note.id !== deletedNote.id));
     setFolderWithNotes(editedFolder);
     setFolders(prev => {
       return prev.map(folder => {
         if (folder.id === editedFolder.id) {
-          const notesReferences = folder.noteIds.filter(id => id !== noteId);
-          const newFolderState: Folder = {
-            id: editedFolder.id,
-            userId: editedFolder.userId,
-            name: editedFolder.name,
-            color: editedFolder.color,
-            isLimited: editedFolder.isLimited,
-            limit: editedFolder.limit,
-            noteIds: notesReferences,
-          };
-          return newFolderState;
+          const remainingNoteIds = folder.noteIds.filter(id => id !== noteId);
+          return { ...editedFolder, noteIds: remainingNoteIds };
         } else {
           return folder;
         }
       });
     });
+    setNotes(prev => prev.filter(note => note.id !== deletedNote.id));
   };
 
   return {
