@@ -53,8 +53,6 @@ export const NoteScreen = () => {
             noteId={note.id}
             showContent={false}
             showOptions={false}
-            onPress={() => {}}
-            onDelete={() => {}}
           />
           <CardContainer style={styles.folderContentContainer}>
             <Text style={styles.folderContent}>{note.content}</Text>

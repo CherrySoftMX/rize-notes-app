@@ -8,6 +8,9 @@ import { IconButtonPopupMenu } from '@molecules/IconButtonPopupMenu';
 import { MenuOption } from 'react-native-popup-menu';
 import { When } from 'react-if';
 import { CardContainer } from '@atoms/CardContainer';
+import { RootStackParamList } from '@screens/RootStackParams';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/native';
 
 interface NoteCardProps {
   noteId: string;
@@ -17,9 +20,10 @@ interface NoteCardProps {
   isFavorite: boolean;
   showContent?: boolean;
   showOptions?: boolean;
-  onPress: (noteId: string) => void;
-  onDelete: (noteId: string) => void;
+  onDelete?: (noteId: string) => void;
 }
+
+type NoteScreenParams = NativeStackNavigationProp<RootStackParamList, 'Note'>;
 
 export const NoteCard = ({
   noteId,
@@ -30,8 +34,13 @@ export const NoteCard = ({
   showContent = true,
   showOptions = true,
   onDelete = () => {},
-  onPress = () => {},
 }: NoteCardProps) => {
+  const navigation = useNavigation<NoteScreenParams>();
+
+  const onGoToNote = (id: string) => {
+    navigation.navigate('Note', { noteId: id });
+  };
+
   return (
     <CardContainer>
       <Flex direction="row" style={styles.card}>
@@ -49,7 +58,7 @@ export const NoteCard = ({
           title={name || 'Unnamed'}
           content={content || 'Empty note'}
           showContent={showContent}
-          onPress={onPress}
+          onPress={() => onGoToNote(noteId)}
         />
         <When condition={showOptions}>
           <IconButtonPopupMenu

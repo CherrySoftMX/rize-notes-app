@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FolderDetails } from '@organisms/FolderDetails';
 import { NoteList } from '@organisms/NoteList/NoteList';
-import { VStack } from '@react-native-material/core';
+import { useBoolean, VStack } from '@react-native-material/core';
 import { styles } from './FolderScreen.style';
 import { Text, View } from 'react-native';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
@@ -11,39 +11,20 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScreenHeader } from '@organisms/ScreenHeader';
 import { spacing } from '../../design/tokens';
 import { FolderForm } from '@organisms/FolderForm/FolderForm';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useFolders } from '@hooks/useFolder';
 import { useNotes } from '@hooks/useNotes';
 import { ScreenWrapper } from '@atoms/ScreenWrapper';
 
 type FolderRouteProp = RouteProp<RootStackParamList, 'Folder'>;
-type FolderScreenParams = NativeStackNavigationProp<
-  RootStackParamList,
-  'Folder'
->;
-type NoteScreenParams = NativeStackNavigationProp<RootStackParamList, 'Note'>;
 
 export const FolderScreen = () => {
-  const folderNavigation = useNavigation<FolderScreenParams>();
-  const noteNavigation = useNavigation<NoteScreenParams>();
+  const navigation = useNavigation();
   const route = useRoute<FolderRouteProp>();
-  const [showFolderModal, setShowFolderModal] = useState(false);
+  const [showFolderModal, setShowFolderModal] = useBoolean(false);
   const { handleEditFolder, handleDeleteFolder } = useFolders();
   const { folderWithNotes, setFolderWithNotes, handleDeleteNote } = useNotes(
     route.params.folderId,
   );
-
-  const navigateToNote = (noteId: string) => {
-    noteNavigation.navigate('Note', { noteId });
-  };
-
-  const onOpenEditModal = () => {
-    setShowFolderModal(!showFolderModal);
-  };
-
-  const onCloseFolderModal = (showModal: boolean) => {
-    setShowFolderModal(showModal);
-  };
 
   const onEditFolder = async (folderReq: Folder) => {
     setFolderWithNotes({ ...folderWithNotes, ...folderReq });
@@ -52,7 +33,7 @@ export const FolderScreen = () => {
 
   const onDeleteFolder = async (folderId: string) => {
     await handleDeleteFolder(folderId);
-    folderNavigation.goBack();
+    navigation.goBack();
   };
 
   return (
@@ -66,7 +47,7 @@ export const FolderScreen = () => {
                   <FolderDetails
                     {...folderWithNotes}
                     noteCount={folderWithNotes?.notes.length || 0}
-                    handleEdit={onOpenEditModal}
+                    handleEdit={setShowFolderModal.on}
                     handleDelete={onDeleteFolder}
                   />
                 </View>
@@ -77,15 +58,13 @@ export const FolderScreen = () => {
             </ScreenHeader>
           }
           notes={folderWithNotes?.notes || []}
-          onNotePressed={navigateToNote}
           onDeleteNote={handleDeleteNote}
         />
         <FolderForm
           folder={folderWithNotes as any as Folder}
-          onCreate={() => {}}
           onEdit={onEditFolder}
           showModal={showFolderModal}
-          closeModal={onCloseFolderModal}
+          closeModal={setShowFolderModal.toggle}
         />
       </ScreenWrapper>
     </SafeAreaView>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, Text } from 'react-native';
+import { FlatList, FlatListProps, Text } from 'react-native';
 import { NoteCard } from '@organisms/NoteCard/';
 import { Note } from '../../../library/interfaces/Note';
 import { styles } from './NoteList.style';
@@ -7,19 +7,12 @@ import { File } from 'react-kawaii/lib/native/';
 import { Flex } from '@react-native-material/core';
 import { spacing } from '../../../design/tokens';
 
-interface NoteListProps {
-  ListHeaderComponent?: React.ReactNode | null;
+interface NoteListProps extends Partial<FlatListProps<Note>> {
   notes: Note[];
-  onNotePressed: (noteId: string) => void;
-  onDeleteNote: (id: string) => void;
+  onDeleteNote?: (id: string) => void;
 }
 
-export const NoteList = ({
-  notes,
-  onNotePressed,
-  onDeleteNote,
-  ...rest
-}: NoteListProps) => {
+export const NoteList = ({ notes, onDeleteNote, ...rest }: NoteListProps) => {
   return (
     <FlatList
       {...rest}
@@ -28,8 +21,7 @@ export const NoteList = ({
         <NoteCard
           {...item}
           noteId={item.id}
-          onPress={() => onNotePressed(item.id)}
-          onDelete={onDeleteNote}
+          onDelete={() => onDeleteNote && onDeleteNote(item.id)}
         />
       )}
       keyExtractor={item => item.id}

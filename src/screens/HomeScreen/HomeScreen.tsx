@@ -46,8 +46,8 @@ export const HomeScreen = () => {
     setShowFolderModal(!showFolderModal);
   };
 
-  const onCloseFolderModal = (showModal: boolean) => {
-    setShowFolderModal(showModal);
+  const onCloseFolderModal = () => {
+    setShowFolderModal(false);
     setFolderToEdit(undefined);
   };
 

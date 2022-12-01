@@ -10,9 +10,11 @@ import { FolderDetails } from '@organisms/FolderDetails';
 import { styles } from '../FolderScreen/FolderScreen.style';
 import { spacing } from '../../design/tokens';
 import { ScreenWrapper } from '@atoms/ScreenWrapper';
+import { useNotes } from '@hooks/useNotes';
 
 export const FavoritesScreen = () => {
   const { favorites, favoritesFolder } = useRecoilValue(favoriteNotes);
+  const { handleDeleteNote } = useNotes();
 
   return (
     <SafeAreaView>
@@ -39,8 +41,7 @@ export const FavoritesScreen = () => {
             </ScreenHeader>
           }
           notes={favorites}
-          handleClick={() => {}}
-          handleDelete={() => Alert.alert("Can't delete notes in this folder")}
+          onDeleteNote={noteId => handleDeleteNote(noteId)}
         />
       </ScreenWrapper>
     </SafeAreaView>
