@@ -99,7 +99,6 @@ const generateBarChartDataStructure = (folders: Array<Folder>) => {
 const generateLineChartDataStructure = (notes: Array<Note>) => {
   const DAYS_OF_WEEK = 7;
 
-  const currentDate = new Date();
   const lastWeek = new Date();
   lastWeek.setDate(lastWeek.getDate() - DAYS_OF_WEEK + 1);
   lastWeek.setHours(0, 0, 0);
@@ -111,17 +110,20 @@ const generateLineChartDataStructure = (notes: Array<Note>) => {
 
   const lineChartData: Array<number> = [];
   const lineChartDataLabels: Array<string> = [];
-  for (let day = lastWeek.getDate(); day <= currentDate.getDate(); day++) {
+
+  for (let count = 0; count < DAYS_OF_WEEK; count++) {
+    let day = lastWeek.getDate();
+
     const notesPerDay = lastWeekNotes.filter(note => {
       const noteDate = new Date(note.createAt);
       return noteDate.getDate() === day;
     });
     lineChartData.push(notesPerDay.length);
 
-    const dayData = new Date();
-    dayData.setDate(day);
-    const dayString = dayData.toUTCString().slice(0, 3);
+    const dayString = lastWeek.toDateString().slice(0, 3);
     lineChartDataLabels.push(dayString);
+
+    lastWeek.setDate(lastWeek.getDate() + 1);
   }
   return {
     lineChartData,
