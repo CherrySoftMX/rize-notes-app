@@ -27,7 +27,7 @@ export const PieChartCard = ({
   numLinks,
 }: PieChartCardProps) => {
   return (
-    <CardContainer vPadding={spacing.md}>
+    <CardContainer style={{ paddingVertical: spacing.md }}>
       <Flex direction="row" style={styles.pieChartCard}>
         <View style={[styles.pieContainerSides, styles.pieContainerLabels]}>
           <VStack spacing={spacing.sm}>

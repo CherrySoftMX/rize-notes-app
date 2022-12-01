@@ -7,32 +7,31 @@ import { IoniconButton } from '@atoms/IoniconButton';
 import { IconButtonPopupMenu } from '@molecules/IconButtonPopupMenu';
 import { MenuOption } from 'react-native-popup-menu';
 import { fontSize } from '../../../design/tokens';
+import { CardContainer } from '@atoms/CardContainer';
 
 interface SearchBarProps {
   mHorizontal?: number;
   handleClick: (e: any) => void;
-  setQuery: (text:string) => void;
+  setQuery: (text: string) => void;
 }
 
-export const SearchBar = ({ mHorizontal, handleClick, setQuery }: SearchBarProps) => {
+export const SearchBar = ({ handleClick, setQuery }: SearchBarProps) => {
   return (
-    <View
-      elevation={4}
-      category="medium"
-      style={[
-        styles.searchBarShadow,
-        mHorizontal !== undefined ? { marginHorizontal: mHorizontal } : {},
-      ]}>
+    <CardContainer>
       <Flex direction="row" style={styles.container}>
         <SearchByNoteTypeButton />
-        <TextInput placeholder="Search" style={styles.textInput} onChangeText={text=>setQuery(text)}/>
+        <TextInput
+          placeholder="Search"
+          style={styles.textInput}
+          onChangeText={text => setQuery(text)}
+        />
         <IoniconButton
           onPress={handleClick}
           style={styles.trailingSearchButton}
           iconName="search-sharp"
         />
       </Flex>
-    </View>
+    </CardContainer>
   );
 };
 

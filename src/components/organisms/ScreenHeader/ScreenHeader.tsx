@@ -8,7 +8,7 @@ import { spacing } from '../../../design/tokens';
 interface ScreenHeaderProps {
   title?: string;
   mHorizontalSearchBar?: number;
-  children: React.ReactChild;
+  children?: React.ReactChild;
   handleClick: (e: any) => void;
   setQuery: (text: string) => void;
 }

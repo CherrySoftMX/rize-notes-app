@@ -6,6 +6,8 @@ import { colors } from '../../../design/tokens';
 import { styles } from './NoteCard.style';
 import { IconButtonPopupMenu } from '@molecules/IconButtonPopupMenu';
 import { MenuOption } from 'react-native-popup-menu';
+import { When } from 'react-if';
+import { CardContainer } from '@atoms/CardContainer';
 
 interface NoteCardProps {
   noteId: string;
@@ -13,6 +15,8 @@ interface NoteCardProps {
   content: string;
   isLink: boolean;
   isFavorite: boolean;
+  showContent?: boolean;
+  showOptions?: boolean;
   onPress: (noteId: string) => void;
   onDelete: (noteId: string) => void;
 }
@@ -23,35 +27,42 @@ export const NoteCard = ({
   content,
   isLink,
   isFavorite,
+  showContent = true,
+  showOptions = true,
   onDelete = () => {},
   onPress = () => {},
 }: NoteCardProps) => {
   return (
-    <Flex direction="row" style={styles.card}>
-      <CustomIcon
-        name={isLink ? 'link' : 'text-fields'}
-        size={20}
-        color={isFavorite ? colors.eerieBlack : colors.pureWhite}
-        backgroundColor={
-          isFavorite ? colors.yellowishMedium : colors.mediumGrey
-        }
-        isRounded
-      />
-      <NotePreview
-        noteId={noteId}
-        title={name || 'Unnamed'}
-        content={content || 'Empty note'}
-        onPress={onPress}
-      />
-      <IconButtonPopupMenu
-        iconLibrary="entypo"
-        iconName="dots-three-vertical"
-        iconColor={colors.greyNickel}
-        style={styles.icon}
-        height={55}
-        width={55}>
-        <MenuOption onSelect={() => onDelete(noteId)} text="Delete" />
-      </IconButtonPopupMenu>
-    </Flex>
+    <CardContainer>
+      <Flex direction="row" style={styles.card}>
+        <CustomIcon
+          name={isLink ? 'link' : 'text-fields'}
+          size={20}
+          color={isFavorite ? colors.eerieBlack : colors.pureWhite}
+          backgroundColor={
+            isFavorite ? colors.yellowishMedium : colors.mediumGrey
+          }
+          isRounded
+        />
+        <NotePreview
+          noteId={noteId}
+          title={name || 'Unnamed'}
+          content={content || 'Empty note'}
+          showContent={showContent}
+          onPress={onPress}
+        />
+        <When condition={showOptions}>
+          <IconButtonPopupMenu
+            iconLibrary="entypo"
+            iconName="dots-three-vertical"
+            iconColor={colors.greyNickel}
+            style={styles.icon}
+            height={55}
+            width={55}>
+            <MenuOption onSelect={() => onDelete(noteId)} text="Delete" />
+          </IconButtonPopupMenu>
+        </When>
+      </Flex>
+    </CardContainer>
   );
 };

@@ -30,9 +30,4 @@ export const styles = StyleSheet.create({
     width: 40,
     height: 40,
   },
-  searchBarShadow: {
-    backgroundColor: colors.pureWhite,
-    marginHorizontal: 10,
-    borderRadius: border.radius.md,
-  },
 });

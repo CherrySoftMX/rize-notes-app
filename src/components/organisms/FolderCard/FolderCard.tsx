@@ -9,6 +9,7 @@ import { styles } from './FolderCard.style';
 import { Folder } from '../../../library/interfaces/Folder';
 import { FolderIcon } from '@atoms/FolderIcon';
 import { When } from 'react-if';
+import { CardContainer } from '@atoms/CardContainer';
 
 interface FolderCardProps {
   folder: Folder;
@@ -26,36 +27,38 @@ export const FolderCard = ({
   const { id, name, color, isLimited, limit = 1, noteIds } = folder;
 
   return (
-    <Pressable onPress={() => handleClick(id)}>
-      <Flex fill style={styles.container} p={6}>
-        <VStack spacing={8}>
-          <HStack>
-            <FolderIcon color={color} />
-            <Spacer />
-            <IconButtonPopupMenu
-              width={14}
-              height={24}
-              iconLibrary="entypo"
-              iconName="dots-three-vertical"
-              iconColor={colors.greyNickel}
-              vAlign="flex-start"
-              hAlign="flex-end">
-              <MenuOption onSelect={() => handleEdit(folder)} text="Edit" />
-              <MenuOption onSelect={() => handleDelete(id)} text="Delete" />
-            </IconButtonPopupMenu>
-          </HStack>
-          <Box>
-            <Text style={styles.title}>{name}</Text>
-            <Text style={styles.subtitle}>{noteIds?.length}</Text>
-          </Box>
-          <Spacer />
-          <When condition={isLimited}>
+    <CardContainer>
+      <Pressable onPress={() => handleClick(id)}>
+        <Flex fill style={styles.container} p={6}>
+          <VStack spacing={8}>
+            <HStack>
+              <FolderIcon color={color} />
+              <Spacer />
+              <IconButtonPopupMenu
+                width={14}
+                height={24}
+                iconLibrary="entypo"
+                iconName="dots-three-vertical"
+                iconColor={colors.greyNickel}
+                vAlign="flex-start"
+                hAlign="flex-end">
+                <MenuOption onSelect={() => handleEdit(folder)} text="Edit" />
+                <MenuOption onSelect={() => handleDelete(id)} text="Delete" />
+              </IconButtonPopupMenu>
+            </HStack>
             <Box>
-              <ProgressBar noteCount={noteIds?.length || 0} size={limit} />
+              <Text style={styles.title}>{name}</Text>
+              <Text style={styles.subtitle}>{noteIds?.length}</Text>
             </Box>
-          </When>
-        </VStack>
-      </Flex>
-    </Pressable>
+            <Spacer />
+            <When condition={isLimited}>
+              <Box>
+                <ProgressBar noteCount={noteIds?.length || 0} size={limit} />
+              </Box>
+            </When>
+          </VStack>
+        </Flex>
+      </Pressable>
+    </CardContainer>
   );
 };

@@ -31,7 +31,7 @@ export const labelColors: Array<string> = [
 
 export const BiggerFoldersChart = ({ data = [] }: BiggerFoldersChartProps) => {
   return (
-    <CardContainer vPadding={spacing.md + 5}>
+    <CardContainer style={{ paddingVertical: spacing.md + 5 }}>
       <VStack spacing={spacing.sm}>
         <Flex direction="row" style={styles.wrapFlex}>
           {data.map((d, index) => (
