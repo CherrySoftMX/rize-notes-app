@@ -2,7 +2,8 @@ import firestore from '@react-native-firebase/firestore';
 import uuid from 'react-native-uuid';
 import { auth } from './AuthService';
 import { CreateNoteRequest, Note } from '../interfaces/Note';
-import { getFolderById, editFolder } from './FoldersService';
+import { editFolder, getFolderById } from './FoldersService';
+import { SearchSpec } from '../constants/searchSpec';
 
 /**
  * Inserts a new note in the database.
@@ -50,7 +51,7 @@ export const createNote = (noteRequest: CreateNoteRequest): Note => {
  *
  * @beta
  */
-export const getNotes = async (): Promise<Note[]> => {
+export const getNotesOfLoggedUser = async (): Promise<Note[]> => {
   const userId = auth.getCurrentUserId();
 
   const notes = await firestore()
@@ -110,39 +111,38 @@ export const deleteNoteById = async (
 };
 
 /**
- * Filter notes by last number of days
+ * Returns notes than match the specified {@Link SearchSpec}.
  *
- * @param days - days to filter notes
+ * @param searchSpec - The specification to match the user notes with.
+ */
+export const filterNotesBySearchSpec = async (searchSpec: SearchSpec) => {
+  const notes = await getNotesCreatedInTheLast(searchSpec.antiquityOption.days);
+
+  return notes.filter(note => {
+    const content = note.content.toLowerCase() + ' ' + note.name.toLowerCase();
+    return content.includes(searchSpec.query.toLowerCase());
+  });
+};
+
+/**
+ * Returns notes created in the last N days
+ *
+ * @param days - Past N days
  * @returns An array of {@link Note}.
  */
-export const fileterNotesByLastNumberDays = async (days: number) => {
-  const notes = await getNotes();
+export const getNotesCreatedInTheLast = async (days: number) => {
+  const notes = await getNotesOfLoggedUser();
 
-  const filteredNotes = notes.filter(note => {
+  if (days === Number.MAX_VALUE) {
+    return notes;
+  }
+
+  return notes.filter(note => {
     const currentTime = new Date();
     currentTime.setDate(currentTime.getDate() - days);
     const createdAtNote = new Date(note.createAt);
     return createdAtNote.getTime() >= currentTime.getTime();
   });
-
-  return filteredNotes;
-};
-
-/**
- * Filter notes by search in content (name and content of note)
- *
- * @param search - search to filter notes
- * @returns An array of {@link Note}.
- */
-export const filterNotesByContent = async (search: string) => {
-  const notes = await getNotes();
-
-  const filteredNotes = notes.filter(note => {
-    const content = note.content + ' ' + note.name;
-    return content.includes(search);
-  });
-
-  return filteredNotes;
 };
 
 /**

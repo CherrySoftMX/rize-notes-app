@@ -2,6 +2,12 @@ import { StyleSheet } from 'react-native';
 import { colors, fontSize, spacing, fontType } from '../../../design/tokens';
 
 export const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: spacing.md + 5,
+    paddingBottom: spacing.md,
+    paddingTop: spacing.md,
+    overflow: 'hidden',
+  },
   title: {
     fontSize: fontSize.xl,
     textAlign: 'center',
@@ -28,12 +34,6 @@ export const styles = StyleSheet.create({
   },
   barContainer: {
     marginTop: spacing.sm,
-  },
-  container: {
-    paddingHorizontal: spacing.md + 5,
-    paddingBottom: spacing.md,
-    paddingTop: spacing.md,
-    overflow: 'hidden',
   },
   folderIcon: {
     position: 'absolute',

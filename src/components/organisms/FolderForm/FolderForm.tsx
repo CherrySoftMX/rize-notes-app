@@ -21,11 +21,11 @@ import {
 import { When } from 'react-if';
 
 interface FolderFormProps {
-  showModal: boolean;
-  closeModal: (arg: boolean) => void;
-  onCreate: (arg: CreateFolderRequest) => void;
-  onEdit: (arg: Folder) => void;
   folder?: Folder | undefined;
+  onCreate?: (arg: CreateFolderRequest) => void;
+  onEdit?: (arg: Folder) => void;
+  showModal: boolean;
+  closeModal: () => void;
 }
 
 const colorOptions = [
@@ -38,8 +38,8 @@ const colorOptions = [
 export const FolderForm = ({
   showModal,
   closeModal,
-  onCreate,
-  onEdit,
+  onCreate = () => {},
+  onEdit = () => {},
   folder,
 }: FolderFormProps) => {
   const { currentIndex, setCurrentIndex } = useArrayNavigator(
@@ -49,7 +49,7 @@ export const FolderForm = ({
   );
   const createFolder = (folderRequest: CreateFolderRequest) => {
     onCreate(folderRequest);
-    closeModal(!showModal);
+    closeModal();
   };
   const editFolder = (
     completeFolder: Folder,
@@ -59,12 +59,12 @@ export const FolderForm = ({
       ...completeFolder,
       ...folderRequest,
     });
-    closeModal(!showModal);
+    closeModal();
   };
   return (
     <Modal
       visible={showModal}
-      onRequestClose={() => closeModal(!showModal)}
+      onRequestClose={() => closeModal()}
       transparent={true}>
       <View style={styles.background}>
         <View style={styles.container}>
@@ -154,7 +154,7 @@ export const FolderForm = ({
                       variant="outlined"
                       uppercase={false}
                       color={colors.darkGunmetal}
-                      onPress={() => closeModal(!showModal)}
+                      onPress={() => closeModal()}
                     />
                     <Button
                       title="Accept"

@@ -1,11 +1,11 @@
 import { auth } from '../../services/AuthService';
-import { FirebaseUser } from '../../../library/interfaces/User';
-import { userState } from '../../../library/state/userState';
+import { FirebaseUser } from '../../interfaces/User';
+import { userState } from '../../state/userState';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { foldersState } from '../../../library/state/foldersState';
-import { getFolders } from '../../../library/services/FoldersService';
-import { notesState } from '../../../library/state/notesState';
-import { getNotes } from '../../../library/services/NotesService';
+import { foldersState } from '../../state/foldersState';
+import { getFoldersOfLoggedUser } from '../../services/FoldersService';
+import { notesState } from '../../state/notesState';
+import { getNotesOfLoggedUser } from '../../services/NotesService';
 
 /**
  * Custom hook to allow easier use of AuthService methods.
@@ -24,10 +24,10 @@ export const useAuth = () => {
     console.log('Nuevo usuario:');
     console.log(userId);
 
-    const folders = await getFolders();
+    const folders = await getFoldersOfLoggedUser();
     setFolders(folders);
 
-    const notes = await getNotes();
+    const notes = await getNotesOfLoggedUser();
     setNotes(notes);
   };
 

@@ -10,11 +10,14 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { FolderScreen } from '@screens/FolderScreen';
 import { RegisterScreen } from '@screens/RegisterScreen';
 import { LoginScreen } from '@screens/LoginScreen';
+import { NoteScreen } from '@screens/NoteScreen';
 import { SearchScreen } from '@screens/SearchScreen';
 
 const Tab = createMaterialBottomTabNavigator();
-const HomeStack = createNativeStackNavigator();
 const Base = createNativeStackNavigator();
+
+const HomeStack = createNativeStackNavigator();
+const FavoritesStack = createNativeStackNavigator();
 
 const TabNavigation = () => {
   return (
@@ -33,8 +36,8 @@ const TabNavigation = () => {
         }}
       />
       <Tab.Screen
-        name="Favorites"
-        component={FavoritesScreen}
+        name="FavoritesStack"
+        component={FavoritesStackScreens}
         options={{
           tabBarLabel: 'Favorites',
           tabBarIcon: ({ color }) => (
@@ -68,23 +71,27 @@ const TabNavigation = () => {
 
 const HomeStackScreens = () => {
   return (
-    <HomeStack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}>
+    <HomeStack.Navigator screenOptions={{ headerShown: false }}>
       <HomeStack.Screen name="Home" component={HomeScreen} />
       <HomeStack.Screen name="Folder" component={FolderScreen} />
+      <HomeStack.Screen name="Note" component={NoteScreen} />
       <HomeStack.Screen name="Search" component={SearchScreen} />
     </HomeStack.Navigator>
   );
 };
 
+const FavoritesStackScreens = () => {
+  return (
+    <FavoritesStack.Navigator screenOptions={{ headerShown: false }}>
+      <FavoritesStack.Screen name="Favorites" component={FavoritesScreen} />
+      <FavoritesStack.Screen name="Note" component={NoteScreen} />
+    </FavoritesStack.Navigator>
+  );
+};
+
 export const BottomTabNavigation = () => {
   return (
-    <Base.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}>
+    <Base.Navigator screenOptions={{ headerShown: false }}>
       <Base.Screen name="Home" component={TabNavigation} />
       <Base.Screen name="Register" component={RegisterScreen} />
       <Base.Screen name="Login" component={LoginScreen} />

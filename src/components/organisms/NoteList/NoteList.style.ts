@@ -4,7 +4,6 @@ import { fontType, fontSize, spacing } from '../../../design/tokens';
 export const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    paddingHorizontal: 20,
   },
   emptyText: {
     fontFamily: fontType.bold,

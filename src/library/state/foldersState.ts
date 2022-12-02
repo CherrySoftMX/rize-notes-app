@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { Folder } from '../../library/interfaces/Folder';
+import { Folder } from '../interfaces/Folder';
 
 export const foldersState = atom<Folder[]>({
   key: 'foldersState',

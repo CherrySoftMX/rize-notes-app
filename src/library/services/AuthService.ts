@@ -5,12 +5,12 @@ import { authConstants } from '../constants/auth';
 import { UserRequest, LocalUser, FirebaseUser } from 'library/interfaces/User';
 import firebaseAuth from '@react-native-firebase/auth';
 import {
-  getFolders,
+  getFoldersOfLoggedUser,
   uploadAndChangeUserOfFolders,
   deleteFolderById,
 } from './FoldersService';
 import {
-  getNotes,
+  getNotesOfLoggedUser,
   uploadAndChangeUserOfNotes,
   deleteNoteById,
 } from './NotesService';
@@ -109,8 +109,8 @@ class AuthService {
    * @param param0 - The data of the user to register
    */
   public async registerUser({ email, password }: UserRequest) {
-    const currentUserFolders = await getFolders();
-    const currentUserNotes = await getNotes();
+    const currentUserFolders = await getFoldersOfLoggedUser();
+    const currentUserNotes = await getNotesOfLoggedUser();
 
     const { user } = await firebaseAuth().createUserWithEmailAndPassword(
       email,
@@ -141,8 +141,8 @@ class AuthService {
     };
 
     const previousUser = this.getUserData();
-    const previousUserFolders = await getFolders();
-    const previousUserNotes = await getNotes();
+    const previousUserFolders = await getFoldersOfLoggedUser();
+    const previousUserNotes = await getNotesOfLoggedUser();
 
     const logData = await firebaseAuth()
       .signInWithEmailAndPassword(email, password)
@@ -158,8 +158,8 @@ class AuthService {
 
     // Synchronize data of offline and online user
     if (!previousUser.isLogged && previousUser.id === logData.user.uid) {
-      const onlineUserFolders = await getFolders();
-      const onlineUserNotes = await getNotes();
+      const onlineUserFolders = await getFoldersOfLoggedUser();
+      const onlineUserNotes = await getNotesOfLoggedUser();
 
       // Delete online folders which have been deleted offline.
       const previousUserFoldersIds = previousUserFolders.map(f => f.id);
@@ -197,15 +197,15 @@ class AuthService {
    * @beta
    */
   public async logout() {
-    const onlineUserFolders = await getFolders();
-    const onlineUserNotes = await getNotes();
+    const onlineUserFolders = await getFoldersOfLoggedUser();
+    const onlineUserNotes = await getNotesOfLoggedUser();
     const user = this.getCurrentUserId();
 
     console.log('Sign out');
     await firebaseAuth().signOut();
 
-    const offlineUserFolders = await getFolders();
-    const offlineUserNotes = await getNotes();
+    const offlineUserFolders = await getFoldersOfLoggedUser();
+    const offlineUserNotes = await getNotesOfLoggedUser();
 
     // Delete offline folders which have been deleted online.
     const onlineUserFoldersIds = onlineUserFolders.map(f => f.id);

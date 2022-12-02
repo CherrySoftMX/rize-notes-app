@@ -1,11 +1,8 @@
 import { StyleSheet } from 'react-native';
+import { spacing } from '../../../design/tokens';
 
 export const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
-  },
-  list: {
-    flex: 0,
-    height: '100%',
+    paddingTop: spacing.sm + 1,
   },
 });

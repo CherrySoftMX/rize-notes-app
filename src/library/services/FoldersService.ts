@@ -6,27 +6,27 @@ import {
   Folder,
   FolderWithNotes,
 } from '../interfaces/Folder';
-import { getNoteById, deleteNoteById } from './NotesService';
+import { deleteNoteById, getNoteById } from './NotesService';
 import { Note } from '../interfaces/Note';
 
 /**
  * Inserts a new folder in the database.
  *
- * @param folderRequest - A folder.
+ * @param folderReq - A folder.
  *
  * @returns The new folder
  *
  * @beta
  */
-export const createFolder = (folderRequest: CreateFolderRequest): Folder => {
+export const createFolder = (folderReq: CreateFolderRequest): Folder => {
   const userId = auth.getCurrentUserId();
   const folderId = uuid.v4() as string;
 
   const newFolder: Folder = {
-    ...folderRequest,
+    ...folderReq,
     id: `${folderId}`,
     userId,
-    limit: folderRequest.isLimited ? folderRequest.limit : 0,
+    limit: folderReq.isLimited ? folderReq.limit : 0,
     noteIds: [],
   };
 
@@ -46,7 +46,7 @@ export const createFolder = (folderRequest: CreateFolderRequest): Folder => {
  *
  * @beta
  */
-export const getFolders = async (): Promise<Folder[]> => {
+export const getFoldersOfLoggedUser = async (): Promise<Folder[]> => {
   const userId = auth.getCurrentUserId();
 
   const folders = await firestore()
@@ -67,7 +67,7 @@ export const getFolders = async (): Promise<Folder[]> => {
  * @returns An array of {@Link FolderInterface} with complete notes data.
  */
 export const getFoldersWithNotes = async (): Promise<FolderWithNotes[]> => {
-  const folders = await getFolders();
+  const folders = await getFoldersOfLoggedUser();
   return await Promise.all(
     folders.map(async folder => {
       const notes = await getNotesOfFolder(folder);
@@ -108,8 +108,7 @@ export const getFolderById = async (folderId: string) => {
   if (!folderQuery.docs) {
     return {} as Folder;
   }
-  const folder = (folderQuery.docs[0] as any)._data as Folder;
-  return folder;
+  return (folderQuery.docs[0] as any)._data as Folder;
 };
 
 /**
@@ -120,18 +119,18 @@ export const getFolderById = async (folderId: string) => {
  */
 export const getFolderAndNotesById = async (
   folderId: string,
-): Promise<FolderWithNotes | null> => {
+): Promise<FolderWithNotes> => {
   const folder = await getFolderById(folderId);
   const notes = await getNotesOfFolder(folder);
   return { ...folder, notes };
 };
 
 /**
- * Deletes all the notes associated to a folder
+ * Deletes all the notes associated to the specified folder
  *
- * @param folderId - The id of the folder
+ * @param folder - A folder
  */
-export const deleteAllNotesOfAFolderById = async (folder: Folder) => {
+export const deleteAllNotesOfFolder = async (folder: Folder) => {
   await Promise.all(
     folder.noteIds.map(async noteId => {
       await deleteNoteById(noteId, false);
@@ -147,7 +146,7 @@ export const deleteAllNotesOfAFolderById = async (folder: Folder) => {
  */
 export const deleteFolderById = async (folderId: string) => {
   const folderToDelete: Folder = await getFolderById(folderId);
-  await deleteAllNotesOfAFolderById(folderToDelete);
+  await deleteAllNotesOfFolder(folderToDelete);
   await firestore().collection('folders').doc(folderId).delete();
   return folderToDelete;
 };
@@ -157,11 +156,11 @@ export const deleteFolderById = async (folderId: string) => {
  *
  * @param folder - A {@Link Folder} object containing the new data
  */
-export const editFolder = async (folderRequest: Folder) => {
-  const { name, color, isLimited, limit, noteIds } = folderRequest;
+export const editFolder = async (folder: Folder) => {
+  const { name, color, isLimited, limit, noteIds } = folder;
   await firestore()
     .collection('folders')
-    .doc(folderRequest.id)
+    .doc(folder.id)
     .update({
       name,
       color,

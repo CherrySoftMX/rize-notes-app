@@ -1,46 +1,29 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { ScreenTitle } from '@atoms/ScreenTitle';
-import { SearchBar } from '@molecules/SearchBar';
 import { VStack } from '@react-native-material/core';
 import { spacing } from '../../../design/tokens';
+import { styles } from './ScreenHeader.style';
+import { SearchFilterNotesPanel } from '@organisms/SearchFilterNotesPanel';
 
 interface ScreenHeaderProps {
-  title?: string;
-  mHorizontalSearchBar?: number;
-  children: React.ReactChild;
-  handleClick: (e: any) => void;
-  setQuery: (text: string) => void;
+  title: string;
+  children?: React.ReactChild;
+  showAntiquityFilterOptions?: boolean;
 }
 
 export const ScreenHeader = ({
-  title = 'Screen Header',
-  mHorizontalSearchBar,
+  title,
   children,
-  handleClick = () => {},
-  setQuery = () => {},
+  showAntiquityFilterOptions = false,
 }: ScreenHeaderProps) => {
   return (
     <View style={styles.container}>
       <VStack spacing={spacing.sm}>
-        <View>
-          <ScreenTitle label={title} />
-        </View>
-        <View>
-          <SearchBar
-            mHorizontal={mHorizontalSearchBar}
-            handleClick={handleClick}
-            setQuery={setQuery}
-          />
-        </View>
+        <ScreenTitle label={title} />
+        <SearchFilterNotesPanel {...{ showAntiquityFilterOptions }} />
         <View>{children}</View>
       </VStack>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    paddingTop: spacing.sm + 1,
-  },
-});

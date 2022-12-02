@@ -6,7 +6,6 @@ export const styles = StyleSheet.create({
   label: {
     color: colors.darkGunmetal,
     fontSize: fontSize.xl,
-    alignSelf: 'center',
     fontFamily: fontType.bold,
   },
 });

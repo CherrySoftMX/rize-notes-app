@@ -3,8 +3,11 @@ import { spacing, fontType } from '../../design/tokens/';
 
 export const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: spacing.lg,
     marginBottom: spacing.lg,
+  },
+  graphContainer: {
+    paddingVertical: spacing.md + 5,
+    paddingHorizontal: 18,
   },
   headerContainer: {
     marginBottom: spacing.xm,

@@ -4,7 +4,7 @@ import { styles } from '@atoms/ScreenTitle/ScreenTitle.style';
 
 interface ScreenTitleProps {
   label: string | number;
-  align?: string;
+  align?: 'flex-start' | 'center';
 }
 
 export const ScreenTitle = ({ label, align = 'center' }: ScreenTitleProps) => {

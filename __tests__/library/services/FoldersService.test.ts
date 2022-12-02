@@ -1,6 +1,6 @@
 import {
   createFolder,
-  getFolders,
+  getFoldersOfLoggedUser,
   getFoldersWithNotes,
 } from '../../../src/library/services/FoldersService';
 import { CreateFolderRequest } from '../../../src/library/interfaces/Folder';
@@ -21,7 +21,7 @@ it('Should create a new folder', () => {
 });
 
 it('Should return all stored folders', async () => {
-  const obtainedFolders = await getFolders();
+  const obtainedFolders = await getFoldersOfLoggedUser();
 
   expect(obtainedFolders).toBeDefined();
   expect(obtainedFolders).toHaveLength(0);
