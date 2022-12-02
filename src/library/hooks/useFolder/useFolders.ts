@@ -25,16 +25,12 @@ export const useFolders = () => {
     setFolders(prev => [newFolder, ...prev]);
   };
 
-  const handleEditFolder = async (folderReq: Folder) => {
-    const _folders = folders.map(folder => {
-      if (folder.id === folderReq.id) {
-        return folderReq;
-      } else {
-        return folder;
-      }
+  const handleEditFolder = async (editedFolder: Folder) => {
+    const updatedFolders = folders.map(folder => {
+      return folder.id === editedFolder.id ? editedFolder : folder;
     });
-    setFolders(_folders);
-    await editFolder(folderReq);
+    setFolders(updatedFolders);
+    await editFolder(editedFolder);
   };
 
   const handleDeleteFolder = async (folderId: string) => {

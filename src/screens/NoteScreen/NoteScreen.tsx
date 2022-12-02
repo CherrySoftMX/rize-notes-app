@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, Text } from 'react-native';
+import { Pressable, SafeAreaView, ScrollView, Text } from 'react-native';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { RootStackParamList } from '@screens/RootStackParams';
 import { ScreenHeader } from '@organisms/ScreenHeader';
 import { NoteCard } from '@organisms/NoteCard';
 import { CardContainer } from '@atoms/CardContainer';
-import { colors } from '../../design/tokens';
+import { colors, fontSize } from '../../design/tokens';
 import { ScreenWrapper } from '@atoms/ScreenWrapper';
 import { ScreenTitle } from '@atoms/ScreenTitle';
 import { FolderIcon } from '@atoms/FolderIcon';
@@ -14,19 +14,24 @@ import { Folder } from '../../library/interfaces/Folder';
 import { styles } from './NoteScreen.style';
 import { Note } from '../../library/interfaces/Note';
 import { getNoteById } from '../../library/services/NotesService';
+import { useBoolean } from '@react-native-material/core';
+import { NoteForm } from '@organisms/NoteForm';
+import { useNotes } from '@hooks/useNotes';
 
 type NoteRouteProp = RouteProp<RootStackParamList, 'Note'>;
 
 export const NoteScreen = () => {
   const route = useRoute<NoteRouteProp>();
+  const [showNoteModal, setShowNoteModal] = useBoolean(false);
   const [folder, setFolder] = useState<Folder>();
   const [note, setNote] = useState<Note | null>();
+  const { handleEditNote } = useNotes();
 
   useEffect(() => {
     getNoteById(route.params.noteId)
-      .then(result => {
-        setNote(result);
-        return result;
+      .then(n => {
+        setNote(n);
+        return n;
       })
       .then(n => {
         if (n) {
@@ -34,6 +39,11 @@ export const NoteScreen = () => {
         }
       });
   }, [route.params.noteId]);
+
+  const onEditNote = async (editedNote: Note) => {
+    setNote(editedNote);
+    await handleEditNote(editedNote);
+  };
 
   if (!note) {
     return null;
@@ -43,11 +53,10 @@ export const NoteScreen = () => {
     <SafeAreaView>
       <ScreenWrapper>
         <ScrollView>
-          <ScreenHeader
-            title="Note"
-            handleClick={() => {}}
-            setQuery={() => {}}
-          />
+          <ScreenHeader title="Note" />
+          <Pressable onPress={setShowNoteModal.on}>
+            <Text style={{ fontSize: fontSize.xl }}>Edit</Text>
+          </Pressable>
           <NoteCard
             {...note}
             noteId={note.id}
@@ -68,6 +77,13 @@ export const NoteScreen = () => {
             </Text>
           </CardContainer>
         </ScrollView>
+        <NoteForm
+          note={note}
+          folders={[]}
+          onEdit={onEditNote}
+          showModal={showNoteModal}
+          closeModal={setShowNoteModal.off}
+        />
       </ScreenWrapper>
     </SafeAreaView>
   );

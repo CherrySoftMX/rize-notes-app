@@ -4,6 +4,7 @@ import { auth } from './AuthService';
 import { CreateNoteRequest, Note } from '../interfaces/Note';
 import { editFolder, getFolderById } from './FoldersService';
 import { SearchSpec } from '../constants/searchSpec';
+import { ALL_TIME } from '../constants';
 
 /**
  * Inserts a new note in the database.
@@ -87,6 +88,25 @@ export const getNoteById = async (noteId: string): Promise<Note | null> => {
 };
 
 /**
+ * Edits the content of a note
+ *
+ * @param note - A {@Link Note} object containing the new data
+ */
+export const editNote = async (note: Note) => {
+  const { name, content, isLink, isFavorite } = note;
+  await firestore()
+    .collection('notes')
+    .doc(note.id)
+    .update({
+      name,
+      content,
+      isLink,
+      isFavorite,
+    })
+    .catch(err => console.log(err));
+};
+
+/**
  * Deletes a note by id.
  *
  * @param noteId - The id of the note to delete.
@@ -133,7 +153,7 @@ export const filterNotesBySearchSpec = async (searchSpec: SearchSpec) => {
 export const getNotesCreatedInTheLast = async (days: number) => {
   const notes = await getNotesOfLoggedUser();
 
-  if (days === Number.MAX_VALUE) {
+  if (days === ALL_TIME.days) {
     return notes;
   }
 

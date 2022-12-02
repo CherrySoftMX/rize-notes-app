@@ -21,7 +21,7 @@ import {
 import { When } from 'react-if';
 
 interface FolderFormProps {
-  folder?: Folder | undefined;
+  folder?: Folder;
   onCreate?: (arg: CreateFolderRequest) => void;
   onEdit?: (arg: Folder) => void;
   showModal: boolean;
@@ -36,31 +36,31 @@ const colorOptions = [
 ];
 
 export const FolderForm = ({
-  showModal,
-  closeModal,
+  folder,
   onCreate = () => {},
   onEdit = () => {},
-  folder,
+  showModal,
+  closeModal,
 }: FolderFormProps) => {
   const { currentIndex, setCurrentIndex } = useArrayNavigator(
     colorOptions,
     0,
     folder?.color,
   );
+
   const createFolder = (folderRequest: CreateFolderRequest) => {
     onCreate(folderRequest);
     closeModal();
   };
+
   const editFolder = (
-    completeFolder: Folder,
-    folderRequest: CreateFolderRequest,
+    existingFolder: Folder,
+    folderReq: CreateFolderRequest,
   ) => {
-    onEdit({
-      ...completeFolder,
-      ...folderRequest,
-    });
+    onEdit({ ...existingFolder, ...folderReq });
     closeModal();
   };
+
   return (
     <Modal
       visible={showModal}
@@ -70,9 +70,9 @@ export const FolderForm = ({
         <View style={styles.container}>
           <Formik
             initialValues={{
-              name: folder ? folder.name : '',
-              color: folder ? folder.color : colorOptions[currentIndex],
-              isLimited: folder ? folder.isLimited : false,
+              name: folder?.name || '',
+              color: folder?.color || colorOptions[currentIndex],
+              isLimited: folder?.isLimited || false,
               limit: folder && folder.limit ? `${folder.limit}` : '0',
             }}
             onSubmit={values => {

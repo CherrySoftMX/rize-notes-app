@@ -13,12 +13,13 @@ import { useFolders } from '@hooks/useFolder';
 import SplashScreen from 'react-native-splash-screen';
 import { useNotes } from '@hooks/useNotes';
 import { ScreenWrapper } from '@atoms/ScreenWrapper';
+import { useBoolean } from '@react-native-material/core';
 
 type HomeScreenParams = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
 export const HomeScreen = () => {
   const navigation = useNavigation<HomeScreenParams>();
-  const [showNotesModal, setShowNotesModal] = useState(false);
+  const [showNotesModal, setShowNotesModal] = useBoolean(false);
   const [showFolderModal, setShowFolderModal] = useState(false);
   const [folderToEdit, setFolderToEdit] = useState<Folder | undefined>();
   const { folders, handleCreateFolder, handleEditFolder, handleDeleteFolder } =
@@ -31,10 +32,6 @@ export const HomeScreen = () => {
 
   const navigateToFolder = (folderId: string) => {
     navigation.navigate('Folder', { folderId });
-  };
-
-  const openNotesForm = async () => {
-    setShowNotesModal(true);
   };
 
   const onSelectFolderToEdit = (folder: Folder) => {
@@ -65,14 +62,14 @@ export const HomeScreen = () => {
           handleDelete={handleDeleteFolder}
         />
         <MultiActionFloatButton
-          onNotePress={() => openNotesForm()}
+          onNotePress={setShowNotesModal.on}
           onFolderPress={() => setShowFolderModal(!showFolderModal)}
         />
         <NoteForm
           folders={folders}
-          handleCreateNote={handleCreateNote}
+          onCreate={handleCreateNote}
           showModal={showNotesModal}
-          closeModal={setShowNotesModal}
+          closeModal={setShowNotesModal.off}
         />
         <FolderForm
           folder={folderToEdit}

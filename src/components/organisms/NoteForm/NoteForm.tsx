@@ -15,49 +15,59 @@ import { MenuLabel } from '@atoms/MenuLabel';
 import { FolderIcon } from '@atoms/FolderIcon';
 import { colors } from '../../../design/tokens';
 import { Formik } from 'formik';
-import { CreateNoteRequest } from '../../../library/interfaces/Note';
+import { CreateNoteRequest, Note } from '../../../library/interfaces/Note';
 import { Folder } from '../../../library/interfaces/Folder';
 
 /**
  * An interface containing the props to show and close the form.
  */
 interface NoteFormProps {
+  note?: Note;
   folders: Folder[];
+  onCreate?: (noteRequest: CreateNoteRequest) => void;
+  onEdit?: (editedNote: Note) => void;
   showModal: boolean;
-  closeModal: (arg: boolean) => void;
-  handleCreateNote: (noteRequest: CreateNoteRequest) => void;
+  closeModal: () => void;
 }
 
-/**
- * A form to create new notes.
- *
- * @param param0 - {@link NoteFormProps}
- */
 export const NoteForm = ({
+  note,
   folders,
+  onCreate = () => {},
+  onEdit = () => {},
   showModal,
   closeModal,
-  handleCreateNote,
 }: NoteFormProps) => {
-  const onCreateNote = async (noteRequest: CreateNoteRequest) => {
-    handleCreateNote(noteRequest);
-    closeModal(!showModal);
+  const onCreateNote = (noteRequest: CreateNoteRequest) => {
+    onCreate(noteRequest);
+    closeModal();
+  };
+
+  const onEditNote = (existingNote: Note, noteReq: CreateNoteRequest) => {
+    onEdit({ ...existingNote, ...noteReq });
+    closeModal();
   };
 
   return (
     <Modal
       visible={showModal}
-      onRequestClose={() => closeModal(!showModal)}
+      onRequestClose={() => closeModal()}
       transparent={true}>
       <Formik
         initialValues={{
-          name: '',
-          content: '',
+          name: note?.name || '',
+          content: note?.content || '',
           folderId: folders[0]?.id || '',
-          isLink: false,
-          isFavorite: false,
+          isLink: note?.isLink || false,
+          isFavorite: note?.isFavorite || false,
         }}
-        onSubmit={values => onCreateNote(values)}>
+        onSubmit={values => {
+          if (note) {
+            onEditNote(note, { ...values });
+          } else {
+            onCreateNote(values);
+          }
+        }}>
         {({ handleChange, handleSubmit, values, setFieldValue }) => (
           <View style={styles.background}>
             <View style={styles.container}>
@@ -151,10 +161,10 @@ export const NoteForm = ({
                       variant="outlined"
                       uppercase={false}
                       color="#212427"
-                      onPress={() => closeModal(!showModal)}
+                      onPress={closeModal}
                     />
                     <Button
-                      title="Create"
+                      title="Accept"
                       uppercase={false}
                       color={colors.primary}
                       tintColor="#FEFEFE"

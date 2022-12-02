@@ -26,9 +26,9 @@ export const FolderScreen = () => {
     route.params.folderId,
   );
 
-  const onEditFolder = async (folderReq: Folder) => {
-    setFolderWithNotes({ ...folderWithNotes, ...folderReq });
-    await handleEditFolder(folderReq);
+  const onEditFolder = async (editedFolder: Folder) => {
+    setFolderWithNotes({ ...folderWithNotes, ...editedFolder });
+    await handleEditFolder(editedFolder);
   };
 
   const onDeleteFolder = async (folderId: string) => {
