@@ -17,6 +17,7 @@ export const NoteList = ({ notes, onDeleteNote, ...rest }: NoteListProps) => {
     <FlatList
       {...rest}
       data={notes}
+      showsVerticalScrollIndicator={false}
       renderItem={({ item }: { item: Note }) => (
         <NoteCard
           {...item}

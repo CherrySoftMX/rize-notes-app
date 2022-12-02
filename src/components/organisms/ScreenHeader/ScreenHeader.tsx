@@ -19,9 +19,13 @@ export const ScreenHeader = ({
 }: ScreenHeaderProps) => {
   return (
     <View style={styles.container}>
-      <VStack spacing={spacing.sm}>
-        <ScreenTitle label={title} />
-        <SearchFilterNotesPanel {...{ showAntiquityFilterOptions }} />
+      <VStack spacing={spacing.tiny}>
+        <View>
+          <ScreenTitle label={title} />
+        </View>
+        <View>
+          <SearchFilterNotesPanel {...{ showAntiquityFilterOptions }} />
+        </View>
         <View>{children}</View>
       </VStack>
     </View>

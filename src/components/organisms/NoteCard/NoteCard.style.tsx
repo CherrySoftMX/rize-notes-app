@@ -5,6 +5,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 10,
     overflow: 'hidden',
+    minHeight: 95,
   },
   icon: {
     position: 'absolute',
