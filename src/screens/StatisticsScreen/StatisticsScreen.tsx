@@ -7,7 +7,6 @@ import { PieChartCard } from '@organisms/PieChartCard/';
 import { VStack, HStack } from '@react-native-material/core';
 import { spacing } from '../../design/tokens';
 import { DataCard } from '@molecules/DataCard';
-import { AntiquityFilterOptionsList } from '@molecules/AntiquityFilterOptionsList';
 import { ScreenHeader } from '@organisms/ScreenHeader';
 import { LineChartCard } from '@organisms/LineChartCard';
 import { BiggerFoldersChart } from '@organisms/BiggerFoldersChart';
@@ -30,14 +29,15 @@ export const StatisticsScreen = () => {
   return (
     <SafeAreaView>
       <ScreenWrapper>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
             <View style={styles.headerContainer}>
-              <ScreenHeader title="Statistics summary">
-                <AntiquityFilterOptionsList mHorizontal={0} />
-              </ScreenHeader>
+              <ScreenHeader
+                title="Statistics summary"
+                showAntiquityFilterOptions={true}
+              />
             </View>
-            <VStack spacing={spacing.sm}>
+            <VStack spacing={spacing.xm}>
               <View>
                 <PieChartCard
                   data={pieChartData}

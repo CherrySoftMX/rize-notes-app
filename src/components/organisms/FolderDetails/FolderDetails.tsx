@@ -33,7 +33,7 @@ export const FolderDetails = ({
   handleDelete,
 }: FolderDetailsProps) => {
   return (
-    <CardContainer>
+    <CardContainer style={{ marginTop: 0 }}>
       <View style={[styles.container, folderDetailsStyle.container]}>
         <Flex direction="row" style={folderDetailsStyle.headerContainer}>
           <View style={folderDetailsStyle.folderIcon}>

@@ -19,5 +19,6 @@ export const styles = StyleSheet.create({
     marginLeft: spacing.xm,
     overflow: 'hidden',
     flexWrap: 'nowrap',
+    maxWidth: '63%',
   },
 });

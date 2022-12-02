@@ -23,12 +23,14 @@ export const FolderList = ({
       {...rest}
       numColumns={2}
       data={rest.folders}
-      renderItem={({ item }) => (
+      showsVerticalScrollIndicator={false}
+      renderItem={({ item, i }) => (
         <FolderCard
           folder={item as Folder}
           handleClick={handleClick}
           handleDelete={handleDelete}
           handleEdit={handleEdit}
+          style={i % 2 === 0 ? { marginRight: 10 } : { marginLeft: 10 }}
         />
       )}
       keyExtractor={item => item.id}

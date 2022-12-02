@@ -27,9 +27,14 @@ export const PieChartCard = ({
   numLinks,
 }: PieChartCardProps) => {
   return (
-    <CardContainer style={{ paddingVertical: spacing.md }}>
+    <CardContainer style={{ paddingVertical: spacing.md, marginTop: -10 }}>
       <Flex direction="row" style={styles.pieChartCard}>
-        <View style={[styles.pieContainerSides, styles.pieContainerLabels]}>
+        <View
+          style={[
+            styles.pieContainerSides,
+            styles.pieContainerLabels,
+            styles.leftLabels,
+          ]}>
           <VStack spacing={spacing.sm}>
             <View>
               <LabelWithCircle
@@ -52,7 +57,12 @@ export const PieChartCard = ({
             <Text style={styles.chartTextSubtitle}>Notes</Text>
           </View>
         </View>
-        <View style={[styles.pieContainerSides, styles.pieContainerLabels]}>
+        <View
+          style={[
+            styles.pieContainerSides,
+            styles.pieContainerLabels,
+            styles.rightLabels,
+          ]}>
           <VStack spacing={spacing.sm}>
             <View>
               <LabelWithCircle

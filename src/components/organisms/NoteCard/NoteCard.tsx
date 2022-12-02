@@ -2,7 +2,7 @@ import React from 'react';
 import { CustomIcon } from '@atoms/CustomIcon/CustomIcon';
 import { Flex } from '@react-native-material/core';
 import { NotePreview } from '@organisms/NotePreview/NotePreview';
-import { colors } from '../../../design/tokens';
+import { colors, spacing } from '../../../design/tokens';
 import { styles } from './NoteCard.style';
 import { IconButtonPopupMenu } from '@molecules/IconButtonPopupMenu';
 import { MenuOption } from 'react-native-popup-menu';
@@ -42,7 +42,13 @@ export const NoteCard = ({
   };
 
   return (
-    <CardContainer>
+    <CardContainer
+      style={{
+        paddingLeft: spacing.xm + 2,
+        paddingRight: 0,
+        marginBottom: 20,
+        marginTop: 0,
+      }}>
       <Flex direction="row" style={styles.card}>
         <CustomIcon
           name={isLink ? 'link' : 'text-fields'}

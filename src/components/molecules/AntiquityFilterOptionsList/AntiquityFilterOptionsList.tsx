@@ -11,11 +11,13 @@ import {
 interface AntiquityFilterOptionsListProps {
   selectedOption?: AntiquityOption;
   onOptionPressed?: (option: AntiquityOption) => void;
+  mHorizontal?: number;
 }
 
 export const AntiquityFilterOptionsList = ({
   selectedOption = ALL_TIME,
   onOptionPressed = () => {},
+  mHorizontal = 0,
 }: AntiquityFilterOptionsListProps) => {
   const { currentIndex, setCurrentIndex } = useArrayNavigator(
     antiquityOptions,
@@ -24,7 +26,7 @@ export const AntiquityFilterOptionsList = ({
   );
 
   return (
-    <View style={{ marginHorizontal: 10, marginBottom: 10 }}>
+    <View style={{ marginHorizontal: mHorizontal, marginBottom: 10 }}>
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
         {antiquityOptions.map((option, index) => (
           <AntiquityFilterOptionChip
