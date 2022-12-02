@@ -12,7 +12,7 @@ interface DataCardProps {
 
 export const DataCard = ({ label, value }: DataCardProps) => {
   return (
-    <CardContainer style={{ paddingVertical: spacing.lg }}>
+    <CardContainer style={{ paddingVertical: spacing.xl, marginTop: 5, marginBottom: 5 }}>
       <Flex center>
         <VStack spacing={spacing.tiny}>
           <Text>{label}</Text>

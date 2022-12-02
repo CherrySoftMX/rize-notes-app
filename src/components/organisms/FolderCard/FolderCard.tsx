@@ -16,6 +16,7 @@ interface FolderCardProps {
   handleClick: (id: string) => void;
   handleDelete: (id: string) => void;
   handleEdit: (folder: Folder) => void;
+  style?: any;
 }
 
 export const FolderCard = ({
@@ -23,11 +24,12 @@ export const FolderCard = ({
   handleClick,
   handleDelete,
   handleEdit,
+  style = {},
 }: FolderCardProps) => {
   const { id, name, color, isLimited, limit = 1, noteIds } = folder;
 
   return (
-    <CardContainer>
+    <CardContainer style={[style, { marginTop: 0, marginBottom: 20 }]}>
       <Pressable onPress={() => handleClick(id)}>
         <Flex fill style={styles.container} p={6}>
           <VStack spacing={8}>

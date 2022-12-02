@@ -11,6 +11,12 @@ export const styles = StyleSheet.create({
   pieContainerSides: {
     flexBasis: '25%',
   },
+  leftLabels: {
+    paddingLeft: 20,
+  },
+  rightLabels: {
+    paddingRight: 20,
+  },
   pieContainerLabels: {
     justifyContent: 'center',
     alignItems: 'center',

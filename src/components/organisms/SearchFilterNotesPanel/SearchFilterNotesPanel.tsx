@@ -10,6 +10,7 @@ import { RootStackParamList } from '@screens/RootStackParams';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 import { AntiquityOption } from '../../../library/constants';
+import { View } from 'react-native';
 
 interface SearchFilterNotesPanelProps {
   showAntiquityFilterOptions: boolean;
@@ -40,12 +41,14 @@ export const SearchFilterNotesPanel = ({
   };
 
   return (
-    <VStack spacing={spacing.md}>
-      <SearchBar
-        query={searchSpec.query}
-        handleSearch={onSearch}
-        onQueryChanged={onQueryChanged}
-      />
+    <VStack spacing={spacing.tiny}>
+      <View>
+        <SearchBar
+          query={searchSpec.query}
+          handleSearch={onSearch}
+          onQueryChanged={onQueryChanged}
+        />
+      </View>
       <When condition={showAntiquityFilterOptions}>
         <AntiquityFilterOptionsList
           selectedOption={searchSpec.antiquityOption}
