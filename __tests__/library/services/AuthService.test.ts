@@ -28,8 +28,7 @@ describe('Test for Auth service', () => {
     const userId = await service.initiateApp(user);
 
     expect(mockStartAppOnline).toHaveBeenCalled();
-    expect(mockStartAppOnline).toHaveBeenCalledWith(user.uid, 'user1');
-    expect(userId).toBe(user.uid);
+    expect(mockStartAppOnline).toHaveBeenCalledWith(user);
   });
 
   it('Should start the app offline', async () => {
@@ -49,6 +48,5 @@ describe('Test for Auth service', () => {
 
     expect(mockStartAppOffline).toHaveBeenCalled();
     expect(mockStartAppOffline).toHaveBeenCalledWith(localUser);
-    expect(userId).toBe(localUser);
   });
 });

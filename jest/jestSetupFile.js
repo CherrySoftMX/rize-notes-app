@@ -6,6 +6,15 @@ jest.mock('@react-native-async-storage/async-storage', () => {
   });
 });
 
+jest.mock('@react-native-firebase/auth', () => {
+  const mockAuth = () => ({
+    createUserWithEmailAndPassword: jest.fn(),
+    signInWithEmailAndPassword: jest.fn(),
+    signOut: jest.fn(),
+  });
+  return mockAuth;
+});
+
 jest.mock('@react-native-firebase/firestore', () => {
   const mockFirestore = () => ({
     collection: jest.fn(() => ({

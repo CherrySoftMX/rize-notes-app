@@ -1,9 +1,13 @@
 import firestore from '@react-native-firebase/firestore';
+import firebaseAuth from '@react-native-firebase/auth';
 import uuid from 'react-native-uuid';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { authConstants } from '../constants/auth';
-import { UserRequest, LocalUser, FirebaseUser } from 'library/interfaces/User';
-import firebaseAuth from '@react-native-firebase/auth';
+import {
+  UserRequest,
+  LocalUser,
+  FirebaseUser,
+} from '../../library/interfaces/User';
 import {
   getFoldersOfLoggedUser,
   uploadAndChangeUserOfFolders,
